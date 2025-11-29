@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "TEm9SmL08mtCbAtGAdCxYGkndHj/WKwiWUsk0OnpWyvny9JFAQIGXPnvpcJcyCTXnRcxLik0xU+yLi5vmRsZQg==",
+  "dgSpecHash": "kQBKE6+kJ2E=",
   "success": true,
-  "projectFilePath": "/home/carol/Dev/Biblioteca/Boblioteca.Client/Boblioteca.Client.csproj",
+  "projectFilePath": "/home/carol/Dev/Biblioteca/Biblioteca.Client/Biblioteca.Client.csproj",
   "expectedPackageFiles": [
     "/home/carol/.nuget/packages/microsoft.aspnetcore.authorization/8.0.21/microsoft.aspnetcore.authorization.8.0.21.nupkg.sha512",
     "/home/carol/.nuget/packages/microsoft.aspnetcore.components/8.0.21/microsoft.aspnetcore.components.8.0.21.nupkg.sha512",

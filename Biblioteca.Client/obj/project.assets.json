@@ -1847,11 +1847,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/carol/Dev/Biblioteca/Boblioteca.Client/Boblioteca.Client.csproj",
-      "projectName": "Boblioteca.Client",
-      "projectPath": "/home/carol/Dev/Biblioteca/Boblioteca.Client/Boblioteca.Client.csproj",
+      "projectUniqueName": "/home/carol/Dev/Biblioteca/Biblioteca.Client/Biblioteca.Client.csproj",
+      "projectName": "Biblioteca.Client",
+      "projectPath": "/home/carol/Dev/Biblioteca/Biblioteca.Client/Biblioteca.Client.csproj",
       "packagesPath": "/home/carol/.nuget/packages/",
-      "outputPath": "/home/carol/Dev/Biblioteca/Boblioteca.Client/obj/",
+      "outputPath": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/carol/.nuget/NuGet/NuGet.Config"
