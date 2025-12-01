@@ -1,6 +1,10 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using Domain.DTO;
 using Domain.DTO.Response;
-using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using Models.Models;
 using Repositories.Repositories.Contracts;
 using Services.Contracts;
@@ -10,31 +14,44 @@ namespace Services.Services;
 public class AuthService : IAuthService
 {
     private readonly IUsuarioRepository _repository;
+    private readonly IConfiguration _config;
     
-    public AuthService(IUsuarioRepository repository)
+    public AuthService(IUsuarioRepository repository, IConfiguration config)
     {
         _repository = repository;
+        _config =  config;
     }
     
-    public async Task<LoginResponse> Login(LoginDto login)
-    {   
-  
-        var email =  login.Email;
-        var senha = login.Senha;
+    public async Task<LoginResponse?> Login(LoginDto login)
+    {
+        try
+        {
+            var user = await _repository.ObterPorEmail(login.Email);
         
-        var usuario = await _repository.ObterPorEmail(email);
-        if (usuario == null)
-            return null;
-        if (usuario.Email != login.Email && usuario.Senha != login.Senha)
-            return null;
-        //gerar o token
+            if(user == null)
+                return null;
+        
+            if(login.Senha != user.Senha)
+                return null;
+            var token = GerarToken(user);
 
-        return GerarToken(usuario);
+            return new LoginResponse
+            {
+                Token = token, Nome = user.Nome, Role = user.Role.ToString()
+            };
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw new Exception(e.Message);
+        }
+        
+
     }
 
     public Task RegisterAsync(Usuario usuario)
     {
-        throw new NotImplementedException();
+        return null;
     }
 
     public string GerarToken(Usuario user)
@@ -46,7 +63,7 @@ public class AuthService : IAuthService
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new Claim("name", user.Nome),
-                new Claim(ClaimTypes.Role, user.Role),
+                new Claim(ClaimTypes.Role, user.Role.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
             };
 

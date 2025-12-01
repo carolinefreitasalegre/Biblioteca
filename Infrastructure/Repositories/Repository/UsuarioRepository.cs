@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Models.Models;
 using Repositories.DataContext;
 using Repositories.Repositories.Contracts;
@@ -12,14 +13,14 @@ public class UsuarioRepository : IUsuarioRepository
     {
         _context = context;
     }
-    public Task<List<Usuario>> ListarUsuarios()
+    public async Task<List<Usuario>> ListarUsuarios()
     {
-        return null;
+        return await _context.Usuarios.ToListAsync();
     }
 
     public async Task<Usuario?> ObterPorEmail(string email)
     {
-        return  _context.Usuarios.FirstOrDefault(x => x.Email == email);
+        return await  _context.Usuarios.FirstOrDefaultAsync(x => x.Email == email);
     }
 
     public async Task<Usuario?> ObterPorId(int id)
@@ -27,10 +28,17 @@ public class UsuarioRepository : IUsuarioRepository
         return  _context.Usuarios.FirstOrDefault(x => x.Id == id);
     }
 
-    public async Task<Usuario> AdicionarAtualizar(Usuario usuario, int id)
-    { 
+    public async Task<Usuario> Atualizar(Usuario usuario)
+    {
+        _context.Usuarios.Update(usuario);
+        await _context.SaveChangesAsync();
+        return usuario;
+    }
+
+    public async Task<Usuario> Adicionar(Usuario usuario)
+    {
         await _context.Usuarios.AddAsync(usuario);
-        //_context.SaveChanges();
+        await _context.SaveChangesAsync();
         return usuario;
     }
 }

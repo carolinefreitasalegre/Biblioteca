@@ -63,7 +63,7 @@ public class UsuarioService : IUSuarioservice
         }
     }
 
-    public async Task<Usuario> AdicionarUsuario(Usuario usuario, int id)
+    public async Task<Usuario> AdicionarUsuario(Usuario usuario)
     {
         try
         {
@@ -72,12 +72,12 @@ public class UsuarioService : IUSuarioservice
                 Nome = usuario.Nome.ToLower(),
                 Email = usuario.Email.ToLower(),
                 Senha = usuario.Senha,
-                Perfil = usuario.Perfil,
+                Role = usuario.Role,
                 Status = usuario.Status,
                 CriadoEm = usuario.CriadoEm,
             };
 
-            await _usuarioRepository.AdicionarAtualizar(novoUsuario, id: id);
+            await _usuarioRepository.Adicionar(novoUsuario);
             return novoUsuario;
 
         }
@@ -87,22 +87,22 @@ public class UsuarioService : IUSuarioservice
         }
     }
 
-    public async Task<Usuario> AtualizarUsuario(Usuario usuario, int id)
+    public async Task<Usuario> AtualizarUsuario(Usuario usuario)
     {
         try
         {
-            var usuarioAtualizado = await _usuarioRepository.ObterPorId(id);
+            var usuarioAtualizado = await _usuarioRepository.ObterPorId(usuario.Id);
             if (usuarioAtualizado == null)
                 throw new Exception("Usuário não enconttrado!");
 
             usuarioAtualizado.Nome = usuario.Nome.ToLower();
             usuarioAtualizado.Email = usuario.Email.ToLower();
             usuarioAtualizado.Senha = usuario.Senha;
-            usuarioAtualizado.Perfil = usuario.Perfil;
+            usuarioAtualizado.Role = usuario.Role;
             usuarioAtualizado.Status = usuario.Status;
             usuarioAtualizado.CriadoEm = usuario.CriadoEm;
 
-            await _usuarioRepository.AdicionarAtualizar(usuarioAtualizado, usuarioAtualizado.Id);
+            await _usuarioRepository.Atualizar(usuarioAtualizado);
             return usuarioAtualizado;
         }
         catch (Exception e)

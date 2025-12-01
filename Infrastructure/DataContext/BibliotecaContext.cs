@@ -15,5 +15,17 @@ public class BibliotecaContext : DbContext
     public DbSet<ItemColecao>  ItemColecao { get; set; }
     
     
-        
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Usuario>()
+            .Property(u => u.Role)
+            .HasConversion<string>();
+
+        modelBuilder.Entity<Usuario>()
+            .Property(u => u.Status)
+            .HasConversion<string>();
+
+        base.OnModelCreating(modelBuilder);
+    }
+
 }

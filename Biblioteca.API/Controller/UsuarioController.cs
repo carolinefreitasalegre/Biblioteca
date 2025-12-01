@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Http;
+using Domain.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Models.Models;
 using Services.Contracts;
@@ -10,13 +10,59 @@ namespace Biblioteca.API.Controller
     public class UsuarioController : ControllerBase
     {
         private readonly IUSuarioservice _usuarioservice;
+        private readonly IAuthService _authService;
 
-        public UsuarioController(IUSuarioservice usuarioservice)
+        public UsuarioController(IUSuarioservice usuarioservice, IAuthService authService)
         {
             _usuarioservice =  usuarioservice;
+            _authService = authService;
         }
-        
-        [Http]
-        
+
+        [HttpPost("login")]
+        public async Task<IActionResult> LoginAsync([FromBody] LoginDto login)
+        {
+            try
+            {
+                var result = await _authService.Login(login);
+                if (result == null)
+                    return Unauthorized("Credenciais inválidas!");
+            
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw new Exception(e.Message);
+            }
+           
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AdicionarUsuario(Usuario model)
+        {
+            var usuario = await _usuarioservice.AdicionarUsuario(model);
+            return Created("", usuario);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ListarUsuarios()
+        {
+            var usuarios = await _usuarioservice.ListarUsuarios();
+            return Ok(usuarios);
+        }
+
+        [HttpGet("id")]
+        public async Task<IActionResult> BuscarUsuarioId(int id)
+        {
+            var usuario =  await _usuarioservice.ObterPorId(id);
+            return Ok(usuario);
+        }
+
+        [HttpPost("Id")]
+        public async Task<IActionResult> AtualizarUsuario(Usuario model)
+        {
+            var usuario = await _usuarioservice.AtualizarUsuario(model);
+            return Created("", usuario);
+        }
     }
 }
