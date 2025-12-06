@@ -1,4 +1,6 @@
+using System.Configuration;
 using System.Text;
+using FluentValidation;
 using Repositories.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -12,45 +14,32 @@ using Services.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//confog jwt
-var configuration = builder.Configuration;
-var jwtSection = configuration.GetSection("Jwt");
-var secret = jwtSection.GetValue<string>("Secret") ?? throw new InvalidOperationException("Jwt:Secret não configurado");
-var issuer = jwtSection.GetValue<string>("Issuer");
-var audience = jwtSection.GetValue<string>("Audience");
-var expires = jwtSection.GetValue<int?>("Expires") ?? 1;
 
-var key = Encoding.UTF8.GetBytes(secret);
-builder.Services.AddAuthentication(options =>
-    {
-        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    })
-    .AddJwtBearer(options =>
+
+//jwt
+builder.Services.AddAuthentication(opt =>
 {
-    options.RequireHttpsMetadata = false; // Em produção coloque true
-    options.SaveToken = true;
-
+    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    IConfiguration configuration;
+    configuration = builder.Configuration;
     options.TokenValidationParameters = new TokenValidationParameters
     {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(key),
-
-        ValidateIssuer = !string.IsNullOrEmpty(issuer),
-        ValidIssuer = issuer,
-
-        ValidateAudience = !string.IsNullOrEmpty(audience),
-        ValidAudience = audience,
-
+        ValidateIssuer = true,
+        ValidateAudience = true,
         ValidateLifetime = true,
-        ClockSkew = TimeSpan.FromMinutes(2) // tolerância para diferenças de relógio
+        ValidateIssuerSigningKey = true,
+
+        ValidIssuer = configuration["jwt:Issuer"],
+        ValidAudience = configuration["jwt:Audience"],
+        IssuerSigningKey =  new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["jwt:Secret"]))
     };
 });
-builder.Services.AddAuthorization(options =>
-{
-    // Exemplo de policy (opcional)
-    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
-});
+
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -92,6 +81,9 @@ builder.Services.AddScoped<IItemColecaoRepository, ItemColecaoRepository>();
 builder.Services.AddScoped<IUSuarioservice, UsuarioService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
+builder.Services.AddAutoMapper(typeof(Program));
+
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 
 

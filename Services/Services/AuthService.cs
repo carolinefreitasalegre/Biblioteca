@@ -37,7 +37,7 @@ public class AuthService : IAuthService
 
             return new LoginResponse
             {
-                Token = token, Nome = user.Nome, Role = user.Role.ToString()
+                Token = token, Role = user.Role.ToString()
             };
         }
         catch (Exception e)
@@ -61,10 +61,8 @@ public class AuthService : IAuthService
 
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new Claim("name", user.Nome),
-                new Claim(ClaimTypes.Role, user.Role.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(ClaimTypes.Role, user.Role.ToString()),
             };
 
             var credentials = new SigningCredentials(

@@ -2,7 +2,13 @@
 /home/carol/Dev/Biblioteca/Services/bin/Debug/net8.0/Services.dll
 /home/carol/Dev/Biblioteca/Services/bin/Debug/net8.0/Services.pdb
 /home/carol/Dev/Biblioteca/Services/bin/Debug/net8.0/Domain.dll
+/home/carol/Dev/Biblioteca/Services/bin/Debug/net8.0/Infrastructure.dll
+/home/carol/Dev/Biblioteca/Services/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
+/home/carol/Dev/Biblioteca/Services/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll
 /home/carol/Dev/Biblioteca/Services/bin/Debug/net8.0/Domain.pdb
+/home/carol/Dev/Biblioteca/Services/bin/Debug/net8.0/Infrastructure.pdb
+/home/carol/Dev/Biblioteca/Services/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.xml
+/home/carol/Dev/Biblioteca/Services/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.xml
 /home/carol/Dev/Biblioteca/Services/obj/Debug/net8.0/Services.csproj.AssemblyReference.cache
 /home/carol/Dev/Biblioteca/Services/obj/Debug/net8.0/Services.GeneratedMSBuildEditorConfig.editorconfig
 /home/carol/Dev/Biblioteca/Services/obj/Debug/net8.0/Services.AssemblyInfoInputs.cache
@@ -14,9 +20,3 @@
 /home/carol/Dev/Biblioteca/Services/obj/Debug/net8.0/refint/Services.dll
 /home/carol/Dev/Biblioteca/Services/obj/Debug/net8.0/Services.pdb
 /home/carol/Dev/Biblioteca/Services/obj/Debug/net8.0/ref/Services.dll
-/home/carol/Dev/Biblioteca/Services/bin/Debug/net8.0/Infrastructure.dll
-/home/carol/Dev/Biblioteca/Services/bin/Debug/net8.0/Infrastructure.pdb
-/home/carol/Dev/Biblioteca/Services/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
-/home/carol/Dev/Biblioteca/Services/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll
-/home/carol/Dev/Biblioteca/Services/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.xml
-/home/carol/Dev/Biblioteca/Services/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.xml
