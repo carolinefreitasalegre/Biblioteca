@@ -4,6 +4,8 @@ using System.Security.Claims;
 using System.Text.Json;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
+using System.Linq; 
+
 
 namespace Biblioteca.Client.ServiceClient.ServicesClient;
 
@@ -18,6 +20,9 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     {
         _httpClient = httpClient;
         _localStorage = localStorage;
+        
+        
+        _userAnonimo = new ClaimsPrincipal(new ClaimsIdentity());
     }
     
     

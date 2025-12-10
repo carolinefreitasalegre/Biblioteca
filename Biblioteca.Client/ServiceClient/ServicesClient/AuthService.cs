@@ -18,8 +18,6 @@ public class AuthService : IAuthService
     
     public async Task<LoginResponse?> Login(LoginDto login)
     {
-        // chamar o endpoint da api do login em uma variavel httpclient.postasjson
-        // Retornar a resposta (que deve conter o token, Role...)
         
         var response = await _httpClient.PostAsJsonAsync(ApiUrl, login);
         
@@ -27,11 +25,6 @@ public class AuthService : IAuthService
             return await response.Content.ReadFromJsonAsync<LoginResponse>();
 
         return null;
-        
-        
-        
-        
-        
-        throw new NotImplementedException();
+
     }
 }

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "f7Fk47yRSN4=",
+  "dgSpecHash": "GegMar6gvw4=",
   "success": true,
   "projectFilePath": "/home/carol/Dev/Biblioteca/Biblioteca.Client/Biblioteca.Client.csproj",
   "expectedPackageFiles": [
@@ -30,10 +30,11 @@
     "/home/carol/.nuget/packages/microsoft.extensions.primitives/8.0.0/microsoft.extensions.primitives.8.0.0.nupkg.sha512",
     "/home/carol/.nuget/packages/microsoft.jsinterop/8.0.21/microsoft.jsinterop.8.0.21.nupkg.sha512",
     "/home/carol/.nuget/packages/microsoft.jsinterop.webassembly/8.0.21/microsoft.jsinterop.webassembly.8.0.21.nupkg.sha512",
-    "/home/carol/.nuget/packages/microsoft.net.illink.tasks/8.0.21/microsoft.net.illink.tasks.8.0.21.nupkg.sha512",
+    "/home/carol/.nuget/packages/microsoft.net.illink.tasks/8.0.22/microsoft.net.illink.tasks.8.0.22.nupkg.sha512",
     "/home/carol/.nuget/packages/microsoft.net.sdk.webassembly.pack/8.0.22/microsoft.net.sdk.webassembly.pack.8.0.22.nupkg.sha512",
     "/home/carol/.nuget/packages/radzen.blazor/8.3.8/radzen.blazor.8.3.8.nupkg.sha512",
-    "/home/carol/.nuget/packages/system.io.pipelines/8.0.0/system.io.pipelines.8.0.0.nupkg.sha512"
+    "/home/carol/.nuget/packages/system.io.pipelines/8.0.0/system.io.pipelines.8.0.0.nupkg.sha512",
+    "/home/carol/.nuget/packages/microsoft.netcore.app.runtime.mono.browser-wasm/8.0.22/microsoft.netcore.app.runtime.mono.browser-wasm.8.0.22.nupkg.sha512"
   ],
   "logs": []
 }

@@ -1,0 +1,76 @@
+@page "/minha-colecao"
+@using Biblioteca.Client.Pages.Component
+
+<h2>Minha Coleção</h2>
+
+<Filter StatusOptions="StatusLista"
+            CategoryOptions="CategoriaLista"
+            OnFilterChanged="HandleFilterChanged" />
+
+<hr/> 
+<div style="display:flex; flex-wrap:wrap; gap:20px;">
+    @foreach (var livro in LivrosFiltrados)
+    {
+        <BookCard Titulo="@livro.Titulo"
+                  Autor="@livro.Autor"
+                  Status="@livro.Status"
+                  Categoria="@livro.Categoria" 
+                  Nota="@livro.Nota" />
+    }
+</div>
+
+@code {
+  
+    
+    //filtro
+    string? FiltroStatus;
+    string? FiltroCategoria;
+    string? FiltroTitulo;
+
+    List<string> StatusLista = new() { "Lido", "Lendo", "Quero Ler" };
+    List<string> CategoriaLista = new() { "Fantasia", "Romance", "Terror", "Clássico", "Ficção Científica" };
+
+    public class LivroMock
+    {
+        public string Titulo { get; set; } = "";
+        public string Autor { get; set; } = "";
+        public string Status { get; set; } = "";
+        public string Categoria { get; set; } = "";
+        public int Nota { get; set; }
+    }
+
+    List<LivroMock> Livros = new()
+    {
+        new() { Titulo="1984", Autor="George Orwell", Status="Lido", Categoria="Ficção Científica", Nota=5 },
+        new() { Titulo="O Hobbit", Autor="Tolkien", Status="Lendo", Categoria="Fantasia", Nota=4 },
+        new() { Titulo="Dom Casmurro", Autor="Machado de Assis", Status="Lido", Categoria="Clássico", Nota=5 },
+        new() { Titulo="A Revolução dos Bichos", Autor="George Orwell", Status="Quero Ler", Categoria="Ficção Científica", Nota=0 },
+        new() { Titulo="O Pequeno Príncipe", Autor="Saint-Exupéry", Status="Lido", Categoria="Clássico", Nota=4 }
+    };
+
+    IEnumerable<LivroMock> LivrosFiltrados =>
+        Livros
+            .Where(l => FiltroStatus == null || l.Status == FiltroStatus)
+            .Where(l => FiltroCategoria == null || l.Categoria == FiltroCategoria)
+            .Where(l => FiltroTitulo == null || l.Titulo == FiltroTitulo);
+
+    private void HandleFilterChanged(Filter.FilterResult result)
+    {
+        // 1. Atualiza as variáveis de estado
+        FiltroStatus = result.Status;
+        FiltroCategoria = result.Category;
+
+        // 2. Trata o filtro de Título: Salva em minúsculas
+        if (!string.IsNullOrEmpty(result.Title))
+        {
+            FiltroTitulo = result.Title!.ToLower();
+        }
+        else
+        {
+            FiltroTitulo = null;
+        }
+
+        // 3. Força a UI a re-renderizar
+        StateHasChanged();
+    }
+}

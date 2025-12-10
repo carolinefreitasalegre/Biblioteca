@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Yri4V+1eQV3jGN/zohofeo4Jv90pRSHJqKvsXJHrZiI=",
+  "Hash": "mqq8IP/fOQFVbqAZmCnxu8vkn8nA27x0UvSl52oU3q4=",
   "Source": "Biblioteca.Client",
   "BasePath": "/",
   "Mode": "Root",
@@ -888,7 +888,7 @@
       "AssetTraitValue": "native",
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
-      "OriginalItemSpec": "/home/carol/.dotnet/packs/Microsoft.NETCore.App.Runtime.Mono.browser-wasm/8.0.22/runtimes/browser-wasm/native/dotnet.js"
+      "OriginalItemSpec": "/home/carol/.nuget/packages/microsoft.netcore.app.runtime.mono.browser-wasm/8.0.22/runtimes/browser-wasm/native/dotnet.js"
     },
     {
       "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.js.map",
@@ -907,15 +907,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
-      "OriginalItemSpec": "/home/carol/.dotnet/packs/Microsoft.NETCore.App.Runtime.Mono.browser-wasm/8.0.22/runtimes/browser-wasm/native/dotnet.js.map"
+      "OriginalItemSpec": "/home/carol/.nuget/packages/microsoft.netcore.app.runtime.mono.browser-wasm/8.0.22/runtimes/browser-wasm/native/dotnet.js.map"
     },
     {
-      "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.native.8.0.22.m2okj7xdfz.js",
+      "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.native.8.0.22.5373dxqtyk.js",
       "SourceId": "Biblioteca.Client",
       "SourceType": "Computed",
       "ContentRoot": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/",
       "BasePath": "/",
-      "RelativePath": "_framework/dotnet.native.8.0.22.m2okj7xdfz.js",
+      "RelativePath": "_framework/dotnet.native.8.0.22.5373dxqtyk.js",
       "AssetKind": "Build",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -926,7 +926,7 @@
       "AssetTraitValue": "native",
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
-      "OriginalItemSpec": "/home/carol/.dotnet/packs/Microsoft.NETCore.App.Runtime.Mono.browser-wasm/8.0.22/runtimes/browser-wasm/native/dotnet.native.js"
+      "OriginalItemSpec": "/home/carol/.nuget/packages/microsoft.netcore.app.runtime.mono.browser-wasm/8.0.22/runtimes/browser-wasm/native/dotnet.native.js"
     },
     {
       "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.native.wasm",
@@ -945,15 +945,15 @@
       "AssetTraitValue": "native",
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
-      "OriginalItemSpec": "/home/carol/.dotnet/packs/Microsoft.NETCore.App.Runtime.Mono.browser-wasm/8.0.22/runtimes/browser-wasm/native/dotnet.native.wasm"
+      "OriginalItemSpec": "/home/carol/.nuget/packages/microsoft.netcore.app.runtime.mono.browser-wasm/8.0.22/runtimes/browser-wasm/native/dotnet.native.wasm"
     },
     {
-      "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.runtime.8.0.22.fpxovye4j2.js",
+      "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.runtime.8.0.22.k3shageq3c.js",
       "SourceId": "Biblioteca.Client",
       "SourceType": "Computed",
       "ContentRoot": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/",
       "BasePath": "/",
-      "RelativePath": "_framework/dotnet.runtime.8.0.22.fpxovye4j2.js",
+      "RelativePath": "_framework/dotnet.runtime.8.0.22.k3shageq3c.js",
       "AssetKind": "Build",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -964,7 +964,7 @@
       "AssetTraitValue": "native",
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
-      "OriginalItemSpec": "/home/carol/.dotnet/packs/Microsoft.NETCore.App.Runtime.Mono.browser-wasm/8.0.22/runtimes/browser-wasm/native/dotnet.runtime.js"
+      "OriginalItemSpec": "/home/carol/.nuget/packages/microsoft.netcore.app.runtime.mono.browser-wasm/8.0.22/runtimes/browser-wasm/native/dotnet.runtime.js"
     },
     {
       "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.runtime.js.map",
@@ -983,7 +983,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
-      "OriginalItemSpec": "/home/carol/.dotnet/packs/Microsoft.NETCore.App.Runtime.Mono.browser-wasm/8.0.22/runtimes/browser-wasm/native/dotnet.runtime.js.map"
+      "OriginalItemSpec": "/home/carol/.nuget/packages/microsoft.netcore.app.runtime.mono.browser-wasm/8.0.22/runtimes/browser-wasm/native/dotnet.runtime.js.map"
     },
     {
       "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/icudt_CJK.dat",
@@ -1002,7 +1002,7 @@
       "AssetTraitValue": "native",
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
-      "OriginalItemSpec": "/home/carol/.dotnet/packs/Microsoft.NETCore.App.Runtime.Mono.browser-wasm/8.0.22/runtimes/browser-wasm/native/icudt_CJK.dat"
+      "OriginalItemSpec": "/home/carol/.nuget/packages/microsoft.netcore.app.runtime.mono.browser-wasm/8.0.22/runtimes/browser-wasm/native/icudt_CJK.dat"
     },
     {
       "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/icudt_EFIGS.dat",
@@ -1021,7 +1021,7 @@
       "AssetTraitValue": "native",
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
-      "OriginalItemSpec": "/home/carol/.dotnet/packs/Microsoft.NETCore.App.Runtime.Mono.browser-wasm/8.0.22/runtimes/browser-wasm/native/icudt_EFIGS.dat"
+      "OriginalItemSpec": "/home/carol/.nuget/packages/microsoft.netcore.app.runtime.mono.browser-wasm/8.0.22/runtimes/browser-wasm/native/icudt_EFIGS.dat"
     },
     {
       "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/icudt_no_CJK.dat",
@@ -1040,7 +1040,7 @@
       "AssetTraitValue": "native",
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
-      "OriginalItemSpec": "/home/carol/.dotnet/packs/Microsoft.NETCore.App.Runtime.Mono.browser-wasm/8.0.22/runtimes/browser-wasm/native/icudt_no_CJK.dat"
+      "OriginalItemSpec": "/home/carol/.nuget/packages/microsoft.netcore.app.runtime.mono.browser-wasm/8.0.22/runtimes/browser-wasm/native/icudt_no_CJK.dat"
     },
     {
       "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/Microsoft.AspNetCore.Authorization.wasm",
@@ -1193,6 +1193,25 @@
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
       "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/webcil/Microsoft.CSharp.wasm"
+    },
+    {
+      "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/Microsoft.EntityFrameworkCore.wasm",
+      "SourceId": "Biblioteca.Client",
+      "SourceType": "Computed",
+      "ContentRoot": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/",
+      "BasePath": "/",
+      "RelativePath": "_framework/Microsoft.EntityFrameworkCore.wasm",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "WasmResource",
+      "AssetTraitValue": "runtime",
+      "CopyToOutputDirectory": "PreserveNewest",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/webcil/Microsoft.EntityFrameworkCore.wasm"
     },
     {
       "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/Microsoft.Extensions.Configuration.Abstractions.wasm",
@@ -4919,25 +4938,6 @@
       "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/System.Net.NetworkInformation.wasm"
     },
     {
-      "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/2pwg44byws.gz",
-      "SourceId": "Biblioteca.Client",
-      "SourceType": "Computed",
-      "ContentRoot": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/",
-      "BasePath": "/",
-      "RelativePath": "_framework/dotnet.js.map.gz",
-      "AssetKind": "Build",
-      "AssetMode": "All",
-      "AssetRole": "Alternative",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.js.map",
-      "AssetTraitName": "Content-Encoding",
-      "AssetTraitValue": "gzip",
-      "CopyToOutputDirectory": "PreserveNewest",
-      "CopyToPublishDirectory": "Never",
-      "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.js.map"
-    },
-    {
       "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/2w0u09d9wg.gz",
       "SourceId": "Biblioteca.Client",
       "SourceType": "Computed",
@@ -4993,25 +4993,6 @@
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
       "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/System.Formats.Asn1.wasm"
-    },
-    {
-      "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/3qln6fepgr.gz",
-      "SourceId": "Biblioteca.Client",
-      "SourceType": "Computed",
-      "ContentRoot": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/",
-      "BasePath": "/",
-      "RelativePath": "_framework/dotnet.runtime.js.map.gz",
-      "AssetKind": "Build",
-      "AssetMode": "All",
-      "AssetRole": "Alternative",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.runtime.js.map",
-      "AssetTraitName": "Content-Encoding",
-      "AssetTraitValue": "gzip",
-      "CopyToOutputDirectory": "PreserveNewest",
-      "CopyToPublishDirectory": "Never",
-      "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.runtime.js.map"
     },
     {
       "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/41s0mjxyac.gz",
@@ -5126,6 +5107,25 @@
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
       "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/System.IO.Pipes.AccessControl.wasm"
+    },
+    {
+      "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/5373dxqtyk.gz",
+      "SourceId": "Biblioteca.Client",
+      "SourceType": "Computed",
+      "ContentRoot": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/",
+      "BasePath": "/",
+      "RelativePath": "_framework/dotnet.native.8.0.22.5373dxqtyk.js.gz",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.native.8.0.22.5373dxqtyk.js",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "CopyToOutputDirectory": "PreserveNewest",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.native.8.0.22.5373dxqtyk.js"
     },
     {
       "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/560awnvwob.gz",
@@ -5297,6 +5297,25 @@
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
       "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/System.Net.Ping.wasm"
+    },
+    {
+      "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/6tbyffvmph.gz",
+      "SourceId": "Biblioteca.Client",
+      "SourceType": "Computed",
+      "ContentRoot": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/",
+      "BasePath": "/",
+      "RelativePath": "_framework/dotnet.native.wasm.gz",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.native.wasm",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "CopyToOutputDirectory": "PreserveNewest",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.native.wasm"
     },
     {
       "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/6tghj39mvt.gz",
@@ -5793,6 +5812,25 @@
       "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/System.Runtime.Extensions.wasm"
     },
     {
+      "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/bu06w9xwvy.gz",
+      "SourceId": "Biblioteca.Client",
+      "SourceType": "Computed",
+      "ContentRoot": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/",
+      "BasePath": "/",
+      "RelativePath": "_framework/dotnet.js.map.gz",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.js.map",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "CopyToOutputDirectory": "PreserveNewest",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.js.map"
+    },
+    {
       "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/bv5q6azkua.gz",
       "SourceId": "Biblioteca.Client",
       "SourceType": "Computed",
@@ -5886,6 +5924,25 @@
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
       "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/System.Linq.Expressions.wasm"
+    },
+    {
+      "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/d8oqx7rhg5.gz",
+      "SourceId": "Biblioteca.Client",
+      "SourceType": "Computed",
+      "ContentRoot": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/",
+      "BasePath": "/",
+      "RelativePath": "_framework/icudt_no_CJK.dat.gz",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/icudt_no_CJK.dat",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "CopyToOutputDirectory": "PreserveNewest",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/icudt_no_CJK.dat"
     },
     {
       "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/dlcm4nfvf1.gz",
@@ -6097,6 +6154,25 @@
       "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/System.IO.FileSystem.wasm"
     },
     {
+      "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/esn0rvrmw7.gz",
+      "SourceId": "Biblioteca.Client",
+      "SourceType": "Computed",
+      "ContentRoot": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/",
+      "BasePath": "/",
+      "RelativePath": "_framework/icudt_CJK.dat.gz",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/icudt_CJK.dat",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "CopyToOutputDirectory": "PreserveNewest",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/icudt_CJK.dat"
+    },
+    {
       "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/eu2oyk69x7.gz",
       "SourceId": "Biblioteca.Client",
       "SourceType": "Computed",
@@ -6192,25 +6268,6 @@
       "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/System.IO.FileSystem.DriveInfo.wasm"
     },
     {
-      "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/fpxovye4j2.gz",
-      "SourceId": "Biblioteca.Client",
-      "SourceType": "Computed",
-      "ContentRoot": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/",
-      "BasePath": "/",
-      "RelativePath": "_framework/dotnet.runtime.8.0.22.fpxovye4j2.js.gz",
-      "AssetKind": "Build",
-      "AssetMode": "All",
-      "AssetRole": "Alternative",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.runtime.8.0.22.fpxovye4j2.js",
-      "AssetTraitName": "Content-Encoding",
-      "AssetTraitValue": "gzip",
-      "CopyToOutputDirectory": "PreserveNewest",
-      "CopyToPublishDirectory": "Never",
-      "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.runtime.8.0.22.fpxovye4j2.js"
-    },
-    {
       "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/gfqkqn7mct.gz",
       "SourceId": "Biblioteca.Client",
       "SourceType": "Computed",
@@ -6247,6 +6304,25 @@
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
       "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/System.Runtime.Intrinsics.wasm"
+    },
+    {
+      "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/gp34b3jetk.gz",
+      "SourceId": "Biblioteca.Client",
+      "SourceType": "Computed",
+      "ContentRoot": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/",
+      "BasePath": "/",
+      "RelativePath": "_framework/Microsoft.EntityFrameworkCore.wasm.gz",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/Microsoft.EntityFrameworkCore.wasm",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "CopyToOutputDirectory": "PreserveNewest",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/Microsoft.EntityFrameworkCore.wasm"
     },
     {
       "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/gq8i5rcl67.gz",
@@ -6361,25 +6437,6 @@
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
       "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/System.Private.CoreLib.wasm"
-    },
-    {
-      "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/hf3g7wo6g3.gz",
-      "SourceId": "Biblioteca.Client",
-      "SourceType": "Computed",
-      "ContentRoot": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/",
-      "BasePath": "/",
-      "RelativePath": "_framework/dotnet.native.wasm.gz",
-      "AssetKind": "Build",
-      "AssetMode": "All",
-      "AssetRole": "Alternative",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.native.wasm",
-      "AssetTraitName": "Content-Encoding",
-      "AssetTraitValue": "gzip",
-      "CopyToOutputDirectory": "PreserveNewest",
-      "CopyToPublishDirectory": "Never",
-      "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.native.wasm"
     },
     {
       "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/hn0w8z85c5.gz",
@@ -6762,6 +6819,25 @@
       "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/System.Net.ServicePoint.wasm"
     },
     {
+      "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/k3shageq3c.gz",
+      "SourceId": "Biblioteca.Client",
+      "SourceType": "Computed",
+      "ContentRoot": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/",
+      "BasePath": "/",
+      "RelativePath": "_framework/dotnet.runtime.8.0.22.k3shageq3c.js.gz",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.runtime.8.0.22.k3shageq3c.js",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "CopyToOutputDirectory": "PreserveNewest",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.runtime.8.0.22.k3shageq3c.js"
+    },
+    {
       "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/kwicmdtv8h.gz",
       "SourceId": "Biblioteca.Client",
       "SourceType": "Computed",
@@ -6893,25 +6969,6 @@
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
       "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/mscorlib.wasm"
-    },
-    {
-      "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/m2okj7xdfz.gz",
-      "SourceId": "Biblioteca.Client",
-      "SourceType": "Computed",
-      "ContentRoot": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/",
-      "BasePath": "/",
-      "RelativePath": "_framework/dotnet.native.8.0.22.m2okj7xdfz.js.gz",
-      "AssetKind": "Build",
-      "AssetMode": "All",
-      "AssetRole": "Alternative",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.native.8.0.22.m2okj7xdfz.js",
-      "AssetTraitName": "Content-Encoding",
-      "AssetTraitValue": "gzip",
-      "CopyToOutputDirectory": "PreserveNewest",
-      "CopyToPublishDirectory": "Never",
-      "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.native.8.0.22.m2okj7xdfz.js"
     },
     {
       "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/m5h1628i3o.gz",
@@ -7064,25 +7121,6 @@
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
       "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/System.Net.Primitives.wasm"
-    },
-    {
-      "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/n5dm9ccx4o.gz",
-      "SourceId": "Biblioteca.Client",
-      "SourceType": "Computed",
-      "ContentRoot": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/",
-      "BasePath": "/",
-      "RelativePath": "_framework/dotnet.js.gz",
-      "AssetKind": "Build",
-      "AssetMode": "All",
-      "AssetRole": "Alternative",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.js",
-      "AssetTraitName": "Content-Encoding",
-      "AssetTraitValue": "gzip",
-      "CopyToOutputDirectory": "PreserveNewest",
-      "CopyToPublishDirectory": "Never",
-      "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.js"
     },
     {
       "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/n8ytmnow6k.gz",
@@ -7484,25 +7522,6 @@
       "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/System.Runtime.CompilerServices.VisualC.wasm"
     },
     {
-      "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/qz1i0ljjxq.gz",
-      "SourceId": "Biblioteca.Client",
-      "SourceType": "Computed",
-      "ContentRoot": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/",
-      "BasePath": "/",
-      "RelativePath": "_framework/icudt_EFIGS.dat.gz",
-      "AssetKind": "Build",
-      "AssetMode": "All",
-      "AssetRole": "Alternative",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/icudt_EFIGS.dat",
-      "AssetTraitName": "Content-Encoding",
-      "AssetTraitValue": "gzip",
-      "CopyToOutputDirectory": "PreserveNewest",
-      "CopyToPublishDirectory": "Never",
-      "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/icudt_EFIGS.dat"
-    },
-    {
       "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/r0evnwnkqq.gz",
       "SourceId": "Biblioteca.Client",
       "SourceType": "Computed",
@@ -7636,6 +7655,25 @@
       "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/System.Xml.XPath.wasm"
     },
     {
+      "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/rvwpmfuswv.gz",
+      "SourceId": "Biblioteca.Client",
+      "SourceType": "Computed",
+      "ContentRoot": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/",
+      "BasePath": "/",
+      "RelativePath": "_framework/dotnet.js.gz",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.js",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "CopyToOutputDirectory": "PreserveNewest",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.js"
+    },
+    {
       "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/s3p5blbs9m.gz",
       "SourceId": "Biblioteca.Client",
       "SourceType": "Computed",
@@ -7653,6 +7691,25 @@
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
       "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/System.Reflection.Metadata.wasm"
+    },
+    {
+      "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/s6h8tl72fb.gz",
+      "SourceId": "Biblioteca.Client",
+      "SourceType": "Computed",
+      "ContentRoot": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/",
+      "BasePath": "/",
+      "RelativePath": "_framework/dotnet.runtime.js.map.gz",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.runtime.js.map",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "CopyToOutputDirectory": "PreserveNewest",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/dotnet.runtime.js.map"
     },
     {
       "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/s9778x6ca4.gz",
@@ -8168,6 +8225,25 @@
       "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/System.Collections.wasm"
     },
     {
+      "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/wbhetqev8o.gz",
+      "SourceId": "Biblioteca.Client",
+      "SourceType": "Computed",
+      "ContentRoot": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/",
+      "BasePath": "/",
+      "RelativePath": "_framework/icudt_EFIGS.dat.gz",
+      "AssetKind": "Build",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/icudt_EFIGS.dat",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "CopyToOutputDirectory": "PreserveNewest",
+      "CopyToPublishDirectory": "Never",
+      "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/icudt_EFIGS.dat"
+    },
+    {
       "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/whjk5qcex2.gz",
       "SourceId": "Biblioteca.Client",
       "SourceType": "Computed",
@@ -8282,25 +8358,6 @@
       "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/System.ComponentModel.Annotations.wasm"
     },
     {
-      "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/wwik6vffoy.gz",
-      "SourceId": "Biblioteca.Client",
-      "SourceType": "Computed",
-      "ContentRoot": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/",
-      "BasePath": "/",
-      "RelativePath": "_framework/icudt_no_CJK.dat.gz",
-      "AssetKind": "Build",
-      "AssetMode": "All",
-      "AssetRole": "Alternative",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/icudt_no_CJK.dat",
-      "AssetTraitName": "Content-Encoding",
-      "AssetTraitValue": "gzip",
-      "CopyToOutputDirectory": "PreserveNewest",
-      "CopyToPublishDirectory": "Never",
-      "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/icudt_no_CJK.dat"
-    },
-    {
       "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/x6vmgqhjmr.gz",
       "SourceId": "Biblioteca.Client",
       "SourceType": "Computed",
@@ -8356,25 +8413,6 @@
       "CopyToOutputDirectory": "PreserveNewest",
       "CopyToPublishDirectory": "Never",
       "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/System.Runtime.wasm"
-    },
-    {
-      "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/xloytr0t0w.gz",
-      "SourceId": "Biblioteca.Client",
-      "SourceType": "Computed",
-      "ContentRoot": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/",
-      "BasePath": "/",
-      "RelativePath": "_framework/icudt_CJK.dat.gz",
-      "AssetKind": "Build",
-      "AssetMode": "All",
-      "AssetRole": "Alternative",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/icudt_CJK.dat",
-      "AssetTraitName": "Content-Encoding",
-      "AssetTraitValue": "gzip",
-      "CopyToOutputDirectory": "PreserveNewest",
-      "CopyToPublishDirectory": "Never",
-      "OriginalItemSpec": "/home/carol/Dev/Biblioteca/Biblioteca.Client/bin/Debug/net8.0/wwwroot/_framework/icudt_CJK.dat"
     },
     {
       "Identity": "/home/carol/Dev/Biblioteca/Biblioteca.Client/obj/Debug/net8.0/compressed/xs8rkr5zjp.gz",

@@ -1,7 +1,39 @@
-﻿@page "/"
+﻿@page "/home"
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<RadzenRow class="rz-mb-5"> 
+    <RadzenColumn SizeMD="12">
+        <TipOfTheDay/>
+    </RadzenColumn>
+</RadzenRow>
 
-Welcome to your new app.
+<RadzenRow class="g-3 rz-mb-5"> 
+    <RadzenColumn SizeMD="4">
+        <MyCollectionCard />
+    </RadzenColumn>
+    <RadzenColumn SizeMD="4">
+        <AddBookCard />
+    </RadzenColumn>
+    <RadzenColumn SizeMD="4">
+        <SearchBooksCard />
+    </RadzenColumn>
+</RadzenRow>
+
+<RadzenRow class="g-3">
+    <RadzenColumn SizeMD="6">
+        <EstatisticCard />
+    </RadzenColumn>
+    <RadzenColumn SizeMD="6">
+        <RecentActivities />
+    </RadzenColumn>
+</RadzenRow>
+
+@code{
+
+    void GoToCollection()
+    {
+        Console.WriteLine("teste");
+    }
+
+}

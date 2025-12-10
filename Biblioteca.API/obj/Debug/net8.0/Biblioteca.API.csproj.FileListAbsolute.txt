@@ -1,5 +1,7 @@
+/home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Biblioteca.Client.staticwebassets.runtime.json
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/appsettings.Development.json
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/appsettings.json
+/home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Biblioteca.API.staticwebassets.runtime.json
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Biblioteca.API
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Biblioteca.API.deps.json
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Biblioteca.API.runtimeconfig.json
@@ -10,11 +12,19 @@
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Azure.Core.dll
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Azure.Identity.dll
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/BCrypt.Net-Next.dll
+/home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Blazored.LocalStorage.dll
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/FluentValidation.dll
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/FluentValidation.AspNetCore.dll
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/FluentValidation.DependencyInjectionExtensions.dll
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Humanizer.dll
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Microsoft.AspNetCore.Authorization.dll
+/home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Microsoft.AspNetCore.Components.dll
+/home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Microsoft.AspNetCore.Components.Authorization.dll
+/home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Microsoft.AspNetCore.Components.Forms.dll
+/home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Microsoft.AspNetCore.Components.Web.dll
+/home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Microsoft.AspNetCore.Components.WebAssembly.dll
+/home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Microsoft.AspNetCore.Metadata.dll
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Microsoft.AspNetCore.OpenApi.dll
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Microsoft.AspNetCore.Razor.Language.dll
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Microsoft.Bcl.AsyncInterfaces.dll
@@ -41,6 +51,9 @@
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.Sqlite.dll
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.SqlServer.dll
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Microsoft.Extensions.Caching.Memory.dll
+/home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Microsoft.Extensions.Configuration.Binder.dll
+/home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Microsoft.Extensions.Configuration.FileExtensions.dll
+/home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Microsoft.Extensions.Configuration.Json.dll
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Microsoft.Extensions.DependencyInjection.dll
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Microsoft.Extensions.DependencyModel.dll
@@ -55,6 +68,8 @@
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.dll
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
+/home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Microsoft.JSInterop.dll
+/home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Microsoft.JSInterop.WebAssembly.dll
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Microsoft.NET.StringTools.dll
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Microsoft.OpenApi.dll
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Microsoft.SqlServer.Server.dll
@@ -79,6 +94,7 @@
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/NuGet.ProjectModel.dll
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/NuGet.Protocol.dll
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/NuGet.Versioning.dll
+/home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Radzen.Blazor.dll
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/SQLitePCLRaw.batteries_v2.dll
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/SQLitePCLRaw.core.dll
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/SQLitePCLRaw.provider.e_sqlite3.dll
@@ -271,9 +287,11 @@
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/runtimes/win/lib/net6.0/System.Runtime.Caching.dll
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/runtimes/win/lib/net7.0/System.Security.Cryptography.ProtectedData.dll
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/runtimes/win/lib/net7.0/System.Windows.Extensions.dll
+/home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Biblioteca.Client.dll
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Domain.dll
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Infrastructure.dll
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Services.dll
+/home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Biblioteca.Client.pdb
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Domain.pdb
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Infrastructure.pdb
 /home/carol/Dev/Biblioteca/Biblioteca.API/bin/Debug/net8.0/Services.pdb
@@ -293,7 +311,7 @@
 /home/carol/Dev/Biblioteca/Biblioteca.API/obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.Biblioteca.API.props
 /home/carol/Dev/Biblioteca/Biblioteca.API/obj/Debug/net8.0/staticwebassets.pack.json
 /home/carol/Dev/Biblioteca/Biblioteca.API/obj/Debug/net8.0/scopedcss/bundle/Biblioteca.API.styles.css
-/home/carol/Dev/Biblioteca/Biblioteca.API/obj/Debug/net8.0/Biblioteca.API.csproj.CopyComplete
+/home/carol/Dev/Biblioteca/Biblioteca.API/obj/Debug/net8.0/Bibliote.911CF877.Up2Date
 /home/carol/Dev/Biblioteca/Biblioteca.API/obj/Debug/net8.0/Biblioteca.API.dll
 /home/carol/Dev/Biblioteca/Biblioteca.API/obj/Debug/net8.0/refint/Biblioteca.API.dll
 /home/carol/Dev/Biblioteca/Biblioteca.API/obj/Debug/net8.0/Biblioteca.API.pdb

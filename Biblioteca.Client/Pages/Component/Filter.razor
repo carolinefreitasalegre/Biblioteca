@@ -1,0 +1,56 @@
+<div class="filter-area">
+    <RadzenDropDown 
+        @bind-Value="SelectedStatus"
+        Data="StatusOptions"
+        Placeholder="Todos os status"
+        Style="width: 200px" />
+
+    <RadzenDropDown
+        @bind-Value="SelectedCategory"
+        Data="CategoryOptions"
+        Placeholder="Todas as categorias"
+        Style="width: 200px" />
+
+    <RadzenTextBox
+        @bind-Value="Title"
+        Placeholder="Buscar por título..."
+        Style="width: 200px" />
+
+    <RadzenButton Text="Aplicar" Click="ApplyFilter" Style="margin-left: 10px" />
+    <RadzenButton Text="Limpar Filtro" Click="ApplyFilter" Style="margin-left: 10px" />
+</div>
+
+
+@code{
+    
+    // Parâmetros de entrada
+    [Parameter] public IEnumerable<string> StatusOptions { get; set; } = Enumerable.Empty<string>();
+    [Parameter] public IEnumerable<string> CategoryOptions { get; set; } = Enumerable.Empty<string>();
+
+    // Evento que notifica a página que o filtro mudou
+    [Parameter] public EventCallback<FilterResult> OnFilterChanged { get; set; }
+
+    // Estado interno
+    public string? SelectedStatus { get; set; }
+    public string? SelectedCategory { get; set; }
+    public string? Title { get; set; }
+
+    private async Task ApplyFilter()
+    {
+    var result = new FilterResult
+    {
+    Status = SelectedStatus,
+    Category = SelectedCategory,
+    Title = Title
+    };
+
+    await OnFilterChanged.InvokeAsync(result);
+    }
+
+    public class FilterResult
+    {
+    public string? Status { get; set; }
+    public string? Category { get; set; }
+    public string? Title { get; set; }
+    }
+}

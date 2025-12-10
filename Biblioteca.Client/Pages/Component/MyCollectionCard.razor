@@ -1,0 +1,44 @@
+<CardMenu Icon="" Title="Minha Coleção" >
+    <RadzenText TextStyle="TextStyle.Body1" class="rz-mb-4">
+        Visualize todos os seus livros organizados
+    </RadzenText>
+
+    <div class="rz-mb-2">
+        Total de livros: <RadzenText class="float-end" TextStyle="TextStyle.Subtitle1">@TotalLivros</RadzenText>
+    </div>
+    <div class="rz-mb-2">
+        Lidos: <RadzenText class="float-end" TextStyle="TextStyle.Subtitle1" style="color: green;">@LivrosLidos</RadzenText>
+    </div>
+    <div class="rz-mb-4">
+        Para ler: <RadzenText class="float-end" TextStyle="TextStyle.Subtitle1" style="color: blue;">@LivrosParaLer</RadzenText>
+    </div>
+
+    <RadzenButton 
+        Text="Ver Lista Completa" 
+        ButtonStyle="ButtonStyle.Dark" 
+        Click="@NavigateToLista" 
+        Style="width: 100%;" 
+    />
+</CardMenu>
+
+@code {
+    // Variáveis que seriam preenchidas por uma chamada de API, por exemplo
+    private int TotalLivros { get; set; } = 127; 
+    private int LivrosLidos { get; set; } = 89;
+    private int LivrosParaLer { get; set; } = 38;
+
+    // Lógica para navegar
+    private void NavigateToLista()
+    {
+        // Aqui você faria a navegação real (Ex: NavigationManager.NavigateTo("/minha-lista"))
+        Console.WriteLine("Navegando para a lista completa...");
+    }
+
+    // Você poderia até buscar os dados reais aqui:
+    // protected override async Task OnInitializedAsync()
+    // {
+    //     var data = await service.GetColecaoSummary();
+    //     TotalLivros = data.Total;
+    //     // ... etc.
+    // }
+}
