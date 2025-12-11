@@ -14,3 +14,7 @@ obj/
 wwwroot/dist/
 wwwroot/*bundle*.js
 wwwroot/*bundle*.css
+
+
+Biblioteca.API/appsettings.json
+Biblioteca.API/appsettings.*.json
