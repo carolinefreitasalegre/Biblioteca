@@ -67,6 +67,9 @@ namespace Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("AnoPublicacao")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Autor")
                         .IsRequired()
                         .HasColumnType("text");
@@ -83,7 +86,14 @@ namespace Infrastructure.Migrations
                     b.Property<string>("Isbn")
                         .HasColumnType("text");
 
+                    b.Property<string>("NotasPessoais")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int>("NumeroPaginas")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("StatusLeitura")
                         .HasColumnType("integer");
 
                     b.Property<string>("Titulo")

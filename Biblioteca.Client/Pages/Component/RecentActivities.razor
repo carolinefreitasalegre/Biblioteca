@@ -1,0 +1,48 @@
+<RadzenCard class="rz-p-4 rz-shadow-2" Style="min-height: 16em">
+    <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0.5rem" class="rz-mb-4">
+        <RadzenIcon Icon="star_outline" Style="color: #ff9800;" /> @* Laranja/Amarelo para destaque *@
+        <RadzenText TextStyle="TextStyle.H5" Style="color: #ff9800; font-weight: bold;">
+            Atividade Recente
+        </RadzenText>
+    </RadzenStack>
+    
+    <RadzenStack Gap="1rem">
+        
+        @foreach (var atividade in Atividades)
+        {
+            <div class="d-flex align-items-start">
+                <RadzenIcon Icon="fiber_manual_record" 
+                            Style="@($"font-size: 10px; color: {atividade.CorStatus}; margin-top: 6px; margin-right: 8px;")" />
+                
+                <RadzenStack Gap="0.1rem">
+                    <RadzenText TextStyle="TextStyle.Body1">
+                        <span style="font-weight: bold;">@atividade.Status</span>: "@atividade.Livro"
+                    </RadzenText>
+                    <RadzenText TextStyle="TextStyle.Caption" class="rz-color-secondary">
+                        @atividade.TempoAtras
+                    </RadzenText>
+                </RadzenStack>
+            </div>
+        }
+        
+    </RadzenStack>
+</RadzenCard>
+
+@code {
+    // Classe helper para organizar os dados da atividade
+    private class Atividade
+    {
+        public string Status { get; set; }
+        public string Livro { get; set; }
+        public string TempoAtras { get; set; }
+        public string CorStatus { get; set; }
+    }
+
+    // Dados de exemplo (seriam carregados via API real)
+    private List<Atividade> Atividades = new List<Atividade>
+    {
+        new Atividade { Status = "Concluído", Livro = "1984", TempoAtras = "Há 2 dias", CorStatus = "green" },
+        new Atividade { Status = "Adicionado", Livro = "Sapiens", TempoAtras = "Há 5 dias", CorStatus = "blue" },
+        new Atividade { Status = "Iniciado", Livro = "O Hobbit", TempoAtras = "Há 1 semana", CorStatus = "orange" }
+    };
+}

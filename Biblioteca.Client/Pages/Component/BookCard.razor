@@ -1,0 +1,41 @@
+@namespace Biblioteca.Client.Pages.Component
+
+
+<RadzenCard Style="width: 250px; padding: 20px; border-radius: 12px;">
+    <div style="text-align: center;">
+        <img src="./icon-192.png" 
+             style="width: 100%; height: 220px; object-fit: cover; border-radius: 8px;" />
+    </div>
+
+    <h3 style="margin-top: 15px; font-weight: 700; color: #0D1B4C; text-align: center;">
+        @Titulo
+    </h3>
+
+    <p style="margin-top: -8px; font-size: 14px; color: #54617A; text-align: center;">
+        @Autor
+    </p>
+
+    <div style="margin-top: 10px; text-align: center;">
+        <RadzenBadge Style="background:#D2FFE0; color:#1B8847; padding:6px 14px; border-radius:8px;">
+            @Status
+        </RadzenBadge>
+    </div>
+    <div style="margin-top: 10px; text-align: center;">
+        <RadzenBadge Style="background:#D2FFE0; color:#1B8847; padding:6px 14px; border-radius:8px;">
+            @Categoria
+        </RadzenBadge>
+    </div>
+
+    <div style="margin-top: 12px; text-align: center;">
+        <RadzenRating Value="@Nota" ReadOnly="true" />
+    </div>
+</RadzenCard>
+
+
+@code {
+    [Parameter] public string Titulo { get; set; } = string.Empty;
+    [Parameter] public string Autor { get; set; } = string.Empty;
+    [Parameter] public string Status { get; set; } = string.Empty;
+    [Parameter] public string Categoria { get; set; } = string.Empty;
+    [Parameter] public int Nota { get; set; }
+}

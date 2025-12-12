@@ -1,0 +1,135 @@
+@page "/area-administrador"
+
+
+
+
+<RadzenStack Gap="1rem">
+    
+    <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">
+        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0.5rem">
+            <RadzenIcon Icon="people_alt" Style="font-size: 32px; color: #6a1b9a;" />
+            <RadzenText TextStyle="TextStyle.H5" >
+                Gestão de Usuários
+            </RadzenText>
+        </RadzenStack>
+        <RadzenBadge BadgeStyle="BadgeStyle.Success" Text="@($"{@TotalUsuarios} Total")" />
+    </RadzenStack>
+
+    <RadzenTextBox Placeholder="Buscar por nome ou email..." Style="width: 100%;" />
+
+    <RadzenDataGrid Data="@Usuarios" AllowPaging="true" PageSize="5" AllowSorting="true" TItem="UsuarioModel">
+        
+        <Columns>
+            
+            <RadzenDataGridColumn TItem="UsuarioModel" Property="Nome" Title="Nome" />
+            
+            <RadzenDataGridColumn TItem="UsuarioModel" Property="Email" Title="Email" />
+            
+            <RadzenDataGridColumn TItem="UsuarioModel" Property="Status" Title="Status">
+                <Template Context="usuario">
+                    <RadzenBadge 
+                        Text="@usuario.Status"
+                        BadgeStyle="@(usuario.Status == "Ativo" ? BadgeStyle.Primary : BadgeStyle.Danger)"
+                        Icon="@(usuario.Status == "Ativo" ? "verified" : "block")"
+                        Style="color: white; padding: 5px 10px;"
+                    />
+                </Template>
+            </RadzenDataGridColumn>
+            
+            <RadzenDataGridColumn TItem="UsuarioModel" Property="UltimoLogin" Title="Último Login" FormatString="{0:dd/MM/yyyy}" />
+            
+            <RadzenDataGridColumn TItem="UsuarioModel" Property="Livros" Title="Livros">
+                <Template Context="usuario">
+                    <RadzenText TextStyle="TextStyle.Subtitle1" Style="color: #6a1b9a; font-weight: bold;">
+                        @usuario.Livros
+                    </RadzenText>
+                </Template>
+            </RadzenDataGridColumn>
+
+            <RadzenDataGridColumn TItem="UsuarioModel" Title="Ações" Sortable="false" Filterable="false" Width="120px">
+                <Template Context="usuario">
+        
+                    <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem">
+            
+                        @if (usuario.Status == "Ativo")
+                        {
+                            <RadzenButton Icon="block" 
+                                          ButtonStyle="ButtonStyle.Danger" 
+                                          Variant="Variant.Flat" 
+                                          Title="Bloquear Usuário"
+                                          Click="@(() => BloquearUsuario(usuario))" />
+                        }
+                        else
+                        {
+                            <RadzenButton Icon="lock_open" 
+                                          ButtonStyle="ButtonStyle.Success" 
+                                          Variant="Variant.Flat" 
+                                          Title="Desbloquear Usuário"
+                                          Click="@(() => DesbloquearUsuario(usuario))" />
+                        }
+            
+                        <RadzenButton Icon="edit" 
+                                      ButtonStyle="ButtonStyle.Primary" 
+                                      Variant="Variant.Flat" 
+                                      Title="Editar Detalhes / Redefinir Senha"
+                                      Click="@(() => AbrirEdicao(usuario))" />
+                          
+                    </RadzenStack>
+                </Template>
+            </RadzenDataGridColumn>
+            
+        </Columns>
+    </RadzenDataGrid>
+
+</RadzenStack>
+
+@code {
+
+    public UsuarioRequest usuario;
+    
+    public class UsuarioModel
+    {
+        public string Nome { get; set; }
+        public string Email { get; set; }
+        public string Status { get; set; }
+        public DateTime UltimoLogin { get; set; }
+        public int Livros { get; set; }
+    }
+
+    private List<UsuarioModel> Usuarios { get; set; }
+    private int TotalUsuarios => Usuarios.Count;
+
+    protected override void OnInitialized()
+    {
+        
+        // Dados de Exemplo (simulando a busca no banco de dados)
+        Usuarios = new List<UsuarioModel>
+        {
+            new UsuarioModel { Nome = "João Silva", Email = "joao@email.com", Status = "Ativo", UltimoLogin = new DateTime(2024, 01, 14), Livros = 45 },
+            new UsuarioModel { Nome = "Maria Santos", Email = "maria@email.com", Status = "Ativo", UltimoLogin = new DateTime(2024, 01, 13), Livros = 78 },
+            new UsuarioModel { Nome = "Pedro Costa", Email = "pedro@email.com", Status = "Bloqueado", UltimoLogin = new DateTime(2024, 01, 09), Livros = 12 },
+            new UsuarioModel { Nome = "Ana Oliveira", Email = "ana@email.com", Status = "Ativo", UltimoLogin = new DateTime(2024, 01, 14), Livros = 156 },
+            new UsuarioModel { Nome = "Carlos Mendes", Email = "carlos@email.com", Status = "Ativo", UltimoLogin = new DateTime(2024, 01, 12), Livros = 89 }
+        };
+    }
+
+    void AbrirEdicao(UsuarioModel usuario)
+    {
+        Console.WriteLine("clicou abrir edd");
+    }
+
+    void DesbloquearUsuario(UsuarioModel usuario)
+    {
+        Console.WriteLine("clicou desbloq user");
+    }
+
+    void BloquearUsuario(UsuarioModel usuario)
+    {
+        Console.WriteLine("clicou bloq user");
+    }
+
+    // void CarregarUsuarios()
+    // {
+    //     var usuarios = 
+    // }
+}

@@ -1,0 +1,38 @@
+<RadzenCard class="rz-p-4 rz-shadow-2" Style="min-height: 16em">
+    <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0.5rem" class="rz-mb-4">
+        <RadzenIcon Icon="trending_up" Style="color: #6a1b9a;" /> @* Roxo escuro para destaque *@
+        <RadzenText TextStyle="TextStyle.H5" Style="color: #6a1b9a; font-weight: bold;">
+            Suas Estatísticas
+        </RadzenText>
+    </RadzenStack>
+
+    <div class="d-flex justify-content-between rz-mb-3">
+        <RadzenText TextStyle="TextStyle.Body1">Livros lidos este mês</RadzenText>
+        <RadzenText TextStyle="TextStyle.H5" Style="color: green; font-weight: bold;">@LivrosLidosMes</RadzenText>
+    </div>
+
+    <div class="d-flex justify-content-between rz-mb-4">
+        <RadzenText TextStyle="TextStyle.Body1">Páginas lidas</RadzenText>
+        <RadzenText TextStyle="TextStyle.H5" Style="color: #0000a0; font-weight: bold;">@PaginasLidas</RadzenText>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center rz-mb-2">
+        <RadzenText TextStyle="TextStyle.Body1">Meta mensal</RadzenText>
+        <RadzenText TextStyle="TextStyle.Body1" Style="color: #cc5200; font-weight: bold;">@MetaConcluida% concluída</RadzenText>
+    </div>
+
+    <RadzenProgressBar Value="@MetaConcluida" 
+                       ShowValue="false" 
+                       Style="height: 10px;" 
+                       Variant="Variant.Filled" 
+                       ProgressBarAriaLabel="Progresso da Meta Mensal"
+    />
+                       
+</RadzenCard>
+
+@code {
+    // Dados de exemplo, que seriam injetados via parâmetros ou carregados via serviço real
+    private int LivrosLidosMes { get; set; } = 3;
+    private int PaginasLidas { get; set; } = 847;
+    private int MetaConcluida { get; set; } = 75; // Valor em percentual
+}

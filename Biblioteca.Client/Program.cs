@@ -4,6 +4,7 @@ using Biblioteca.Client;
 using Biblioteca.Client.ServiceClient.InterfacesClient;
 using Biblioteca.Client.ServiceClient.ServicesClient;
 using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components.Authorization;
 using Radzen;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -13,10 +14,10 @@ builder.Services.AddRadzenComponents();
 
 
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<CustomAuthenticationStateProvider>();
-// builder.Services.AddScoped<ILocalStorageService>();
-builder.Services.AddBlazoredLocalStorage();
 
+
+
+builder.Services.AddBlazoredLocalStorage();
 
 builder.Services.AddScoped<DialogService>();
 builder.Services.AddScoped<NotificationService>();
@@ -24,6 +25,14 @@ builder.Services.AddScoped<TooltipService>();
 builder.Services.AddScoped<ContextMenuService>();
 
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+builder.Services.AddOptions();
+builder.Services.AddAuthorizationCore();
+builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+
+
+builder.Services.AddScoped(sp => new HttpClient
+{
+    BaseAddress = new Uri("http://localhost:5008") 
+});
 
 await builder.Build().RunAsync();
