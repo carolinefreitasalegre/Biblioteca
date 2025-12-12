@@ -14,6 +14,10 @@ obj/
 wwwroot/dist/
 wwwroot/*bundle*.js
 wwwroot/*bundle*.css
+.vs/
+*.db
+wwwroot/_framework/
+
 
 
 Biblioteca.API/appsettings.json
