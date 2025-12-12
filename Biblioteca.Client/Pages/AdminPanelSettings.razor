@@ -1,6 +1,8 @@
 @page "/area-administrador"
 
 
+
+
 <RadzenStack Gap="1rem">
     
     <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">
@@ -82,6 +84,9 @@
 </RadzenStack>
 
 @code {
+
+    public UsuarioRequest usuario;
+    
     public class UsuarioModel
     {
         public string Nome { get; set; }
@@ -96,6 +101,7 @@
 
     protected override void OnInitialized()
     {
+        
         // Dados de Exemplo (simulando a busca no banco de dados)
         Usuarios = new List<UsuarioModel>
         {
@@ -121,4 +127,9 @@
     {
         Console.WriteLine("clicou bloq user");
     }
+
+    // void CarregarUsuarios()
+    // {
+    //     var usuarios = 
+    // }
 }

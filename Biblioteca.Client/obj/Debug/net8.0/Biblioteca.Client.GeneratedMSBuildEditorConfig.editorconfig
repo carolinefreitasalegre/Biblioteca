@@ -1,0 +1,99 @@
+is_global = true
+build_property.EnableAotAnalyzer = 
+build_property.EnableSingleFileAnalyzer = 
+build_property.EnableTrimAnalyzer = false
+build_property.IncludeAllContentForSelfExtract = 
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = false
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = browser
+build_property.RootNamespace = Biblioteca.Client
+build_property.RootNamespace = Biblioteca.Client
+build_property.ProjectDir = /home/carol/Dev/Biblioteca/Biblioteca.Client/
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = false
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = /home/carol/Dev/Biblioteca/Biblioteca.Client
+build_property._RazorSourceGeneratorDebug = 
+
+[/home/carol/Dev/Biblioteca/Biblioteca.Client/App.razor]
+build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/carol/Dev/Biblioteca/Biblioteca.Client/Pages/AdminPanelSettings.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW5QYW5lbFNldHRpbmdzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/carol/Dev/Biblioteca/Biblioteca.Client/Pages/Component/AddBookCard.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50L0FkZEJvb2tDYXJkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/carol/Dev/Biblioteca/Biblioteca.Client/Pages/Component/BookCard.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50L0Jvb2tDYXJkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/carol/Dev/Biblioteca/Biblioteca.Client/Pages/Component/CardMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50L0NhcmRNZW51LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/carol/Dev/Biblioteca/Biblioteca.Client/Pages/Component/EstatisticCard.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50L0VzdGF0aXN0aWNDYXJkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/carol/Dev/Biblioteca/Biblioteca.Client/Pages/Component/Filter.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50L0ZpbHRlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/carol/Dev/Biblioteca/Biblioteca.Client/Pages/Component/MyCollectionCard.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50L015Q29sbGVjdGlvbkNhcmQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/carol/Dev/Biblioteca/Biblioteca.Client/Pages/Component/RecentActivities.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50L1JlY2VudEFjdGl2aXRpZXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/carol/Dev/Biblioteca/Biblioteca.Client/Pages/Component/SearchBooksCard.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50L1NlYXJjaEJvb2tzQ2FyZC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/carol/Dev/Biblioteca/Biblioteca.Client/Pages/Component/TipOfTheDay.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50L1RpcE9mVGhlRGF5LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/carol/Dev/Biblioteca/Biblioteca.Client/Pages/Component/UserAdminArea.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50L1VzZXJBZG1pbkFyZWEucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/carol/Dev/Biblioteca/Biblioteca.Client/Pages/Home.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/carol/Dev/Biblioteca/Biblioteca.Client/Pages/LibraryAdd.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlicmFyeUFkZC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/carol/Dev/Biblioteca/Biblioteca.Client/Pages/Login.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTG9naW4ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/carol/Dev/Biblioteca/Biblioteca.Client/Pages/MyCollection.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTXlDb2xsZWN0aW9uLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/carol/Dev/Biblioteca/Biblioteca.Client/Shared/EmptyLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL0VtcHR5TGF5b3V0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/carol/Dev/Biblioteca/Biblioteca.Client/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/carol/Dev/Biblioteca/Biblioteca.Client/Shared/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL01haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-kjbmdxd309
