@@ -1,16 +1,14 @@
-using System.Configuration;
 using System.Text;
 using FluentValidation;
-using Repositories.DataContext;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
+using Repositories.DataContext;
 using Repositories.Repositories;
 using Repositories.Repositories.Contracts;
 using Services.Contracts;
 using Services.Services;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -81,9 +79,27 @@ builder.Services.AddScoped<IItemColecaoRepository, ItemColecaoRepository>();
 builder.Services.AddScoped<IUSuarioservice, UsuarioService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
+
 builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowBlazorClient", cors =>
+    {
+        cors.WithOrigins(
+                "http://localhost:5164",   // Blazor WebAssembly
+                "https://localhost:5164"   // (se abrir em HTTPS)
+            )
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
+
+
 
 
 
@@ -97,6 +113,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowBlazorClient");
 app.UseAuthentication(); 
 app.UseAuthorization();
 

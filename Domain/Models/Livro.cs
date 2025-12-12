@@ -12,6 +12,9 @@ public class Livro
     public int NumeroPaginas { get; set; }
     public ECategoriaLivro Categoria { get; set; }
     public string? CapaUrl { get; set; }
+    public EStatusLeitura StatusLeitura { get; set; }
+    public DateTime AnoPublicacao { get; set; }
+    public string NotasPessoais { get; set; }
     
     
 }

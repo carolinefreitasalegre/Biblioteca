@@ -1,8 +1,64 @@
 @page "/"
-@page "/Login"
+@layout EmptyLayout
+@inject IAuthService AuthService 
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+@inject NavigationManager NavManager
+@inject Microsoft.AspNetCore.Components.Authorization.AuthenticationStateProvider AuthStateProvider 
 
-<h3>Login</h3>
+
+
+<RadzenRow Gap="0" class="rz-my-12 rz-mx-auto rz-border-radius-6 rz-shadow-10" Style="width: 100%; max-width: 800px; overflow: hidden;">
+        <RadzenColumn Size="12" SizeMD="6" class="">
+            <RadzenCard class="rz-shadow-0 rz-border-radius-0 rz-text-align-center rz-p-12" Style="height: 100%;">
+                <RadzenImage Path="https://www.radzen.com/images/logo.png" Style="width: 15rem;" AlternateText="url image" />
+                <RadzenText TextStyle="TextStyle.DisplayH3" TagName="TagName.H2" class="rz-color-white rz-mb-6">Welcome!</RadzenText>
+                <RadzenText TextStyle="TextStyle.H6" class="rz-color-white">Join the world's largest community!</RadzenText>
+                <RadzenText TextStyle="TextStyle.Body2" class="rz-color-white">Let's get started with your <strong>30 days</strong> trial.</RadzenText>
+            </RadzenCard>
+        </RadzenColumn>
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenCard class="rz-shadow-0 rz-border-radius-0 rz-p-12">
+                <RadzenText TextStyle="TextStyle.H5" TagName="TagName.H2" class="rz-mb-6">
+                    Login
+                </RadzenText>
+                <RadzenTemplateForm Data=@("SimpleLogin") >
+                    <RadzenLogin AllowRegister="false" AllowResetPassword="false"
+                                 Login=@OnLogin />
+
+                </RadzenTemplateForm>
+            </RadzenCard>
+        </RadzenColumn>
+        </RadzenRow>
+
 
 @code {
     
+    private LoginDto loginModel = new LoginDto(); 
+
+    private async Task OnLogin(LoginArgs args) 
+    {
+
+        var loginDto = new LoginDto { 
+            Email = args.Username, 
+            Senha = args.Password
+        };
+        
+        var loginResponse = await AuthService.Login(loginDto);
+        
+        
+        
+        if (loginResponse != null && !string.IsNullOrEmpty(loginResponse.Token))
+        {
+            var customProvider = (CustomAuthenticationStateProvider)AuthStateProvider;
+            
+            customProvider.NotifyUserLoggedIn(loginResponse.Token);
+            
+            NavManager.NavigateTo("/home", forceLoad: true);
+        }
+        else
+        {
+        
+            Console.WriteLine("erro");
+        }
+    }
 }

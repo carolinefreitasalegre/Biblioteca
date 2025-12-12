@@ -19,9 +19,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="Microsoft.EntityFrameworkCore">
+      <HintPath>..\..\..\.nuget\packages\microsoft.entityframeworkcore\8.0.22\lib\net8.0\Microsoft.EntityFrameworkCore.dll</HintPath>
+    </Reference>
     <Reference Include="System.IdentityModel.Tokens.Jwt">
       <HintPath>..\..\..\.nuget\packages\system.identitymodel.tokens.jwt\8.15.0\lib\net8.0\System.IdentityModel.Tokens.Jwt.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Layout\" />
   </ItemGroup>
 
 </Project>

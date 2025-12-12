@@ -101,3 +101,19 @@ a, .btn-link {
 code {
     color: #c02d76;
 }
+.center-container {
+    /* Ocupa a altura total da área de visualização */
+    min-height: 100vh;
+
+    /* Configura o display para Flexbox */
+    display: flex;
+
+    /* Centraliza o conteúdo horizontalmente */
+    justify-content: center;
+
+    /* Centraliza o conteúdo verticalmente */
+    align-items: center;
+
+    /* Opcional: Adiciona espaço interno */
+    padding: 20px;
+}

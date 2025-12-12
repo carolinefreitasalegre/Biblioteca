@@ -1,0 +1,28 @@
+<RadzenRow>
+    <RadzenColumn SizeMD="12" Style="min-height: 19em;">
+        <RadzenCard class="rz-p-4 rz-shadow-2" Style="height: 100%" >
+            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0.5rem">
+                <RadzenIcon Icon=@Icon />
+                <RadzenText TextStyle="TextStyle.H5" class="rz-mb-2">@Title</RadzenText>
+            </RadzenStack>
+
+            <hr class="rz-mb-4" style="border: none; border-top: 1px solid #eee;" />
+
+            @ChildContent 
+
+        </RadzenCard>
+    </RadzenColumn>
+    
+</RadzenRow>
+
+@code {
+    [Parameter] public string Icon { get; set; } = "book";
+    [Parameter] public string IconColor { get; set; } = "#000";
+    [Parameter] public string Title { get; set; }
+    [Parameter] public string Description { get; set; }
+    [Parameter] public string ButtonText { get; set; }
+    [Parameter] public string ButtonIcon { get; set; } = "arrow_forward";
+    [Parameter] public EventCallback OnButtonClick { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+}
+

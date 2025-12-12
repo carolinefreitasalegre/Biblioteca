@@ -37,21 +37,21 @@ namespace Biblioteca.API.Controller
            
         }
 
-        [HttpPost]
+        [HttpPost("/adicionar-usuario")]
         public async Task<IActionResult> AdicionarUsuario(Usuario model)
         {
             var usuario = await _usuarioservice.AdicionarUsuario(model);
             return Created("", usuario);
         }
 
-        [HttpGet]
+        [HttpGet("/usuarios")]
         public async Task<IActionResult> ListarUsuarios()
         {
             var usuarios = await _usuarioservice.ListarUsuarios();
             return Ok(usuarios);
         }
 
-        [HttpGet("id")]
+        [HttpGet("/usuario/id")]
         public async Task<IActionResult> BuscarUsuarioId(int id)
         {
             var usuario =  await _usuarioservice.ObterPorId(id);

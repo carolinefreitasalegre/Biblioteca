@@ -1,0 +1,215 @@
+@page "/adicionar-livro"
+@inherits ComponentBase
+
+<RadzenTemplateForm Data="@Model" TItem="LivroModel" Submit="@Salvar" Style="width: 100%;">
+
+    <div class="row">
+
+        <!-- -------------------------------------------- -->
+        <!--  🔹 INFORMAÇÕES BÁSICAS                     -->
+        <!-- -------------------------------------------- -->
+        <div class="col-12 col-md-8 mb-4">
+            <RadzenCard>
+                <div class="card-title">Informações Básicas</div>
+
+                <div class="row mt-3">
+
+                    <div class="col-12 col-md-6 mb-3">
+                        <RadzenLabel Text="Título" Component="Titulo" />
+                        <RadzenTextBox Name="Titulo" @bind-Value="@Model.Titulo" Placeholder="Digite o título do livro" Style="width:100%" />
+                        <RadzenRequiredValidator Text="Campo obrigatório" Component="Titulo" />
+                    </div>
+
+                    <div class="col-12 col-md-6 mb-3">
+                        <RadzenLabel Text="Autor" Component="Autor" />
+                        <RadzenTextBox Name="Autor" @bind-Value="@Model.Autor" Placeholder="Nome do autor" Style="width:100%" />
+                        <RadzenRequiredValidator Text="Campo obrigatório" Component="Autor" />
+                    </div>
+
+                    <div class="col-12 col-md-6 mb-3">
+                        <RadzenLabel Text="Editora" Component="Editora" />
+                        <RadzenTextBox Name="Editora" @bind-Value="@Model.Editora" Placeholder="Nome da editora" Style="width:100%" />
+                    </div>
+
+                    <div class="col-12 col-md-6 mb-3">
+                        <RadzenLabel Text="Ano de Publicação" Component="Ano" />
+                        <RadzenNumeric Name="Ano" @bind-Value="@Model.AnoPublicacao" Style="width:100%" TValue="int" />
+                    </div>
+
+                    <div class="col-12 col-md-6 mb-3">
+                        <RadzenLabel Text="Número de Páginas" Component="Paginas" />
+                        <RadzenNumeric Name="Paginas" @bind-Value="@Model.NumeroPaginas" Style="width:100%" TValue="int" />
+                    </div>
+
+                    <div class="col-12 col-md-6 mb-3">
+                        <RadzenLabel Text="Categoria" Component="Categoria" />
+                        <RadzenDropDown Name="Categoria" Style="width:100%"
+                                        @bind-Value="@Model.Categoria"
+                                        Data="@Categorias"
+                                        TextProperty="Nome"
+                                        ValueProperty="Nome"
+                                        Placeholder="Selecione uma categoria" />
+                    </div>
+
+                </div>
+            </RadzenCard>
+        </div>
+
+        <!-- -------------------------------------------- -->
+        <!--  🔹 CAPA DO LIVRO (UPLOAD)                  -->
+        <!-- -------------------------------------------- -->
+        <div class="col-12 col-md-4 mb-4">
+            <RadzenCard>
+
+                <div class="card-title">Capa do Livro</div>
+
+                <div class="d-flex flex-column align-items-center text-center mt-3">
+
+                    @if (CapaPreviewBase64 != null)
+                    {
+                        <img src="@CapaPreviewBase64" style="width:160px; height:auto; border-radius:6px; margin-bottom:15px;" />
+                    }
+                    else
+                    {
+                        <div style="border:2px dashed #ccc; border-radius:10px; width:160px; height:200px; display:flex; align-items:center; justify-content:center;">
+                            <i class="rz-icon-file-upload" style="font-size:40px; opacity:0.4"></i>
+                        </div>
+                    }
+
+                    <RadzenFileInput TValue="UploadChangeEventArgs" Change="UploadCapa" />
+
+                </div>
+
+            </RadzenCard>
+        </div>
+
+        <!-- -------------------------------------------- -->
+        <!--  🔹 STATUS DE LEITURA                      -->
+        <!-- -------------------------------------------- -->
+        <div class="col-12 mb-4">
+            <RadzenCard>
+
+                <div class="card-title">Status de Leitura</div>
+
+                <div class="row mt-3">
+
+                    <div class="col-12 col-md-4 mb-3">
+                        <RadzenLabel Text="Status Atual" Component="Status" />
+                        <RadzenDropDown Name="Status" Style="width:100%"
+                                        @bind-Value="@Model.Status"
+                                        Data="@StatusList" />
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        <RadzenLabel Text="Notas Pessoais" Component="Notas" />
+                        <RadzenTextArea Name="Notas" @bind-Value="@Model.Notas" 
+                                        Placeholder="Suas impressões, citações favoritas, etc..." 
+                                        Style="width:100%; min-height:120px;" />
+                    </div>
+
+                </div>
+
+            </RadzenCard>
+        </div>
+
+        <!-- -------------------------------------------- -->
+        <!--  🔹 TAGS                                     -->
+        <!-- -------------------------------------------- -->
+        <div class="col-12 mb-4">
+            <RadzenCard>
+
+                <div class="card-title">Tags</div>
+
+                <RadzenLabel Text="Adicione tags para organizar seus livros" />
+
+                <div class="d-flex gap-2 mt-2">
+
+                    <RadzenTextBox Style="flex:1" @bind-Value="@NovaTag" Placeholder="Digite uma tag..." />
+                    
+                    <RadzenButton Text="+" Click="@AdicionarTag" ButtonStyle="ButtonStyle.Primary" />
+                </div>
+
+                <div class="mt-3">
+                    @foreach (var tag in Model.Tags)
+                    {
+                        <span class="badge bg-secondary me-2">
+                            @tag
+                        </span>
+                    }
+                </div>
+
+            </RadzenCard>
+        </div>
+
+        <!-- -------------------------------------------- -->
+
+        <div class="col-12 text-end mt-4">
+            <RadzenButton Text="Salvar Livro" ButtonStyle="ButtonStyle.Success" Icon="check" Type="Submit" />
+        </div>
+
+    </div>
+
+</RadzenTemplateForm>
+
+
+@code {
+
+    private LivroModel Model = new();
+    private string? CapaPreviewBase64;
+    private string NovaTag = "";
+
+    private List<string> StatusList = new() { "Para Ler", "Lendo", "Concluído", "Abandonado" };
+
+    private List<CategoriaItem> Categorias = new()
+    {
+        new("Romance"),
+        new("Ficção"),
+        new("Terror"),
+        new("Fantasia"),
+        new("Suspense"),
+        new("Biografia")
+    };
+
+    private async Task UploadCapa(UploadChangeEventArgs args)
+    {
+        var file = args.Files.FirstOrDefault();
+        if (file == null) return;
+
+        using var stream = file.OpenReadStream(5_000_000);
+        using var ms = new MemoryStream();
+
+        await stream.CopyToAsync(ms);
+
+        CapaPreviewBase64 = $"data:image/png;base64,{Convert.ToBase64String(ms.ToArray())}";
+    }
+
+    private void AdicionarTag()
+    {
+        if (!string.IsNullOrWhiteSpace(NovaTag))
+        {
+            Model.Tags.Add(NovaTag.Trim());
+            NovaTag = "";
+        }
+    }
+
+    private async Task Salvar()
+    {
+        // Aqui você envia o Model para sua API
+        Console.WriteLine("Livro salvo!");
+    }
+
+    public class LivroModel
+    {
+        public string Titulo { get; set; } = "";
+        public string Autor { get; set; } = "";
+        public string Editora { get; set; } = "";
+        public int AnoPublicacao { get; set; } = 2024;
+        public int NumeroPaginas { get; set; }
+        public string Categoria { get; set; } = "";
+        public string Status { get; set; } = "Para Ler";
+        public string? Notas { get; set; }
+        public List<string> Tags { get; set; } = new();
+    }
+
+    public record CategoriaItem(string Nome);
+}
