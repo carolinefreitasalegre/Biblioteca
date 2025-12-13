@@ -10,5 +10,5 @@ public interface IUsuarioService
     Task<UsuarioResponse> GetUsuarioById(int id);
     Task<UsuarioRequest>AddUsuario(UsuarioRequest model);
     
-    
+    Task<UsuarioRequest> UpdateUsuario(UsuarioRequest model);
 }

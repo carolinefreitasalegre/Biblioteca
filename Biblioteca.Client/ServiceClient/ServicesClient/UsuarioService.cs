@@ -8,26 +8,40 @@ namespace Biblioteca.Client.ServiceClient.ServicesClient;
 public class UsuarioService : IUsuarioService
 {
     private readonly HttpClient _httpClient;
-    private readonly string ApiUrl = "api/Usuario/adicionar-usuario";
 
 
+    public UsuarioService(IHttpClientFactory httpClient)
+    {
+        _httpClient = httpClient.CreateClient("API");
+    }
+    
     public async Task<List<UsuarioResponse>> ListarUsuarios()
     {
-        var response = await _httpClient.GetAsync(ApiUrl);
 
-        if (response.IsSuccessStatusCode)
-            return await response.Content.ReadFromJsonAsync<List<UsuarioResponse>>();
+        return await _httpClient.GetFromJsonAsync<List<UsuarioResponse>>("api/Usuario/usuarios");
 
-        return null;
     }
 
-    public Task<UsuarioResponse> GetUsuarioById(int id)
+    public async Task<UsuarioResponse> GetUsuarioById(int id)
     {
-        throw new NotImplementedException();
+        return await _httpClient.GetFromJsonAsync<UsuarioResponse>("api/Usuario/usuario/id");
     }
 
-    public Task<UsuarioRequest> AddUsuario(UsuarioRequest model)
+    public async Task<UsuarioRequest> AddUsuario(UsuarioRequest model)
     {
-        throw new NotImplementedException();
+        var response =  await _httpClient.PostAsJsonAsync("api/Usuario/adicionar-usuario", model);
+        
+        response.EnsureSuccessStatusCode();
+        
+        return await response.Content.ReadFromJsonAsync<UsuarioRequest>();
+    }
+
+    public async Task<UsuarioRequest> UpdateUsuario(UsuarioRequest model)
+    {
+        var response = await _httpClient.PostAsJsonAsync("api/Usuario/editar-usuario", model);
+
+        response.EnsureSuccessStatusCode();
+
+        return await response.Content.ReadFromJsonAsync<UsuarioRequest>();
     }
 }

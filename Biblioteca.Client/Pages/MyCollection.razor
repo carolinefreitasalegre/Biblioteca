@@ -1,5 +1,5 @@
 @page "/minha-colecao"
-@using Biblioteca.Client.Pages.Component
+@attribute [Authorize(Roles = "Usuario")]
 
 
 <Filter StatusOptions="StatusLista"
