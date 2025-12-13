@@ -1,5 +1,7 @@
 @page "/adicionar-livro"
 @inherits ComponentBase
+@attribute [Authorize(Roles = "Usuario")]
+
 
 <RadzenTemplateForm Data="@Model" TItem="LivroModel" Submit="@Salvar" Style="width: 100%;">
 
