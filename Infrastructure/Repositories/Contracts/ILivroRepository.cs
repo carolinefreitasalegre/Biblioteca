@@ -6,5 +6,6 @@ public interface ILivroRepository
 {
     Task<List<Livro>> Listar();
     Task<Livro?> GetById(int id);
-    Task<Livro> AdicionarAtualizar(Livro livro, int id);
+    Task<Livro> Atualizar(Livro livro);
+    Task<Livro> Adicionar(Livro livro);
 }

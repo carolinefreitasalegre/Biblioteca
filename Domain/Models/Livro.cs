@@ -16,5 +16,8 @@ public class Livro
     public DateTime AnoPublicacao { get; set; }
     public string NotasPessoais { get; set; }
     
+    public int UsuarioId { get; set; }
+    public Usuario Usuario { get; set; }
+    
     
 }

@@ -17,13 +17,14 @@ public class BibliotecaContext : DbContext
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Usuario>()
-            .Property(u => u.Role)
-            .HasConversion<string>();
+        modelBuilder.Entity<Usuario>().ToTable("Usuarios");
+        modelBuilder.Entity<Livro>().ToTable("Livros");
 
         modelBuilder.Entity<Usuario>()
-            .Property(u => u.Status)
-            .HasConversion<string>();
+            .HasMany(u => u.Livros)
+            .WithOne(l => l.Usuario)
+            .HasForeignKey(l => l.UsuarioId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         base.OnModelCreating(modelBuilder);
     }

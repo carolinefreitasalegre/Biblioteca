@@ -74,7 +74,7 @@ public class UsuarioService : IUSuarioservice
                 Senha = usuario.Senha,
                 Role = usuario.Role,
                 Status = usuario.Status,
-                CriadoEm = usuario.CriadoEm,
+                CriadoEm = DateTime.UtcNow,
             };
 
             await _usuarioRepository.Adicionar(novoUsuario);
@@ -83,7 +83,7 @@ public class UsuarioService : IUSuarioservice
         }
         catch (Exception e)
         {
-            throw new Exception(e.Message);
+            throw new Exception("", e);
         }
     }
 

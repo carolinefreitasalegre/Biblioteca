@@ -32,7 +32,6 @@ namespace Biblioteca.API.Controller
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
                 throw new Exception(e.Message);
             }
            
@@ -62,7 +61,7 @@ namespace Biblioteca.API.Controller
             return Ok(usuario);
         }
 
-        [HttpPost("editar-usuario")]
+        [HttpPut("editar-usuario")]
         [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> AtualizarUsuario(Usuario model)
         {
