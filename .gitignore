@@ -1,27 +1,37 @@
+# .NET
 bin/
 obj/
-
 *.user
 *.suo
-*.cache
-*.pdb
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa]rch/
+bld/
+[Bb]in/
+[Oo]bj/
+
+# Rider
+.idea/
+*.sln.iml
+*.DotSettings.user
+.rider/
+
+# VS Code
+.vscode/
+
+# Logs
 *.log
 
-.vscode/
-*.DS_Store
-
-# ASP.NET / Blazor
-wwwroot/dist/
-wwwroot/*bundle*.js
-wwwroot/*bundle*.css
-.vs/
-*.db
-wwwroot/_framework/
+# OS
+.DS_Store
+Thumbs.db
 
 
 
-Biblioteca.API/appsettings.json
-Biblioteca.API/appsettings.*.json
 
-appsettings.json
-appsettings.*.json
