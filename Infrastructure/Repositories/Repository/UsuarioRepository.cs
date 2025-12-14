@@ -15,7 +15,8 @@ public class UsuarioRepository : IUsuarioRepository
     }
     public async Task<List<Usuario>> ListarUsuarios()
     {
-        return await _context.Usuarios.ToListAsync();
+        return await _context.Usuarios.Include(l => l.Livros).ToListAsync();
+        
     }
 
     public async Task<Usuario?> ObterPorEmail(string email)

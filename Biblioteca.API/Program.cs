@@ -77,6 +77,7 @@ builder.Services.AddScoped<ILivroRepository, LivroRepository>();
 builder.Services.AddScoped<IItemColecaoRepository, ItemColecaoRepository>();
 
 builder.Services.AddScoped<IUSuarioservice, UsuarioService>();
+builder.Services.AddScoped<ILivroService, LivroService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 

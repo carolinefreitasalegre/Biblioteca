@@ -12,8 +12,8 @@ using Repositories.DataContext;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(BibliotecaContext))]
-    [Migration("20251201152447_InitAgain")]
-    partial class InitAgain
+    [Migration("20251214002651_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -70,6 +70,9 @@ namespace Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("AnoPublicacao")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Autor")
                         .IsRequired()
                         .HasColumnType("text");
@@ -86,16 +89,28 @@ namespace Infrastructure.Migrations
                     b.Property<string>("Isbn")
                         .HasColumnType("text");
 
+                    b.Property<string>("NotasPessoais")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int>("NumeroPaginas")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("StatusLeitura")
                         .HasColumnType("integer");
 
                     b.Property<string>("Titulo")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Livros");
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("Livros", (string)null);
                 });
 
             modelBuilder.Entity("Models.Models.Usuario", b =>
@@ -117,9 +132,8 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("Role")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Senha")
                         .IsRequired()
@@ -130,7 +144,23 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Usuarios");
+                    b.ToTable("Usuarios", (string)null);
+                });
+
+            modelBuilder.Entity("Models.Models.Livro", b =>
+                {
+                    b.HasOne("Models.Models.Usuario", "Usuario")
+                        .WithMany("Livros")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("Models.Models.Usuario", b =>
+                {
+                    b.Navigation("Livros");
                 });
 #pragma warning restore 612, 618
         }

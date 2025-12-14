@@ -1,6 +1,10 @@
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using Models.Enum;
 
 namespace Models.Models;
+
+[Table("Usuarios")]
 
 public class Usuario
 {
@@ -12,4 +16,7 @@ public class Usuario
 
     public EStatusUsuario Status { get; set; }
     public DateTime CriadoEm { get; set; }
+
+    [JsonIgnore]
+    public ICollection<Livro>? Livros { get; set; } = new List<Livro>();
 }
