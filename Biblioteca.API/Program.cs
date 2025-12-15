@@ -1,3 +1,5 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -9,6 +11,8 @@ using Repositories.Repositories;
 using Repositories.Repositories.Contracts;
 using Services.Contracts;
 using Services.Services;
+
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,7 +39,10 @@ builder.Services.AddAuthentication(opt =>
 
         ValidIssuer = configuration["jwt:Issuer"],
         ValidAudience = configuration["jwt:Audience"],
-        IssuerSigningKey =  new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["jwt:Secret"]))
+        IssuerSigningKey =  new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Secret"])),
+        RoleClaimType = ClaimTypes.Role,
+        NameClaimType = ClaimTypes.Name,
+        
     };
 });
 

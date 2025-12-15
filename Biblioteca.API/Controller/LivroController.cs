@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.Models;
 using Services.Contracts;
@@ -6,6 +7,7 @@ namespace Biblioteca.API.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class LivroController : ControllerBase
     {
         private readonly ILivroService _livroService;

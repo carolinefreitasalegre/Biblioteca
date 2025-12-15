@@ -70,37 +70,59 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
         NotifyAuthenticationStateChanged(Task.FromResult((new AuthenticationState(_userAnonimo))));
     }
     
-    private IEnumerable<Claim> ParseClaimsFromJson(string jwt)
+   private IEnumerable<Claim> ParseClaimsFromJson(string jwt)
     {
         var claims = new List<Claim>();
+
         var payload = jwt.Split('.')[1];
         var jsonBytes = ParseBase64WithoutPadding(payload);
+        
         var keyValuePairs = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonBytes);
 
-        if (keyValuePairs != null)
+        if (keyValuePairs == null) return claims;
+
+
+        if (keyValuePairs.TryGetValue("role", out var roleValue))
         {
-            keyValuePairs.TryGetValue("role", out var roleValue); // Seu ClaimTypes.Role
             if (roleValue != null)
             {
                 if (roleValue is JsonElement element && element.ValueKind == JsonValueKind.Array)
                 {
-                    claims.AddRange(element.EnumerateArray().Select(x => new Claim(ClaimTypes.Role, x.ToString())));
+                    claims.AddRange(
+                        element.EnumerateArray()
+                            .Select(x => new Claim(ClaimTypes.Role, x.ToString()))
+                    );
                 }
                 else
                 {
-                    claims.Add(new Claim(ClaimTypes.Role, roleValue.ToString() ?? string.Empty));
+                    claims.Add(new Claim(ClaimTypes.Role, roleValue.ToString()!));
                 }
             }
-
-            // Adicione outros claims que você incluiu no backend (ex: email)
-            keyValuePairs.TryGetValue(JwtRegisteredClaimNames.Email, out var email);
-            if(email != null)
-                claims.Add(new Claim(ClaimTypes.Email, email.ToString() ?? string.Empty));
         }
+        
+        if (keyValuePairs.TryGetValue(JwtRegisteredClaimNames.Email, out var emailValue))
+        {
+            claims.Add(new Claim(ClaimTypes.Email, emailValue.ToString() ?? string.Empty));
+        }
+
+        if (keyValuePairs.TryGetValue("name", out var nameValue))
+        {
+            claims.Add(new Claim(ClaimTypes.Name, nameValue.ToString() ?? string.Empty));
+        }
+
+        if (keyValuePairs.TryGetValue(JwtRegisteredClaimNames.Iss, out var issValue))
+        {
+            claims.Add(new Claim(ClaimTypes.System, issValue.ToString() ?? string.Empty));
+        }
+        
+        if (keyValuePairs.TryGetValue(JwtRegisteredClaimNames.Aud, out var audValue))
+        {
+            claims.Add(new Claim(JwtRegisteredClaimNames.Aud, audValue.ToString() ?? string.Empty));
+        }
+        
 
         return claims;
     }
-
     private byte[] ParseBase64WithoutPadding(string base64)
     {
         switch (base64.Length % 4)

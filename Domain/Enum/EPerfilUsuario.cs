@@ -2,6 +2,6 @@ namespace Models.Enum;
 
 public enum EPerfilUsuario
 {
-    Usuario,
-    Administrador
+    Usuario = 1,
+    Administrador = 2
 }

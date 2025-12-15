@@ -1,5 +1,6 @@
 using Biblioteca.Client.ServiceClient.InterfacesClient;
 using Blazored.LocalStorage;
+using Domain.DTO.Response;
 
 namespace Biblioteca.Client.ServiceClient.ServicesClient;
 

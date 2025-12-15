@@ -37,6 +37,7 @@ builder.Services.AddBlazoredLocalStorage();
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<ILivroService, LivroService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 
 

@@ -27,7 +27,9 @@ namespace Biblioteca.API.Controller
                 var result = await _authService.Login(login);
                 if (result == null)
                     return Unauthorized("Credenciais inválidas!");
-            
+
+                Console.WriteLine(result.Token);
+                Console.WriteLine(result.Role);
                 return Ok(result);
             }
             catch (Exception e)
@@ -38,7 +40,7 @@ namespace Biblioteca.API.Controller
         }
 
         [HttpPost("adicionar-usuario")]
-        [Authorize(Roles = "Administrador")]
+        // [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> AdicionarUsuario(Usuario model)
         {
             var usuario = await _usuarioservice.AdicionarUsuario(model);
