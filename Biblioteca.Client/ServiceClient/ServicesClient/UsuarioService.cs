@@ -11,9 +11,9 @@ public class UsuarioService : IUsuarioService
     private readonly HttpClient _httpClient;
 
 
-    public UsuarioService(IHttpClientFactory httpClient)
+    public UsuarioService(HttpClient httpClient)
     {
-        _httpClient = httpClient.CreateClient("API");
+        _httpClient = httpClient;
     }
     
     public async Task<List<UsuarioResponse>> ListarUsuarios()
