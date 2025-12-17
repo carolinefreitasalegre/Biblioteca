@@ -1,3 +1,6 @@
+using AutoMapper;
+using Domain.DTO;
+using Domain.DTO.Response;
 using Models.Models;
 using Repositories.Repositories.Contracts;
 using Services.Contracts;
@@ -7,13 +10,15 @@ namespace Services.Services;
 public class UsuarioService : IUSuarioservice
 {
     private readonly IUsuarioRepository _usuarioRepository;
+    private readonly IMapper _mapper;
 
-    public UsuarioService(IUsuarioRepository usuarioRepository)
+    public UsuarioService(IUsuarioRepository usuarioRepository,  IMapper mapper)
     {
         _usuarioRepository = usuarioRepository;
+        _mapper = mapper;
     }
 
-    public async Task<List<Usuario>> ListarUsuarios()
+    public async Task<List<UsuarioResponse>> ListarUsuarios()
     {
         try
         {
@@ -23,7 +28,7 @@ public class UsuarioService : IUSuarioservice
                 throw new NullReferenceException("Ainda não há usuário a ser listado.");
             }
 
-            return usuarios;
+            return _mapper.Map<List<UsuarioResponse>>(usuarios);
         }
         catch (Exception e)
         {
@@ -31,7 +36,7 @@ public class UsuarioService : IUSuarioservice
         }
     }
 
-    public async Task<Usuario?> ObterPorEmail(string email)
+    public async Task<UsuarioResponse?> ObterPorEmail(string email)
     {
         try
         {
@@ -39,7 +44,7 @@ public class UsuarioService : IUSuarioservice
             if (usuario == null)
                 throw new Exception("Email não encontrado!");
 
-            return usuario;
+            return _mapper.Map<UsuarioResponse>(usuario);
         }
         catch (Exception e)
         {
@@ -47,7 +52,7 @@ public class UsuarioService : IUSuarioservice
         }
     }
 
-    public async Task<Usuario?> ObterPorId(int id)
+    public async Task<UsuarioResponse?> ObterPorId(int id)
     {
         try
         {
@@ -55,7 +60,7 @@ public class UsuarioService : IUSuarioservice
             if (usuario == null)
                 throw new Exception("Usuário não encontrado!");
 
-            return usuario;
+            return _mapper.Map<UsuarioResponse>(usuario);
         }
         catch (Exception e)
         {
@@ -63,7 +68,7 @@ public class UsuarioService : IUSuarioservice
         }
     }
 
-    public async Task<Usuario> AdicionarUsuario(Usuario usuario)
+    public async Task<UsuarioResponse> AdicionarUsuario(UsuarioRequest usuario)
     {
         try
         {
@@ -78,7 +83,7 @@ public class UsuarioService : IUSuarioservice
             };
 
             await _usuarioRepository.Adicionar(novoUsuario);
-            return novoUsuario;
+            return _mapper.Map<UsuarioResponse>(novoUsuario);
 
         }
         catch (Exception e)
@@ -87,7 +92,7 @@ public class UsuarioService : IUSuarioservice
         }
     }
 
-    public async Task<Usuario> AtualizarUsuario(Usuario usuario)
+    public async Task<UsuarioResponse> AtualizarUsuario(UsuarioRequest usuario)
     {
         try
         {
@@ -103,7 +108,7 @@ public class UsuarioService : IUSuarioservice
             usuarioAtualizado.CriadoEm = usuario.CriadoEm;
 
             await _usuarioRepository.Atualizar(usuarioAtualizado);
-            return usuarioAtualizado;
+            return _mapper.Map<UsuarioResponse>(usuarioAtualizado);
         }
         catch (Exception e)
         {

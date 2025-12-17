@@ -1,30 +1,31 @@
-using System.Net.Http.Headers;
-using Blazored.LocalStorage;
+   using System.Net.Http.Headers;
+   using Blazored.LocalStorage;
 
 
-namespace Biblioteca.Client.ServiceClient;
+   namespace Biblioteca.Client.ServiceClient;
 
-public class JwtAuthenticationHeaderHandler : DelegatingHandler
-{
-   private readonly ILocalStorageService _localStorage;
-   private const string TokenKey = "authToken";
-
-   public JwtAuthenticationHeaderHandler(ILocalStorageService localStorage)
+   public class JwtAuthenticationHeaderHandler : DelegatingHandler
    {
-      _localStorage = localStorage;
-      
-   }
+      private readonly ILocalStorageService _localStorage;
+      private const string TokenKey = "authToken";
 
-   protected override async Task<HttpResponseMessage> SendAsync(
-      HttpRequestMessage request, 
-      CancellationToken cancellationToken)
-   {
-      var token = await _localStorage.GetItemAsync<string>(TokenKey);
-
-      if (!string.IsNullOrEmpty(token))
+      public JwtAuthenticationHeaderHandler(ILocalStorageService localStorage)
       {
-         request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+         _localStorage = localStorage;
+         InnerHandler = new HttpClientHandler();
+         
       }
-      return await base.SendAsync(request, cancellationToken);
+
+      protected override async Task<HttpResponseMessage> SendAsync(
+         HttpRequestMessage request, 
+         CancellationToken cancellationToken)
+      {
+         var token = await _localStorage.GetItemAsync<string>(TokenKey);
+
+         if (!string.IsNullOrEmpty(token))
+         {
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+         }
+         return await base.SendAsync(request, cancellationToken);
+      }
    }
-}

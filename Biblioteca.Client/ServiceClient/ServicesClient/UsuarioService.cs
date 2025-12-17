@@ -1,4 +1,5 @@
 using System.Net.Http.Json;
+using System.Security.Claims;
 using Biblioteca.Client.ServiceClient.InterfacesClient;
 using Domain.DTO;
 using Domain.DTO.Response;
@@ -44,4 +45,6 @@ public class UsuarioService : IUsuarioService
 
         return await response.Content.ReadFromJsonAsync<UsuarioRequest>();
     }
+
+    
 }

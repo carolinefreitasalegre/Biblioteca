@@ -14,7 +14,7 @@ public class Usuario
     public string Senha { get; set; }
     public EPerfilUsuario Role { get; set; }
 
-    public EStatusUsuario Status { get; set; }
+    public EStatusUsuario? Status { get; set; }
     public DateTime CriadoEm { get; set; }
 
     [JsonIgnore]

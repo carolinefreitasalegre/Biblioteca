@@ -52,7 +52,7 @@
             var customProvider = (CustomAuthenticationStateProvider)AuthStateProvider;
             
             customProvider.NotifyUserLoggedIn(loginResponse.Token);
-            
+
             NavManager.NavigateTo("/home", forceLoad: true);
         }
         else

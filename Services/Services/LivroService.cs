@@ -1,3 +1,6 @@
+using AutoMapper;
+using Domain.DTO;
+using Domain.DTO.Response;
 using Models.Models;
 using Repositories.Repositories.Contracts;
 using Services.Contracts;
@@ -9,45 +12,38 @@ public class LivroService : ILivroService
     
     private readonly ILivroRepository _livroRepository;
     private readonly IUsuarioRepository _usuarioRepository;
+    private readonly IMapper _mapper;
 
 
-    public LivroService(ILivroRepository repository, IUsuarioRepository usuarioRepository)
+    public LivroService(ILivroRepository repository, IUsuarioRepository usuarioRepository, IMapper mapper)
     {
         _livroRepository = repository;
         _usuarioRepository = usuarioRepository;
-
+        _mapper = mapper;
     }
     
-    public async Task<List<Livro>> Listar()
+    public async Task<List<LivroResponse>> Listar()
     {
-        try
-        {
-            var livros =  await _livroRepository.Listar();
-            return livros;
-        }
-        catch (Exception e)
-        {
-            throw new Exception(e.Message.ToString());
-        }
-       
+        var livros = await _livroRepository.Listar();
+        return _mapper.Map<List<LivroResponse>>(livros);
     }
 
-    public async Task<Livro?> GetById(int id)
+    public async Task<LivroResponse?> GetById(int id)
     {
         try
         {
             var livro = await _livroRepository.GetById(id);
-            return livro;
+            return _mapper.Map<LivroResponse>(livro);
         }
         catch (Exception e)
         {
-            throw new Exception(e.Message.ToString());
+            throw new Exception(e.Message);
         }
         
         
     }
 
-    public async Task<Livro> Adicionar(Livro livro, int usuarioId)
+    public async Task<LivroResponse> Adicionar(LivroRequest livro, int usuarioId)
     {
         try
         {
@@ -67,18 +63,26 @@ public class LivroService : ILivroService
                 StatusLeitura = livro.StatusLeitura,
                 AnoPublicacao = livro.AnoPublicacao,
                 NotasPessoais = livro.NotasPessoais,
-                UsuarioId = usuarioId
+
+                UsuarioId = usuario.Id
             };
-            return await _livroRepository.Adicionar(novoLivro);
+            
+ 
+
+             await _livroRepository.Adicionar(novoLivro);
+
+             return _mapper.Map<LivroResponse>(novoLivro);
         }
         catch (Exception e)
         {
-            throw new Exception(e.Message);
+            Console.WriteLine(e.InnerException?.Message);
+
+            throw;
         }
         
     }
 
-    public async Task<Livro> Atualizar(Livro livro)
+    public async Task<LivroResponse> Atualizar(LivroRequest livro)
     {
         try
         {
@@ -95,7 +99,9 @@ public class LivroService : ILivroService
             buscarLivro.AnoPublicacao = livro.AnoPublicacao;
             buscarLivro.NotasPessoais = livro.NotasPessoais;
             
-            return await _livroRepository.Atualizar(buscarLivro);
+            await _livroRepository.Atualizar(buscarLivro);
+            
+            return _mapper.Map<LivroResponse>(buscarLivro);
 
         }
         catch (Exception e)

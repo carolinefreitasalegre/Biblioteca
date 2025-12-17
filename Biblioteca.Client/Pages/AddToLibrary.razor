@@ -1,15 +1,13 @@
 @page "/adicionar-livro"
 @inherits ComponentBase
 @attribute [Authorize(Roles = "Usuario")]
+@inject ILivroService _service
+@inject NotificationService NotificationService
 
-
-<RadzenTemplateForm Data="@Model" TItem="LivroModel" Submit="@Salvar" Style="width: 100%;">
+<RadzenTemplateForm Data="@Livro" TItem="LivroRequest" Submit="Salvar" Style="width: 100%;">
 
     <div class="row">
 
-        <!-- -------------------------------------------- -->
-        <!--  🔹 INFORMAÇÕES BÁSICAS                     -->
-        <!-- -------------------------------------------- -->
         <div class="col-12 col-md-8 mb-4">
             <RadzenCard>
                 <div class="card-title">Informações Básicas</div>
@@ -18,38 +16,49 @@
 
                     <div class="col-12 col-md-6 mb-3">
                         <RadzenLabel Text="Título" Component="Titulo" />
-                        <RadzenTextBox Name="Titulo" @bind-Value="@Model.Titulo" Placeholder="Digite o título do livro" Style="width:100%" />
+                        <RadzenTextBox Name="Titulo" @bind-Value="@Livro.Titulo" Placeholder="Digite o título do livro" Style="width:100%" />
                         <RadzenRequiredValidator Text="Campo obrigatório" Component="Titulo" />
                     </div>
 
                     <div class="col-12 col-md-6 mb-3">
                         <RadzenLabel Text="Autor" Component="Autor" />
-                        <RadzenTextBox Name="Autor" @bind-Value="@Model.Autor" Placeholder="Nome do autor" Style="width:100%" />
+                        <RadzenTextBox Name="Autor" @bind-Value="@Livro.Autor" Placeholder="Nome do autor" Style="width:100%" />
                         <RadzenRequiredValidator Text="Campo obrigatório" Component="Autor" />
                     </div>
 
                     <div class="col-12 col-md-6 mb-3">
                         <RadzenLabel Text="Editora" Component="Editora" />
-                        <RadzenTextBox Name="Editora" @bind-Value="@Model.Editora" Placeholder="Nome da editora" Style="width:100%" />
+                        <RadzenTextBox Name="Editora" @bind-Value="@Livro.Editora" Placeholder="Nome da editora" Style="width:100%" />
+                    </div>
+                    
+                    <div class="col-12 col-md-6 mb-3">
+                        <RadzenLabel Text="Isbn" Component="Isbn" />
+                        <RadzenTextBox Name="Isbn" @bind-Value="@Livro.Isbn" Placeholder="Isbn" Style="width:100%" />
                     </div>
 
                     <div class="col-12 col-md-6 mb-3">
                         <RadzenLabel Text="Ano de Publicação" Component="Ano" />
-                        <RadzenNumeric Name="Ano" @bind-Value="@Model.AnoPublicacao" Style="width:100%" TValue="int" />
+                        <RadzenDatePicker TValue="DateTime?"
+                                          @bind-Value="AnoPublicacaoUi"
+                                          DateFormat="dd/MM/yyyy"
+                                          Style="width:100%" />
+
+
+
                     </div>
 
                     <div class="col-12 col-md-6 mb-3">
                         <RadzenLabel Text="Número de Páginas" Component="Paginas" />
-                        <RadzenNumeric Name="Paginas" @bind-Value="@Model.NumeroPaginas" Style="width:100%" TValue="int" />
+                        <RadzenNumeric Name="Paginas" @bind-Value="@Livro.NumeroPaginas" Style="width:100%" TValue="int?" />
                     </div>
 
                     <div class="col-12 col-md-6 mb-3">
                         <RadzenLabel Text="Categoria" Component="Categoria" />
                         <RadzenDropDown Name="Categoria" Style="width:100%"
-                                        @bind-Value="@Model.Categoria"
+                                        @bind-Value="@Livro.Categoria"
                                         Data="@Categorias"
-                                        TextProperty="Nome"
-                                        ValueProperty="Nome"
+                                        TextProperty="Text"
+                                        ValueProperty="Value"
                                         Placeholder="Selecione uma categoria" />
                     </div>
 
@@ -57,9 +66,7 @@
             </RadzenCard>
         </div>
 
-        <!-- -------------------------------------------- -->
-        <!--  🔹 CAPA DO LIVRO (UPLOAD)                  -->
-        <!-- -------------------------------------------- -->
+        <!--  CAPA DO LIVRO (UPLOAD)                  -->
         <div class="col-12 col-md-4 mb-4">
             <RadzenCard>
 
@@ -85,9 +92,7 @@
             </RadzenCard>
         </div>
 
-        <!-- -------------------------------------------- -->
-        <!--  🔹 STATUS DE LEITURA                      -->
-        <!-- -------------------------------------------- -->
+        <!--   STATUS DE LEITURA                      -->
         <div class="col-12 mb-4">
             <RadzenCard>
 
@@ -98,13 +103,16 @@
                     <div class="col-12 col-md-4 mb-3">
                         <RadzenLabel Text="Status Atual" Component="Status" />
                         <RadzenDropDown Name="Status" Style="width:100%"
-                                        @bind-Value="@Model.Status"
-                                        Data="@StatusList" />
+                                        @bind-Value="@Livro.StatusLeitura"
+                                        Data="@StatusList" 
+                                        TextProperty="Text"
+                                        ValueProperty="Value"
+                        />
                     </div>
 
                     <div class="col-12 mb-3">
                         <RadzenLabel Text="Notas Pessoais" Component="Notas" />
-                        <RadzenTextArea Name="Notas" @bind-Value="@Model.Notas" 
+                        <RadzenTextArea Name="Notas" @bind-Value="Livro.NotasPessoais" 
                                         Placeholder="Suas impressões, citações favoritas, etc..." 
                                         Style="width:100%; min-height:120px;" />
                     </div>
@@ -114,9 +122,7 @@
             </RadzenCard>
         </div>
 
-        <!-- -------------------------------------------- -->
-        <!--  🔹 TAGS                                     -->
-        <!-- -------------------------------------------- -->
+        
         <div class="col-12 mb-4">
             <RadzenCard>
 
@@ -131,22 +137,21 @@
                     <RadzenButton Text="+" Click="@AdicionarTag" ButtonStyle="ButtonStyle.Primary" />
                 </div>
 
-                <div class="mt-3">
-                    @foreach (var tag in Model.Tags)
-                    {
-                        <span class="badge bg-secondary me-2">
-                            @tag
-                        </span>
-                    }
-                </div>
+                 <div class="mt-3"> 
+                @*     @foreach (var tag in Livro.Tags) *@
+                @*     { *@
+                @*         <span class="badge bg-secondary me-2"> *@
+                @*             @tag *@
+                @*         </span> *@
+                @*     } *@
+                </div> 
 
             </RadzenCard>
         </div>
 
-        <!-- -------------------------------------------- -->
 
         <div class="col-12 text-end mt-4">
-            <RadzenButton Text="Salvar Livro" ButtonStyle="ButtonStyle.Success" Icon="check" Type="Submit" />
+            <RadzenButton Text="Salvar Livro" ButtonStyle="ButtonStyle.Success" Icon="check" ButtonType="ButtonType.Submit" />
         </div>
 
     </div>
@@ -155,22 +160,24 @@
 
 
 @code {
-
-    private LivroModel Model = new();
+    private DateTime? AnoPublicacaoUi;
+    private LivroRequest Livro = new();
     private string? CapaPreviewBase64;
     private string NovaTag = "";
 
-    private List<string> StatusList = new() { "Para Ler", "Lendo", "Concluído", "Abandonado" };
+    private IEnumerable<object> StatusList => Enum.GetValues(typeof(EStatusLeitura)).Cast<EStatusLeitura>()
+        .Select(s => new
+        {
+            Text = s.GetDisplayName(),
+            Value = s
+        });
 
-    private List<CategoriaItem> Categorias = new()
-    {
-        new("Romance"),
-        new("Ficção"),
-        new("Terror"),
-        new("Fantasia"),
-        new("Suspense"),
-        new("Biografia")
-    };
+    private IEnumerable<object> Categorias => Enum.GetValues(typeof(ECategoriaLivro)).Cast<ECategoriaLivro>()
+        .Select(c => new
+        {
+            Text = c.GetDisplayName(),
+            Value = c
+        });
 
     private async Task UploadCapa(UploadChangeEventArgs args)
     {
@@ -189,29 +196,43 @@
     {
         if (!string.IsNullOrWhiteSpace(NovaTag))
         {
-            Model.Tags.Add(NovaTag.Trim());
-            NovaTag = "";
+        //     Model.Tags.Add(NovaTag.Trim());
+        //     NovaTag = "";
         }
     }
 
-    private async Task Salvar()
+    
+    
+    private async Task Salvar(LivroRequest livro)
     {
-        // Aqui você envia o Model para sua API
-        Console.WriteLine("Livro salvo!");
-    }
+        try
+        {
+            if (AnoPublicacaoUi.HasValue)
+            {
+                livro.AnoPublicacao = DateOnly.FromDateTime(AnoPublicacaoUi.Value);
+            }
 
-    public class LivroModel
-    {
-        public string Titulo { get; set; } = "";
-        public string Autor { get; set; } = "";
-        public string Editora { get; set; } = "";
-        public int AnoPublicacao { get; set; } = 2024;
-        public int NumeroPaginas { get; set; }
-        public string Categoria { get; set; } = "";
-        public string Status { get; set; } = "Para Ler";
-        public string? Notas { get; set; }
-        public List<string> Tags { get; set; } = new();
-    }
+            await _service.AdicionarLivros(livro);
+            NotificationService.Notify(new NotificationMessage
+            {
+                Severity = NotificationSeverity.Success,
+                Summary = "Sucesso!",
+                Detail = "Livro adicionado com sucesso",
+                Duration = 4000 
+            });
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Erro ao salvar: {e.Message}");
+            NotificationService.Notify(new NotificationMessage
+            {
+                Severity = NotificationSeverity.Error,
+                Summary = "Erro!",
+                Detail = "Algo deu errado ao salvar os dados. Verifique os campos e tente novamente!!!",
+                Duration = 4000 
+            });
+        }
 
-    public record CategoriaItem(string Nome);
+    }
+   
 }

@@ -31,8 +31,10 @@
                 if(user == null)
                     return null;
             
-                if(login.Senha != user.Senha)
+                
+                if(user.Senha != login.Senha)
                     return null;
+                
                 var token = GerarToken(user);
 
                 return new LoginResponse
@@ -63,6 +65,7 @@
 
                 var claims = new[]
                 {
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()), 
                     new Claim(JwtRegisteredClaimNames.Email, user.Email),
                     new Claim(JwtRegisteredClaimNames.Name, user.Nome),
                     new Claim(ClaimTypes.Role, user.Role.ToString()),

@@ -10,13 +10,11 @@ public class LivroRequest
     public string Autor { get; set; }
     public string? Isbn { get; set; }
     public string? Editora { get; set; }
-    public int NumeroPaginas { get; set; }
+    public int? NumeroPaginas { get; set; }
     public ECategoriaLivro Categoria { get; set; }
     public string? CapaUrl { get; set; }
     public EStatusLeitura StatusLeitura { get; set; }
-    public DateTime AnoPublicacao { get; set; }
-    public string NotasPessoais { get; set; }
+    public DateOnly? AnoPublicacao { get; set; }
+    public string? NotasPessoais { get; set; }
     
-    public int UsuarioId { get; set; }
-    public Usuario Usuario { get; set; } 
 }

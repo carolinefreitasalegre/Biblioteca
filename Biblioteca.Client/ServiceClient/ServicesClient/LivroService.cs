@@ -1,4 +1,5 @@
 using System.Net.Http.Json;
+using System.Text.Json;
 using Biblioteca.Client.ServiceClient.InterfacesClient;
 using Domain.DTO;
 using Domain.DTO.Response;
@@ -9,9 +10,9 @@ public class LivroService : ILivroService
 {
     private readonly HttpClient _httpClient;
 
-    public LivroService(IHttpClientFactory httpClient)
+    public LivroService(HttpClient httpClient)
     {
-        _httpClient = httpClient.CreateClient("API");
+        _httpClient = httpClient;
     }
     
     public async Task<List<LivroResponse>> ListarLivros()
@@ -21,11 +22,17 @@ public class LivroService : ILivroService
 
     public async Task<LivroRequest> AdicionarLivros(LivroRequest model)
     {
+        
         var response = await _httpClient.PostAsJsonAsync("api/Livro/adicionar-livro", model);
 
         response.EnsureSuccessStatusCode();
         
-        return await response.Content.ReadFromJsonAsync<LivroRequest>();
+        return await response.Content.ReadFromJsonAsync<LivroRequest>(
+            new JsonSerializerOptions
+            {
+                Converters = { new DateOnlyJsonConverter() }
+            });
+
     }
 
     public async Task<LivroRequest> EditarLivro(LivroRequest model)
