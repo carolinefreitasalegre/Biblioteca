@@ -23,14 +23,11 @@
 
 @code{
     
-    // Parâmetros de entrada
     [Parameter] public IEnumerable<string> StatusOptions { get; set; } = Enumerable.Empty<string>();
     [Parameter] public IEnumerable<string> CategoryOptions { get; set; } = Enumerable.Empty<string>();
 
-    // Evento que notifica a página que o filtro mudou
     [Parameter] public EventCallback<FilterResult> OnFilterChanged { get; set; }
 
-    // Estado interno
     public string? SelectedStatus { get; set; }
     public string? SelectedCategory { get; set; }
     public string? Title { get; set; }

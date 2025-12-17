@@ -21,7 +21,8 @@ public class UsuarioRepository : IUsuarioRepository
 
     public async Task<Usuario?> ObterPorEmail(string email)
     {
-        return await  _context.Usuarios.FirstOrDefaultAsync(x => x.Email == email);
+        
+        return await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
     }
 
     public async Task<Usuario?> ObterPorId(int id)
@@ -41,5 +42,11 @@ public class UsuarioRepository : IUsuarioRepository
         await _context.Usuarios.AddAsync(usuario);
         await _context.SaveChangesAsync();
         return usuario;
+    }
+    
+    public async Task<bool> EmailJaExiste(string email)
+    {
+        return await _context.Usuarios
+            .AnyAsync(u => u.Email == email);
     }
 }

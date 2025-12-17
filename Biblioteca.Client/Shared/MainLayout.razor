@@ -9,12 +9,6 @@
 
             <RadzenSpacer /> 
             
-            <AuthorizeView>
-                <Authorized>
-                    <RadzenButton Text="Logout" Icon="logout" Click="@Logout" ButtonStyle="ButtonStyle.Danger" Variant="Variant.Flat" />
-                </Authorized>
-            </AuthorizeView>
-            
         </RadzenStack>
     </RadzenHeader>
     
@@ -71,8 +65,8 @@
     <RadzenFooter Class="rz-text-align-center rz-py-2">
         &copy; Biblioteca App @DateTime.Now.Year
     </RadzenFooter>
-    
 </RadzenLayout>
+<RadzenNotification />
 
 
 @code {

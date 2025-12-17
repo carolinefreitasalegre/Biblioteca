@@ -70,36 +70,60 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
         NotifyAuthenticationStateChanged(Task.FromResult((new AuthenticationState(_userAnonimo))));
     }
     
-    private IEnumerable<Claim> ParseClaimsFromJson(string jwt)
+   private IEnumerable<Claim> ParseClaimsFromJson(string jwt)
     {
         var claims = new List<Claim>();
+
+        if (string.IsNullOrWhiteSpace(jwt))
+            return claims;
+
         var payload = jwt.Split('.')[1];
         var jsonBytes = ParseBase64WithoutPadding(payload);
-        var keyValuePairs = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonBytes);
 
-        if (keyValuePairs != null)
+        var keyValuePairs = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(jsonBytes);
+
+        if (keyValuePairs == null)
+            return claims;
+
+        string? userId = null;
+
+        if (keyValuePairs.TryGetValue("nameid", out var nameId))
+            userId = nameId.GetString();
+
+        if (string.IsNullOrWhiteSpace(userId) &&
+            keyValuePairs.TryGetValue(JwtRegisteredClaimNames.Sub, out var sub))
+            userId = sub.GetString();
+
+        if (!string.IsNullOrWhiteSpace(userId))
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, userId));
+
+        if (keyValuePairs.TryGetValue("name", out var name))
+            claims.Add(new Claim(ClaimTypes.Name, name.GetString() ?? string.Empty));
+
+        if (keyValuePairs.TryGetValue(JwtRegisteredClaimNames.Email, out var email))
+            claims.Add(new Claim(ClaimTypes.Email, email.GetString() ?? string.Empty));
+
+        if (keyValuePairs.TryGetValue("role", out var roles))
         {
-            keyValuePairs.TryGetValue("role", out var roleValue); // Seu ClaimTypes.Role
-            if (roleValue != null)
+            if (roles.ValueKind == JsonValueKind.Array)
             {
-                if (roleValue is JsonElement element && element.ValueKind == JsonValueKind.Array)
-                {
-                    claims.AddRange(element.EnumerateArray().Select(x => new Claim(ClaimTypes.Role, x.ToString())));
-                }
-                else
-                {
-                    claims.Add(new Claim(ClaimTypes.Role, roleValue.ToString() ?? string.Empty));
-                }
+                foreach (var role in roles.EnumerateArray())
+                    claims.Add(new Claim(ClaimTypes.Role, role.GetString() ?? string.Empty));
             }
-
-            // Adicione outros claims que você incluiu no backend (ex: email)
-            keyValuePairs.TryGetValue(JwtRegisteredClaimNames.Email, out var email);
-            if(email != null)
-                claims.Add(new Claim(ClaimTypes.Email, email.ToString() ?? string.Empty));
+            else
+            {
+                claims.Add(new Claim(ClaimTypes.Role, roles.GetString() ?? string.Empty));
+            }
         }
 
-        return claims;
-    }
+        if (keyValuePairs.TryGetValue(JwtRegisteredClaimNames.Iss, out var iss))
+            claims.Add(new Claim(ClaimTypes.System, iss.GetString() ?? string.Empty));
+
+        if (keyValuePairs.TryGetValue(JwtRegisteredClaimNames.Aud, out var aud))
+            claims.Add(new Claim(JwtRegisteredClaimNames.Aud, aud.GetString() ?? string.Empty));
+
+    return claims;
+}
 
     private byte[] ParseBase64WithoutPadding(string base64)
     {

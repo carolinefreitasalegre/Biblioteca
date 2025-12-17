@@ -1,4 +1,5 @@
 using System.Net.Http.Json;
+using System.Security.Claims;
 using Biblioteca.Client.ServiceClient.InterfacesClient;
 using Domain.DTO;
 using Domain.DTO.Response;
@@ -10,9 +11,9 @@ public class UsuarioService : IUsuarioService
     private readonly HttpClient _httpClient;
 
 
-    public UsuarioService(IHttpClientFactory httpClient)
+    public UsuarioService(HttpClient httpClient)
     {
-        _httpClient = httpClient.CreateClient("API");
+        _httpClient = httpClient;
     }
     
     public async Task<List<UsuarioResponse>> ListarUsuarios()
@@ -44,4 +45,6 @@ public class UsuarioService : IUsuarioService
 
         return await response.Content.ReadFromJsonAsync<UsuarioRequest>();
     }
+
+    
 }

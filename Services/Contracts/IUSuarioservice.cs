@@ -1,12 +1,14 @@
+using Domain.DTO;
+using Domain.DTO.Response;
 using Models.Models;
 
 namespace Services.Contracts;
 
 public interface IUSuarioservice
 {
-    Task<List<Usuario>> ListarUsuarios();
-    Task<Usuario?> ObterPorEmail(string email);
-    Task<Usuario?> ObterPorId(int id);
-    Task<Usuario> AdicionarUsuario(Usuario usuario);
-    Task<Usuario> AtualizarUsuario(Usuario usuario);
+    Task<List<UsuarioResponse>> ListarUsuarios();
+    Task<UsuarioResponse?> ObterPorEmail(string email);
+    Task<UsuarioResponse?> ObterPorId(int id);
+    Task<UsuarioResponse> AdicionarUsuario(UsuarioRequest usuario);
+    Task<UsuarioResponse> AtualizarUsuario(UsuarioRequest usuario);
 }

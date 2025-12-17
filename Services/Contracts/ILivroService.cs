@@ -1,3 +1,4 @@
+using Domain.DTO;
 using Domain.DTO.Response;
 using Models.Models;
 
@@ -5,8 +6,8 @@ namespace Services.Contracts;
 
 public interface ILivroService
 {
-    Task<List<Livro>> Listar();
-    Task<Livro?> GetById(int id);
-    Task<Livro> Adicionar(Livro livro, int usuarioId);
-    Task<Livro> Atualizar(Livro livro);
+    Task<List<LivroResponse>> Listar();
+    Task<LivroResponse?> GetById(int id);
+    Task<LivroResponse> Adicionar(LivroRequest livro, int usuarioId);
+    Task<LivroResponse> Atualizar(LivroRequest livro);
 }

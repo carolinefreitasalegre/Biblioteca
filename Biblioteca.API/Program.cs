@@ -1,4 +1,8 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
+using Domain.DTO;
+using Domain.Validator;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -8,11 +12,17 @@ using Repositories.DataContext;
 using Repositories.Repositories;
 using Repositories.Repositories.Contracts;
 using Services.Contracts;
+using Services.Mappings;
 using Services.Services;
+
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
 var builder = WebApplication.CreateBuilder(args);
 
-
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: false)
+    .AddJsonFile("appsettings.Development.json", optional: true)
+    .AddJsonFile("appsettings.Local.json", optional: true);
 
 //jwt
 builder.Services.AddAuthentication(opt =>
@@ -32,7 +42,10 @@ builder.Services.AddAuthentication(opt =>
 
         ValidIssuer = configuration["jwt:Issuer"],
         ValidAudience = configuration["jwt:Audience"],
-        IssuerSigningKey =  new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["jwt:Secret"]))
+        IssuerSigningKey =  new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Secret"])),
+        RoleClaimType = ClaimTypes.Role,
+        NameClaimType = ClaimTypes.NameIdentifier,
+        
     };
 });
 
@@ -43,7 +56,7 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        Description = "Informe o token JWT como: Bearer {token}",
+        Description = "",
         Name = "Authorization",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.ApiKey,
@@ -68,7 +81,7 @@ builder.Services.AddDbContext<BibliotecaContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
-builder.Services.AddControllers(); 
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -81,9 +94,11 @@ builder.Services.AddScoped<ILivroService, LivroService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 
-builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+builder.Services.AddTransient<IValidator<UsuarioRequest>, UsuariorequestValidator>();
+builder.Services.AddTransient<IValidator<LivroRequest>, LivroRequestValidator>();
+
 
 
 builder.Services.AddCors(options =>
@@ -91,12 +106,12 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowBlazorClient", cors =>
     {
         cors.WithOrigins(
-                "http://localhost:5164",   // Blazor WebAssembly
-                "https://localhost:5164"   // (se abrir em HTTPS)
+                "http://localhost:5164", // Blazor WebAssembly
+                "https://localhost:5164" // (se abrir em HTTPS)
             )
             .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials();
+            .AllowAnyMethod();
+        // .AllowCredentials();
     });
 });
 

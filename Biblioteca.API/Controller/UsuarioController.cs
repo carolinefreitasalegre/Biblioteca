@@ -1,4 +1,6 @@
 using Domain.DTO;
+using Domain.Validator;
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.Models;
@@ -13,11 +15,15 @@ namespace Biblioteca.API.Controller
         private readonly IUSuarioservice _usuarioservice;
         private readonly IAuthService _authService;
 
-        public UsuarioController(IUSuarioservice usuarioservice, IAuthService authService)
+        private readonly IValidator<UsuarioRequest> _validator;
+        public UsuarioController(IUSuarioservice usuarioservice, IAuthService authService, IValidator<UsuarioRequest> validator)
         {
             _usuarioservice =  usuarioservice;
             _authService = authService;
+            _validator = validator;
         }
+
+       
 
         [HttpPost("login")]
         public async Task<IActionResult> LoginAsync([FromBody] LoginDto login)
@@ -27,7 +33,7 @@ namespace Biblioteca.API.Controller
                 var result = await _authService.Login(login);
                 if (result == null)
                     return Unauthorized("Credenciais inválidas!");
-            
+
                 return Ok(result);
             }
             catch (Exception e)
@@ -38,9 +44,22 @@ namespace Biblioteca.API.Controller
         }
 
         [HttpPost("adicionar-usuario")]
-        [Authorize(Roles = "Administrador")]
-        public async Task<IActionResult> AdicionarUsuario(Usuario model)
+        public async Task<IActionResult> AdicionarUsuario(UsuarioRequest model)
         {
+            var validator = await _validator.ValidateAsync(model);
+
+            if (!validator.IsValid)
+            {
+                /*
+                  foreach (var erro in validator.Errors)
+                   {
+                       ModelState.AddModelError(erro.PropertyName, erro.ErrorMessage);
+                   }
+                 */
+               return  BadRequest(validator.Errors);
+            }
+                
+            
             var usuario = await _usuarioservice.AdicionarUsuario(model);
             return Created("", usuario);
         }
@@ -63,8 +82,17 @@ namespace Biblioteca.API.Controller
 
         [HttpPut("editar-usuario")]
         [Authorize(Roles = "Administrador")]
-        public async Task<IActionResult> AtualizarUsuario(Usuario model)
+        public async Task<IActionResult> AtualizarUsuario(UsuarioRequest model)
         {
+            
+            var validator = await _validator.ValidateAsync(model);
+            
+            if (!validator.IsValid)
+                return BadRequest(validator.Errors);
+            
+            
+            
+            
             var usuario = await _usuarioservice.AtualizarUsuario(model);
             return Created("", usuario);
         }
