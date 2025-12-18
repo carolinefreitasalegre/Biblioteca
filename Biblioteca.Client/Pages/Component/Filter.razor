@@ -17,7 +17,7 @@
         Style="width: 200px" />
 
     <RadzenButton Text="Aplicar" Click="ApplyFilter" Style="margin-left: 10px; background: var(--btn)" />
-    <RadzenButton Text="Limpar Filtro" Click="ApplyFilter" Style="margin-left: 10px; background: var(--btn)"/>
+    <RadzenButton Text="Limpar Filtro" Click="CleanFilter" Style="margin-left: 10px; background: var(--btn)"/>
 </div>
 
 
@@ -34,14 +34,31 @@
 
     private async Task ApplyFilter()
     {
-    var result = new FilterResult
-    {
-    Status = SelectedStatus,
-    Category = SelectedCategory,
-    Title = Title
-    };
+        var result = new FilterResult
+        {
+        Status = SelectedStatus,
+        Category = SelectedCategory,
+        Title = Title
+        };
 
-    await OnFilterChanged.InvokeAsync(result);
+        await OnFilterChanged.InvokeAsync(result);
+    }
+
+    private async Task CleanFilter()
+    {
+        
+        SelectedStatus = null;
+        SelectedCategory= null;
+        Title= null;
+        
+        var result = new FilterResult
+        {
+            Status = null,
+            Category = null,
+            Title = null
+        };
+
+        await OnFilterChanged.InvokeAsync(result);
     }
 
     public class FilterResult
