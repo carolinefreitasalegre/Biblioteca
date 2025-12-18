@@ -1,0 +1,122 @@
+@inject DialogService DialogService
+@attribute [Authorize(Roles = "Administrador")]
+
+
+<RadzenStack Gap="1.5rem" Style="width: 100%;">
+
+    <!-- Título -->
+    <RadzenText TextStyle="TextStyle.H6">
+        Editar Usuário
+    </RadzenText>
+
+    <!-- Nome -->
+    <RadzenStack Gap="0.25rem">
+        <RadzenLabel Text="Nome" />
+        <RadzenTextBox @bind-Value="request.Nome"
+                       Style="width: 100%;" />
+    </RadzenStack>
+
+    <!-- Email -->
+    <RadzenStack Gap="0.25rem">
+        <RadzenLabel Text="Email" />
+        <RadzenTextBox @bind-Value="request.Email"
+                       Style="width: 100%;" />
+    </RadzenStack>
+
+    <!-- Status -->
+    <RadzenStack Gap="0.25rem">
+        <RadzenLabel Text="Status" />
+        <RadzenDropDown 
+                        @bind-Value="request.Status"
+                        Data="@statusOptions"
+                        TextProperty="Text"
+                        ValueProperty="Value"
+                        Style="width: 100%;" />
+    </RadzenStack>
+    
+    <RadzenStack Gap="0.25rem">
+        <RadzenLabel Text="Perfil" />
+        <RadzenDropDown 
+                        @bind-Value="request.Role"
+                        Data="@perfilOptions"
+                        TextProperty="Text"
+                        ValueProperty="Value"
+                        Style="width: 100%;" />
+    </RadzenStack>
+
+    <!-- Ações -->
+    <RadzenStack Orientation="Orientation.Horizontal"
+                 JustifyContent="JustifyContent.End"
+                 Gap="0.5rem">
+
+        <RadzenButton Text="Cancelar"
+                      ButtonStyle="ButtonStyle.Light"
+                      Click="@Cancelar" />
+
+        <RadzenButton Text="Salvar"
+                      ButtonStyle="ButtonStyle.Primary"
+                      Icon="save"
+                      Click="@Salvar" />
+    </RadzenStack>
+
+</RadzenStack>
+
+@code {
+    [Parameter] public UsuarioResponse Usuario { get; set; }
+    private UsuarioRequest request;
+
+
+    private List<EnumOption<EStatusUsuario>> statusOptions =
+        Enum.GetValues(typeof(EStatusUsuario))
+            .Cast<EStatusUsuario>()
+            .Select(s => new EnumOption<EStatusUsuario>
+            {
+                Text = s.ToString(),
+                Value = s
+            }).ToList();
+
+    private List<EnumOption<EPerfilUsuario>> perfilOptions =
+        Enum.GetValues(typeof(EPerfilUsuario))
+            .Cast<EPerfilUsuario>()
+            .Select(s => new EnumOption<EPerfilUsuario>
+            {
+                Text = s.ToString(),
+                Value = s
+            }).ToList();
+
+    public class EnumOption<T>
+    {
+        public string Text { get; set; }
+        public T Value { get; set; }
+    }
+    
+    
+    
+    protected override void OnInitialized()
+    {
+        request = new UsuarioRequest
+        {
+            Id = Usuario.Id,
+            Nome = Usuario.Nome,
+            Email = Usuario.Email,
+            Status = Usuario.Status,
+            Role = Usuario.Role
+        };
+    }
+
+    private void Cancelar()
+    {
+        DialogService.Close(false);
+    }
+
+    private void Salvar()
+    {
+        DialogService.Close(request);
+    }
+
+    private class StatusOption
+    {
+        public string Text { get; set; }
+        public bool Value { get; set; }
+    }
+}

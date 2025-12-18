@@ -1,4 +1,8 @@
-<CardMenu Icon="" Title="Minha Coleção" >
+@inject NavigationManager NavManager
+@inject ILivroService Service
+
+
+<CardMenu Icon="library_books" Title="Minha Coleção" >
     <RadzenText TextStyle="TextStyle.Body1" class="rz-mb-4">
         Visualize todos os seus livros organizados
     </RadzenText>
@@ -15,30 +19,41 @@
 
     <RadzenButton 
         Text="Ver Lista Completa" 
-        ButtonStyle="ButtonStyle.Dark" 
+        
         Click="@NavigateToLista" 
-        Style="width: 100%;" 
+        Style="width: 100%; background-color: var(--primary)" 
     />
 </CardMenu>
 
 @code {
-    // Variáveis que seriam preenchidas por uma chamada de API, por exemplo
-    private int TotalLivros { get; set; } = 127; 
-    private int LivrosLidos { get; set; } = 89;
-    private int LivrosParaLer { get; set; } = 38;
+    private int TotalLivros { get; set; } 
+    private int LivrosLidos { get; set; }
+    private int LivrosParaLer { get; set; }
 
-    // Lógica para navegar
     private void NavigateToLista()
     {
-        // Aqui você faria a navegação real (Ex: NavigationManager.NavigateTo("/minha-lista"))
-        Console.WriteLine("Navegando para a lista completa...");
+        Console.WriteLine("clicou");
+        NavManager.NavigateTo("/minha-colecao", forceLoad: true);
     }
 
-    // Você poderia até buscar os dados reais aqui:
-    // protected override async Task OnInitializedAsync()
-    // {
-    //     var data = await service.GetColecaoSummary();
-    //     TotalLivros = data.Total;
-    //     // ... etc.
-    // }
+    protected override async Task OnInitializedAsync()
+    {
+        var colecao = await Service.ListarLivros();
+        TotalLivros = 0;
+        for (int i = 1; i <= colecao.Count; i++)
+        {
+            TotalLivros++;
+        }
+
+        foreach (var l in colecao)
+        {
+            if (l.StatusLeitura == EStatusLeitura.Lido)
+                LivrosLidos += 1;
+
+            if (l.StatusLeitura == EStatusLeitura.Para_Ler)
+                LivrosParaLer += 1;
+
+        }
+        
+    }
 }

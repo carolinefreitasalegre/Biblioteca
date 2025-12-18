@@ -21,9 +21,9 @@
                 <RadzenText TextStyle="TextStyle.H5" TagName="TagName.H2" class="rz-mb-6">
                     Login
                 </RadzenText>
-                <RadzenTemplateForm Data=@("SimpleLogin") >
-                    <RadzenLogin AllowRegister="false" AllowResetPassword="false"
-                                 Login=@OnLogin />
+                <RadzenTemplateForm Data=@("SimpleLogin")  >
+                    <RadzenLogin AllowRegister="false" AllowResetPassword="false" 
+                                 Login=@OnLogin  Style="--rz-primary: var(--btn);"/>
 
                 </RadzenTemplateForm>
             </RadzenCard>

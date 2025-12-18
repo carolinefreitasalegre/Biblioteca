@@ -1,73 +1,52 @@
 ﻿@inherits LayoutComponentBase
 @inject NavigationManager NavigationManager
 
-<RadzenLayout>
-    <RadzenHeader>
-        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0" Class="rz-py-2 rz-px-4">
-            <RadzenSidebarToggle Click="@(() => sidebarExpanded = !sidebarExpanded)" />
-            <RadzenLabel Text="Biblioteca Dashboard" Class="rz-text-uppercase rz-font-weight-bold" />
+<RadzenLayout >
+    <RadzenHeader Style="background:  var(--primary)">
+        <RadzenStack Orientation="Orientation.Horizontal"
+                     AlignItems="AlignItems.Center"
+                     Class="rz-py-2 rz-px-4">
+            <RadzenSidebarToggle 
+                Click="@(() => sidebarExpanded = !sidebarExpanded)"
+                Class="sidebar-toggle" />
 
-            <RadzenSpacer /> 
-            
+            <RadzenLabel Text="Biblioteca Dashboard"
+                         Class="rz-text-uppercase rz-font-weight-bold rz-color-white" />
+            <RadzenSpacer />
         </RadzenStack>
     </RadzenHeader>
-    
-    <RadzenSidebar FullHeight="true" @bind-Expanded="@sidebarExpanded">
-        <RadzenPanelMenu>
 
-            <RadzenPanelMenuItem 
-                Text="Home" 
-                Icon="home" 
-                Path="home" />
+    <RadzenSidebar FullHeight="true"
+                   @bind-Expanded="@sidebarExpanded"
+                   Style="background: var(--primary); display: flex;flex-direction: column;justify-content: space-between">
 
-            @* <RadzenPanelMenuItem  *@
-            @*     Text="Usuários"  *@
-            @*     Icon="group"  *@
-            @*     Path="users" /> *@
-
-            <RadzenPanelMenuItem 
-                Text="Minha Coleção" 
-                Icon="collections_bookmark" 
-                Path="minha-colecao" />
-
-            <RadzenPanelMenuItem 
-                Text="Adicionar Livros" 
-                Icon="library_add" 
-                Path="adicionar-livro" />
-
-            <RadzenPanelMenuItem 
-                Text="Área do Administrador" 
-                Icon="admin_panel_settings" 
-                Path="area-administrador" />
-
+        <RadzenPanelMenu Style="background:  var(--primary)">
+            <RadzenPanelMenuItem Text="Home" Icon="home" Path="home" class="tentativa" Style="border-bottom: 1px solid white"/>
+            <RadzenPanelMenuItem Text="Minha Coleção" Icon="collections_bookmark" Path="minha-colecao" Style="border-bottom: 1px solid white"/>
+            <RadzenPanelMenuItem Text="Adicionar Livros" Icon="library_add" Path="adicionar-livro" Style="border-bottom: 1px solid white"/>
+            <RadzenPanelMenuItem Text="Área do Administrador" Icon="admin_panel_settings" Path="area-administrador" Style="border-bottom: 1px solid white"/>
         </RadzenPanelMenu>
 
 
-        
-        <div style="flex-grow: 1;"></div>
-        <div class="rz-p-2 rz-border-top-default"> 
-            <RadzenButton 
-                Text="Sair" 
-                Icon="logout" 
-                Click="@Logout" 
-                ButtonStyle="ButtonStyle.Light" 
-                Variant="Variant.Flat"
-                Class="rz-w-100" Style="border: none; background-color: transparent;color: white"/> </div>
+        <div class="rz-p-2 rz-border-top-default">
+            <RadzenButton Text="Sair"
+                          Icon="logout"
+                          Click="@Logout"
+                          Variant="Variant.Flat"
+                          Class="rz-w-100 logout-btn" Style="background-color: var(--primary)" />
+        </div>
     </RadzenSidebar>
 
-    
     <RadzenBody>
-        <div class="rz-p-4">
-            @Body 
-        </div>
+        <div class="rz-p-4">@Body</div>
     </RadzenBody>
-    
+
     <RadzenFooter Class="rz-text-align-center rz-py-2">
         &copy; Biblioteca App @DateTime.Now.Year
     </RadzenFooter>
 </RadzenLayout>
+<RadzenDialog />
 <RadzenNotification />
-
 
 @code {
    
