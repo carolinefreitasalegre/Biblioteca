@@ -33,6 +33,7 @@ namespace Biblioteca.API.Controller
         public async Task<IActionResult> GetLivros()
         {
             var livros = await _livroService.Listar();
+
             return Ok(livros);
         }
 

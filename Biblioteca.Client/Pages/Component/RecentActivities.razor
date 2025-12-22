@@ -55,10 +55,23 @@
             // pega o ultimo livro adicionado - há quantos dias
             // pegar o ultimo livro lido - há quantos dias
             // pegar o ultimo livro iniciado - há quantos dias
+
+            var hoje = DateTime.Today;
+            var mes = new DateTime(hoje.Year, hoje.Month, 1);
             
+            //ultimo livro concluido: 
+            var lidoMes = dados
+                .Where(l => l.DataAdicionado >= mes)
+                .ToList();
+
             
-            
-                
+
+
+            //ultimo livro adicionado
+
+
+            //ultimo livro iniciado.    
+
         }
     }
 }   

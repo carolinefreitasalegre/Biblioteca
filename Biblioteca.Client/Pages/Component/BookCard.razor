@@ -1,10 +1,19 @@
 @namespace Biblioteca.Client.Pages.Component
+@inject DialogService DialogService
+@inject ILivroService _service
 
 
-<RadzenCard Style="width: 250px; padding: 20px; border-radius: 12px;">
+<RadzenCard Style="width: 300px; padding: 20px; border-radius: 12px;">
+    <RadzenButton Icon="edit"
+                  ButtonStyle="ButtonStyle.Light"
+                  Variant="Variant.Flat"
+                  Size="ButtonSize.Small"
+                  Click="@(() => EditarLivro(LivroId))"
+                  Style="background-color: transparent;position:relative; left: 17em;color: var(--primary)"
+    />
     <div style="text-align: center;">
-        <img src="./icon-192.png" 
-             style="width: 100%; height: 220px; object-fit: cover; border-radius: 8px;" />
+        <img src="./icon-192.png"
+             style="width: 100%; height: 220px; object-fit: cover; border-radius: 8px;"/>
     </div>
 
     <h3 style="margin-top: 15px; font-weight: 700; color: #0D1B4C; text-align: center;">
@@ -27,7 +36,7 @@
     </div>
 
     <div style="margin-top: 12px; text-align: center;">
-        <RadzenRating Value="3" ReadOnly="true" />
+        <RadzenRating Value="3" ReadOnly="true"/>
     </div>
 </RadzenCard>
 
@@ -37,4 +46,35 @@
     [Parameter] public string Autor { get; set; } = string.Empty;
     [Parameter] public string Status { get; set; } = string.Empty;
     [Parameter] public string Categoria { get; set; } = string.Empty;
+    [Parameter] public int LivroId { get; set; }
+    [Parameter] public EventCallback OnLivroEditado { get; set; }
+    
+    
+    
+    
+    private List<LivroResponse> livros = new();
+    
+    
+    
+    private async Task EditarLivro(int LivroId)
+    {
+        var result = await DialogService.OpenAsync<EditBookDialog>(
+            "Editar Livro",
+            new Dictionary<string, object>
+            {
+                { "LivroId", LivroId }
+            },
+            new DialogOptions
+            {
+                Width = "750px",
+                CloseDialogOnOverlayClick = false
+            });
+        
+        if (result is LivroRequest request)
+        {
+            await _service.EditarLivro(request);
+            await OnLivroEditado.InvokeAsync();
+        }
+    }
+
 }

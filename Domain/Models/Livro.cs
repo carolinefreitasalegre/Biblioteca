@@ -15,7 +15,8 @@ public class Livro
     public EStatusLeitura StatusLeitura { get; set; }
     public DateOnly? AnoPublicacao { get; set; }
     public string? NotasPessoais { get; set; }
-    
+
+    public DateTime DataAdicionado { get; set; } 
     public int UsuarioId { get; set; }
     public Usuario Usuario { get; set; }
     

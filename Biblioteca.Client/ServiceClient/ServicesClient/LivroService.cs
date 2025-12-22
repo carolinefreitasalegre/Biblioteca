@@ -41,12 +41,16 @@ public class LivroService : ILivroService
         
         response.EnsureSuccessStatusCode();
         
-        return await response.Content.ReadFromJsonAsync<LivroRequest>();
+        return await response.Content.ReadFromJsonAsync<LivroRequest>(
+            new JsonSerializerOptions
+            {
+                Converters = { new DateOnlyJsonConverter() }
+            });
     }
 
     public async Task<LivroResponse> BuscarLivroPorId(int id)
     {
-        return await _httpClient.GetFromJsonAsync<LivroResponse>("api/Livro/livros/id");
+        return await _httpClient.GetFromJsonAsync<LivroResponse>($"api/Livro/livro/{id}");
     }
 
     public async Task<LivroResponse> BuscarLivroPorNome(string nome)

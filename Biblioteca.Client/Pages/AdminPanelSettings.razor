@@ -23,9 +23,8 @@ else
         <RadzenBadge BadgeStyle="BadgeStyle.Success" Text="@($"{@TotalUsuarios} Total")" />
     </RadzenStack>
 
-    <RadzenTextBox Placeholder="Buscar por nome ou email..." Style="width: 100%;" />
 
-    <RadzenDataGrid Data="@usuarios" AllowPaging="true" PageSize="5" AllowSorting="true" TItem="UsuarioResponse">
+    <RadzenDataGrid Data="@usuarios" AllowPaging="true" PageSize="5" AllowSorting="true" TItem="UsuarioResponse" >
         
         <Columns>
             
@@ -46,13 +45,7 @@ else
             
             <RadzenDataGridColumn TItem="UsuarioResponse" Property="UltimoLogin" Title="Último Login" FormatString="{0:dd/MM/yyyy}" />
             
-            <RadzenDataGridColumn TItem="UsuarioResponse" Property="Livros" Title="Livros">
-                <Template Context="usuario">
-                    <RadzenText TextStyle="TextStyle.Subtitle1" Style="color: #6a1b9a; font-weight: bold;">
-                        <p>add lista de livros</p>
-                    </RadzenText>
-                </Template>
-            </RadzenDataGridColumn>
+            
 
             <RadzenDataGridColumn TItem="UsuarioResponse" Title="Ações" Sortable="false" Filterable="false" Width="120px">
                 <Template Context="usuario">
@@ -95,10 +88,9 @@ else
 
 
 @code {
-
-
     private List<UsuarioResponse> usuarios = new();
     private int TotalUsuarios => usuarios?.Count ?? 0;
+    public EventCallback OnUsuarioEditado { get; set; }
 
     
     protected override async Task OnInitializedAsync()
@@ -137,6 +129,7 @@ else
         if (result is UsuarioRequest request)
         {
             await _usuarioService.UpdateUsuario(request);
+            await OnUsuarioEditado.InvokeAsync();
         }
     }
 
@@ -158,7 +151,10 @@ else
             new DialogOptions { Width = "400px",
                 CloseDialogOnOverlayClick = false });
         if (result == true) {
-            await InativarUsuario(userId); }
+            await InativarUsuario(userId);
+            await OnUsuarioEditado.InvokeAsync();
+
+        }
     }
 
     private async Task InativarUsuario(int userId)
