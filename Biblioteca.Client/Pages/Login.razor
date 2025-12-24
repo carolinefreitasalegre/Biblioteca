@@ -69,16 +69,16 @@
                              AlignItems="AlignItems.Center">
 
                     <RadzenLink Text="Esqueci minha senha"
-                                Click="@(() => NavManager.NavigateTo("/esqueci-senha"))"
+                                Path="/esqueci-senha"
                                 Style="font-size: 0.85rem; color: var(--primary);" />
 
                     <RadzenStack Orientation="Orientation.Horizontal" Gap="0.25rem">
-                        <RadzenText TextStyle="TextStyle.Body2">
+                        <RadzenText TextStyle="TextStyle.Body2">    
                             Ainda não tem conta?
                         </RadzenText>
 
                         <RadzenLink Text="Criar conta"
-                                    Click="@(() => NavManager.NavigateTo("/registrar"))"
+                                    Path="/criar-conta"
                                     Style="font-weight: 600;" />
                     </RadzenStack>
 
@@ -120,5 +120,11 @@
         
             Console.WriteLine("erro");
         }
+        
+        
     }
+
+  
+
+   
 }
