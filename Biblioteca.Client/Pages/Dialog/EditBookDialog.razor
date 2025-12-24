@@ -1,0 +1,171 @@
+@inject DialogService DialogService
+@inject ILivroService service
+@attribute [Authorize(Roles = "Administrador")]
+
+<RadzenStack Gap="1.5rem" Style="width: 100%; padding: 2em">
+
+    <RadzenText TextStyle="TextStyle.H6">
+        Editar Livro
+    </RadzenText>
+
+    <RadzenRow Gap="1rem">
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenLabel Text="Título" />
+            <RadzenTextBox @bind-Value="request.Titulo" Style="width: 100%;" />
+        </RadzenColumn>
+
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenLabel Text="Autor" />
+            <RadzenTextBox @bind-Value="request.Autor" Style="width: 100%;" />
+        </RadzenColumn>
+    </RadzenRow>
+
+    <RadzenRow Gap="1rem">
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenLabel Text="ISBN" />
+            <RadzenTextBox @bind-Value="request.Isbn" Style="width: 100%;" />
+        </RadzenColumn>
+
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenLabel Text="Editora" />
+            <RadzenTextBox @bind-Value="request.Editora" Style="width: 100%;" />
+        </RadzenColumn>
+    </RadzenRow>
+
+    <RadzenRow Gap="1rem">
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenLabel Text="Capa" />
+            <RadzenUpload
+                Url="upload"
+                Accept="image/*"
+                ChooseText="Selecionar imagem"
+                Auto="true"
+                Progress="@OnUploadProgress"
+                Complete="@OnUploadComplete"
+                Style="width: 100%;" />
+
+            @if (!string.IsNullOrEmpty(request.CapaUrl))
+            {
+                <img src="@request.CapaUrl"
+                     style="width:100%; max-height:200px; object-fit:cover; border-radius:8px; margin-top: 10px;" />
+            }
+        </RadzenColumn>
+
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenLabel Text="Notas Pessoais" />
+            <RadzenTextBox @bind-Value="request.NotasPessoais" Style="width: 100%;" />
+        </RadzenColumn>
+    </RadzenRow>
+
+    <RadzenRow Gap="1rem">
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenLabel Text="Categoria" />
+            <RadzenDropDown
+                @bind-Value="request.Categoria"
+                Data="@categoryOptions"
+                TextProperty="Text"
+                ValueProperty="Value"
+                Style="width: 100%;" />
+        </RadzenColumn>
+
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenLabel Text="Status" />
+            <RadzenDropDown
+                @bind-Value="request.StatusLeitura"
+                Data="@statusOptions"
+                TextProperty="Text"
+                ValueProperty="Value"
+                Style="width: 100%;" />
+        </RadzenColumn>
+    </RadzenRow>
+
+</RadzenStack>
+
+<RadzenStack Orientation="Orientation.Horizontal"
+             JustifyContent="JustifyContent.End"
+             Gap="0.5rem"
+             Style="padding: 1.5em">
+
+    <RadzenButton Text="Cancelar"
+                  ButtonStyle="ButtonStyle.Light"
+                  Click="@Cancelar" />
+
+    <RadzenButton Text="Salvar"
+                  Icon="save"
+                  Style="background: var(--btn)"
+                  Click="@Salvar" />
+</RadzenStack>
+
+@code {
+    [Parameter] public int LivroId { get; set; }
+    
+    private LivroRequest request = new();
+
+    private List<EnumOption<EStatusLeitura>> statusOptions =
+        Enum.GetValues(typeof(EStatusLeitura))
+            .Cast<EStatusLeitura>()
+            .Select(s => new EnumOption<EStatusLeitura>
+            {
+                Text = s.ToString(),
+                Value = s
+            }).ToList();
+    
+    private List<EnumOption<ECategoriaLivro>> categoryOptions =
+        Enum.GetValues(typeof(ECategoriaLivro))
+            .Cast<ECategoriaLivro>()
+            .Select(s => new EnumOption<ECategoriaLivro>
+            {
+                Text = s.ToString(),
+                Value = s
+            }).ToList();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (LivroId > 0)
+        {
+            var livro = await service.BuscarLivroPorId(LivroId);
+            
+            if (livro != null)
+            {
+                request = new LivroRequest
+                {
+                    Id = livro.Id, 
+                    Titulo = livro.Titulo,
+                    Autor = livro.Autor,
+                    Isbn = livro.Isbn,
+                    Editora = livro.Editora,
+                    CapaUrl = livro.CapaUrl,
+                    NotasPessoais = livro.NotasPessoais,
+                    StatusLeitura = livro.StatusLeitura,
+                    Categoria = livro.Categoria
+                };
+            }
+        }
+    }
+
+    private void OnUploadComplete(UploadCompleteEventArgs args)
+    {
+        // Lógica de upload aqui
+    }
+
+    private void OnUploadProgress(UploadProgressArgs args)
+    {
+        Console.WriteLine($"Upload: {args.Progress}%");
+    }
+
+    private void Cancelar()
+    {
+        DialogService.Close(false);
+    }
+
+    private void Salvar()
+    {
+        DialogService.Close(request);
+    }
+
+    public class EnumOption<T>
+    {
+        public string Text { get; set; }
+        public T Value { get; set; }
+    }
+}

@@ -1,0 +1,92 @@
+@page "/criar-conta"
+@layout EmptyLayout
+@inject NotificationService NotificationService
+@inject IUsuarioService _service
+@inject NavigationManager NavigationManager
+
+
+
+<RadzenTemplateForm Data="@Usuario" TItem="UsuarioRequest" Submit="@Salvar" Style="width: 100%; max-width: 500px; margin: 0 auto;">
+    
+    <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Style="margin-bottom: 1rem;">
+        <RadzenButton Text="Voltar" Icon="arrow_back" Click="@Voltar" ButtonStyle="ButtonStyle.Secondary" Variant="Variant.Text" />
+    </RadzenStack>
+
+    <RadzenCard Class="rz-shadow-7 rz-border-radius-2" Style="padding: 2.5rem;">
+        <RadzenStack Gap="1.5rem">
+            
+            <RadzenText Text="Informações do Usuário" TextStyle="TextStyle.H5" Class="rz-mb-2" />
+
+            <RadzenStack Gap="0">
+                <RadzenLabel Text="Nome" Component="Nome" Class="rz-color-text-secondary rz-overline" />
+                <RadzenTextBox Name="Nome" @bind-Value="Usuario.Nome" Placeholder="Digite o nome completo" Style="width: 100%;" />
+                <RadzenRequiredValidator Component="Nome" Text="Nome é obrigatório" Style="display: block; font-size: 0.75rem; margin-top: 4px;" />
+            </RadzenStack>
+
+            <RadzenStack Gap="0">
+                <RadzenLabel Text="Email" Component="Email" Class="rz-color-text-secondary rz-overline" />
+                <RadzenTextBox Name="Email" @bind-Value="Usuario.Email" Placeholder="Digite o email" Style="width: 100%;" />
+                <RadzenRequiredValidator Component="Email" Text="Email é obrigatório" Style="display: block; font-size: 0.75rem; margin-top: 4px;" />
+                <RadzenEmailValidator Component="Email" Text="Email inválido" Style="display: block; font-size: 0.75rem; margin-top: 4px;" />
+            </RadzenStack>
+
+            <RadzenStack Gap="0">
+                <RadzenLabel Text="Senha" Component="Senha" Class="rz-color-text-secondary rz-overline" />
+                <RadzenPassword Name="Senha" @bind-Value="Usuario.Senha" Placeholder="Digite a senha" Style="width: 100%;" />
+                <RadzenRequiredValidator Component="Senha" Text="Senha é obrigatória" Style="display: block; font-size: 0.75rem; margin-top: 4px;" />
+                <RadzenRegexValidator Component="Senha" Pattern="^(?=.*[A-Za-z])(?=.*\d).{6,50}$" 
+                                      Text="Mínimo 6 caracteres, letras e números" Style="display: block; font-size: 0.75rem; margin-top: 4px;" />
+            </RadzenStack>
+
+            <RadzenStack Gap="0">
+                <RadzenLabel Text="Confirme a Senha" Component="ConfirmacaoSenha" Class="rz-color-text-secondary rz-overline" />
+                <RadzenPassword Name="ConfirmacaoSenha" @bind-Value="ConfirmacaoSenha" Placeholder="Repita a senha" Style="width: 100%;" />
+                <RadzenRequiredValidator Component="ConfirmacaoSenha" Text="Confirmação necessária" Style="display: block; font-size: 0.75rem; margin-top: 4px;" />
+                <RadzenCompareValidator Component="ConfirmacaoSenha" Value="@Usuario.Senha" Operator="CompareOperator.Equal" 
+                                        Text="As senhas não coincidem" Style="display: block; font-size: 0.75rem; margin-top: 4px;" />
+            </RadzenStack>
+
+            <RadzenButton Text="Salvar Usuário" Icon="save" ButtonType="ButtonType.Submit" 
+                          Style="background: var(--btn)" Class="rz-mt-4 rz-w-100" />
+            
+        </RadzenStack>
+    </RadzenCard>
+</RadzenTemplateForm>
+
+@code {
+
+    private UsuarioRequest Usuario = new();
+    private string ConfirmacaoSenha { get; set; }
+
+    
+
+    private async Task Salvar()
+    {
+        NotificationService.Notify(new NotificationMessage
+        {
+            Severity = NotificationSeverity.Success,
+            Summary = "Conta criada",
+            Detail = "Usuário criado com sucesso!",
+            Duration = 3000
+        });
+
+        var novoUsuaio = new UsuarioRequest
+        {
+            Nome = Usuario.Nome,
+            Email = Usuario.Email,
+            Senha = Usuario.Senha,
+            Role = EPerfilUsuario.Usuario,
+        };
+        
+        
+        await _service.AddUsuario(novoUsuaio);
+
+    }
+
+
+    private void Voltar()
+    {
+        NavigationManager.NavigateTo("/", forceLoad: true); 
+    }
+
+}

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Repositories.DataContext;
@@ -11,9 +12,11 @@ using Repositories.DataContext;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(BibliotecaContext))]
-    partial class BibliotecaContextModelSnapshot : ModelSnapshot
+    [Migration("20251218223334_mudancaatributo")]
+    partial class mudancaatributo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -140,9 +143,6 @@ namespace Infrastructure.Migrations
 
                     b.Property<int?>("Status")
                         .HasColumnType("integer");
-
-                    b.Property<DateTime?>("UltimoLogin")
-                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 

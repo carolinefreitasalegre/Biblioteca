@@ -31,6 +31,8 @@ namespace Biblioteca.API.Controller
             try
             {
                 var result = await _authService.Login(login);
+                
+                
                 if (result == null)
                     return Unauthorized("Credenciais inválidas!");
 

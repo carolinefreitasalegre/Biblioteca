@@ -6,29 +6,89 @@
 @inject Microsoft.AspNetCore.Components.Authorization.AuthenticationStateProvider AuthStateProvider 
 
 
+<RadzenRow Gap="0"
+           class="rz-my-12 rz-mx-auto rz-border-radius-6 rz-shadow-10"
+           Style="width: 100%; max-width: 800px; overflow: hidden;">
 
-<RadzenRow Gap="0" class="rz-my-12 rz-mx-auto rz-border-radius-6 rz-shadow-10" Style="width: 100%; max-width: 800px; overflow: hidden;">
-        <RadzenColumn Size="12" SizeMD="6" class="">
-            <RadzenCard class="rz-shadow-0 rz-border-radius-0 rz-text-align-center rz-p-12" Style="height: 100%;">
-                <RadzenImage Path="https://www.radzen.com/images/logo.png" Style="width: 15rem;" AlternateText="url image" />
-                <RadzenText TextStyle="TextStyle.DisplayH3" TagName="TagName.H2" class="rz-color-white rz-mb-6">Welcome!</RadzenText>
-                <RadzenText TextStyle="TextStyle.H6" class="rz-color-white">Join the world's largest community!</RadzenText>
-                <RadzenText TextStyle="TextStyle.Body2" class="rz-color-white">Let's get started with your <strong>30 days</strong> trial.</RadzenText>
-            </RadzenCard>
-        </RadzenColumn>
-        <RadzenColumn Size="12" SizeMD="6">
-            <RadzenCard class="rz-shadow-0 rz-border-radius-0 rz-p-12">
-                <RadzenText TextStyle="TextStyle.H5" TagName="TagName.H2" class="rz-mb-6">
+    <!-- 🔵 LADO ESQUERDO / BRANDING -->
+    <RadzenColumn Size="12" SizeMD="6">
+        <RadzenCard class="rz-shadow-0 rz-border-radius-0 rz-p-12"
+                    Style="height: 100%;">
+
+            <RadzenStack AlignItems="AlignItems.Center"
+                         JustifyContent="JustifyContent.Center"
+                         Gap="1rem"
+                         Style="height: 100%; text-align: center;">
+
+                <RadzenImage Path="/logo.png"
+                             Style="width: 12rem;"
+                             AlternateText="Logo Biblioteca" />
+
+                <RadzenText TextStyle="TextStyle.DisplayH5"
+                            Style="color: var(--primary);">
+                    Bem-vindo!
+                </RadzenText>
+
+                <RadzenText TextStyle="TextStyle.Body1"
+                            Style="color: var(--primary); max-width: 260px;">
+                    Gerencie sua biblioteca de forma simples e inteligente.
+                </RadzenText>
+
+                <RadzenText TextStyle="TextStyle.Body2"
+                            Style="color: var(--primary);">
+                    Comece agora gratuitamente!
+                </RadzenText>
+
+            </RadzenStack>
+        </RadzenCard>
+    </RadzenColumn>
+
+    <!-- 🟣 LADO DIREITO / LOGIN -->
+    <RadzenColumn Size="12" SizeMD="6">
+        <RadzenCard class="rz-shadow-0 rz-border-radius-0 rz-p-12"
+                    Style="height: 100%;">
+
+            <RadzenStack Gap="1.5rem"
+                         JustifyContent="JustifyContent.Center"
+                         Style="height: 100%;">
+
+                <RadzenText TextStyle="TextStyle.H5"
+                            Style="color: var(--btn);">
                     Login
                 </RadzenText>
-                <RadzenTemplateForm Data=@("SimpleLogin") >
-                    <RadzenLogin AllowRegister="false" AllowResetPassword="false"
-                                 Login=@OnLogin />
 
+                <RadzenTemplateForm Data="@loginModel">
+                    <RadzenLogin AllowRegister="false"
+                                 AllowResetPassword="false"
+                                 Login="@OnLogin"
+                                 Style="--rz-primary: var(--btn);" />
                 </RadzenTemplateForm>
-            </RadzenCard>
-        </RadzenColumn>
-        </RadzenRow>
+
+                <RadzenStack Gap="0.75rem"
+                             class="rz-mt-8"
+                             AlignItems="AlignItems.Center">
+
+                    <RadzenLink Text="Esqueci minha senha"
+                                Path="/esqueci-senha"
+                                Style="font-size: 0.85rem; color: var(--primary);" />
+
+                    <RadzenStack Orientation="Orientation.Horizontal" Gap="0.25rem">
+                        <RadzenText TextStyle="TextStyle.Body2">    
+                            Ainda não tem conta?
+                        </RadzenText>
+
+                        <RadzenLink Text="Criar conta"
+                                    Path="/criar-conta"
+                                    Style="font-weight: 600;" />
+                    </RadzenStack>
+
+                </RadzenStack>
+
+            </RadzenStack>
+        </RadzenCard>
+    </RadzenColumn>
+
+</RadzenRow>
 
 
 @code {
@@ -60,5 +120,11 @@
         
             Console.WriteLine("erro");
         }
+        
+        
     }
+
+  
+
+   
 }

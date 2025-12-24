@@ -1,6 +1,9 @@
+@using System.Runtime.InteropServices.JavaScript
+@inject ILivroService service
+
 <RadzenCard class="rz-p-4 rz-shadow-2" Style="min-height: 16em">
     <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0.5rem" class="rz-mb-4">
-        <RadzenIcon Icon="trending_up" Style="color: #6a1b9a;" /> @* Roxo escuro para destaque *@
+        <RadzenIcon Icon="trending_up" Style="color: #6a1b9a;" /> 
         <RadzenText TextStyle="TextStyle.H5" Style="color: #6a1b9a; font-weight: bold;">
             Suas Estatísticas
         </RadzenText>
@@ -31,8 +34,44 @@
 </RadzenCard>
 
 @code {
-    // Dados de exemplo, que seriam injetados via parâmetros ou carregados via serviço real
-    private int LivrosLidosMes { get; set; } = 3;
-    private int PaginasLidas { get; set; } = 847;
-    private int MetaConcluida { get; set; } = 75; // Valor em percentual
+    private int LivrosLidosMes { get; set; }
+    private int PaginasLidas { get; set; }
+    private double MetaConcluida { get; set; }
+
+        
+    protected override async Task OnInitializedAsync()
+    {
+        var livros = await service.ListarLivros();
+
+        var hoje = DateTime.Today;
+        var inicioMesAtual = new DateTime(hoje.Year, hoje.Month, 1);
+
+        var livrosAdicionadosMes = livros
+            .Where(l => l.DataAdicionado >= inicioMesAtual)
+            .ToList();
+
+        var livrosLidosMes = livrosAdicionadosMes
+            .Where(l => l.StatusLeitura == EStatusLeitura.Lido)
+            .ToList();
+
+        LivrosLidosMes = livrosLidosMes.Count;
+
+        PaginasLidas = livros
+            .Where(l => l.StatusLeitura == EStatusLeitura.Lido)
+            .Sum(l => l.NumeroPaginas);
+
+
+        if (livrosAdicionadosMes.Any())
+        {
+            MetaConcluida =
+                Math.Round(
+                    (double)livrosLidosMes.Count / livrosAdicionadosMes.Count * 100,
+                    1
+                );
+        }
+        else
+        {
+            MetaConcluida = 0;
+        }
+    }
 }

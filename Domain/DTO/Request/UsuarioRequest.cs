@@ -10,6 +10,6 @@ public class UsuarioRequest
     public string Senha { get; set; }
     public EPerfilUsuario Role { get; set; }
 
-    public EStatusUsuario Status { get; set; }
-    public DateTime CriadoEm { get; set; }
+    public EStatusUsuario Status { get; set; } =  EStatusUsuario.Ativo;
+    public DateTime CriadoEm { get; set; } =  DateTime.UtcNow;
 }

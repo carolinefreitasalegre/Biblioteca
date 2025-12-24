@@ -1,6 +1,9 @@
 @page "/area-administrador"
+@using Biblioteca.Client.Pages.Dialog
 @inject IUsuarioService _usuarioService
 @attribute [Authorize(Roles = "Administrador")]
+@inject DialogService DialogService
+
 
 @if (usuarios == null)
 {
@@ -20,9 +23,8 @@ else
         <RadzenBadge BadgeStyle="BadgeStyle.Success" Text="@($"{@TotalUsuarios} Total")" />
     </RadzenStack>
 
-    <RadzenTextBox Placeholder="Buscar por nome ou email..." Style="width: 100%;" />
 
-    <RadzenDataGrid Data="@usuarios" AllowPaging="true" PageSize="5" AllowSorting="true" TItem="UsuarioResponse">
+    <RadzenDataGrid Data="@usuarios" AllowPaging="true" PageSize="5" AllowSorting="true" TItem="UsuarioResponse" >
         
         <Columns>
             
@@ -34,7 +36,7 @@ else
                 <Template Context="usuario">
                     <RadzenBadge 
                         Text="@usuario.Status.ToString()"
-                        BadgeStyle="@(usuario.Status.ToString() == "Ativo" ? BadgeStyle.Primary : BadgeStyle.Danger)"
+                        BadgeStyle="@(usuario.Status.ToString() == "Ativo" ? BadgeStyle.Success : BadgeStyle.Danger)"
                         Icon="@(usuario.Status.ToString() == "Ativo" ? "verified" : "block")"
                         Style="color: white; padding: 5px 10px;"
                     />
@@ -43,13 +45,7 @@ else
             
             <RadzenDataGridColumn TItem="UsuarioResponse" Property="UltimoLogin" Title="Último Login" FormatString="{0:dd/MM/yyyy}" />
             
-            <RadzenDataGridColumn TItem="UsuarioResponse" Property="Livros" Title="Livros">
-                <Template Context="usuario">
-                    <RadzenText TextStyle="TextStyle.Subtitle1" Style="color: #6a1b9a; font-weight: bold;">
-                        <p>add lista de livros</p>
-                    </RadzenText>
-                </Template>
-            </RadzenDataGridColumn>
+            
 
             <RadzenDataGridColumn TItem="UsuarioResponse" Title="Ações" Sortable="false" Filterable="false" Width="120px">
                 <Template Context="usuario">
@@ -62,7 +58,7 @@ else
                                           ButtonStyle="ButtonStyle.Danger" 
                                           Variant="Variant.Flat" 
                                           Title="Bloquear Usuário"
-                                          Click="@(() => BloquearUsuario(usuario))" />
+                                          Click="@(() => OpenInactivateDialog(usuario.Id, usuario.Nome))" />
                         }
                         else
                         {
@@ -74,7 +70,7 @@ else
                         }
             
                         <RadzenButton Icon="edit" 
-                                      ButtonStyle="ButtonStyle.Primary" 
+                                      ButtonStyle="ButtonStyle.Success" 
                                       Variant="Variant.Flat" 
                                       Title="Editar Detalhes / Redefinir Senha"
                                       Click="@(() => AbrirEdicao(usuario))" />
@@ -92,13 +88,11 @@ else
 
 
 @code {
-
-
     private List<UsuarioResponse> usuarios = new();
-    
-    
     private int TotalUsuarios => usuarios?.Count ?? 0;
+    public EventCallback OnUsuarioEditado { get; set; }
 
+    
     protected override async Task OnInitializedAsync()
     {
         try
@@ -117,19 +111,68 @@ else
         }
     }
 
-    void AbrirEdicao(UsuarioResponse usuario)
+    
+    private async Task AbrirEdicao(UsuarioResponse usuario)
     {
-        Console.WriteLine("clicou abrir edd");
+        var result = await DialogService.OpenAsync<EditUserDialog>(
+            "Editar Usuário",
+            new Dictionary<string, object>
+            {
+                { "Usuario", usuario }
+            },
+            new DialogOptions
+            {
+                Width = "450px",
+                CloseDialogOnOverlayClick = false
+            });
+
+        if (result is UsuarioRequest request)
+        {
+            await _usuarioService.UpdateUsuario(request);
+            await OnUsuarioEditado.InvokeAsync();
+        }
     }
 
-    void DesbloquearUsuario(UsuarioResponse usuario)
+
+    private void DesbloquearUsuario(UsuarioResponse usuario)
     {
         Console.WriteLine("clicou desbloq user");
     }
 
-    void BloquearUsuario(UsuarioResponse usuario)
+    private async Task OpenInactivateDialog(int userId, string userName)
     {
-        Console.WriteLine("clicou bloq user");
+        
+        
+        var result = await DialogService
+            .OpenAsync<InactivateUserDialog>("Inativar Usuário", 
+                new Dictionary<string, object> { { "UserId", userId },
+                { "UserName", userName }
+            },
+            new DialogOptions { Width = "400px",
+                CloseDialogOnOverlayClick = false });
+        if (result == true) {
+            await InativarUsuario(userId);
+            await OnUsuarioEditado.InvokeAsync();
+
+        }
     }
+
+    private async Task InativarUsuario(int userId)
+    {
+        var usuario = await _usuarioService.GetUsuarioById(userId);
+        var request = new UsuarioRequest
+        {
+            Id = usuario.Id,
+            Nome = usuario.Nome,
+            Status = usuario.Status
+
+        };
+        await _usuarioService.UpdateUsuario(request);
+
+        
+        Console.WriteLine(request.Status);
+    }
+    
+
 
 }

@@ -4,24 +4,18 @@ namespace Models.Enum;
 
 public enum ECategoriaLivro
 {
-    [Display(Name = "Não especificado")]
-    Nao_Especificado,
+    
+    Nao_Especificado = 1,
 
-    [Display(Name = "Ficção")]
-    Ficcao,
+    Ficcao = 2,
 
-    [Display(Name = "Programação")]
-    Programacao,
+    Programacao = 3,
 
-    [Display(Name = "História")]
-    Historia,
+    Historia = 4,
 
-    [Display(Name = "Romance")]
-    Romance,
+    Romance = 5,
 
-    [Display(Name = "Ficção científica")]
-    Ficcao_Cientifica,
+    Ficcao_Cientifica = 6,
 
-    [Display(Name = "Thriller")]
-    Thriller
+    Thriller = 7
 }

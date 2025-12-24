@@ -1,77 +1,75 @@
-@page "/minha-colecao"
-@attribute [Authorize(Roles = "Usuario")]
-@inject ILivroService _service
+    @page "/minha-colecao"
+    @attribute [Authorize(Roles = "Usuario")]
+    @inject ILivroService _service
 
-
-<Filter StatusOptions="StatusOptions"
+    <Filter StatusOptions="StatusOptions"
             CategoryOptions="CategoryOptions"
             OnFilterChanged="HandleFilterChanged" />
 
-<hr/> 
-<div style="display:flex; flex-wrap:wrap; gap:20px;">
-    @foreach (var livro in LivrosFiltrados)
-    {
-        <BookCard Titulo="@livro.Titulo"
-                  Autor="@livro.Autor"  
-                  Status="@livro.StatusLeitura.ToString()"
-                  Categoria="@livro.Categoria.ToString()"
-                  />
-    }
-</div>
+    <hr/> 
 
-@code {
+    <div style="display:flex; flex-wrap:wrap; gap:20px;">
+        @foreach (var livro in LivrosFiltrados)
+        {
+            
+            <BookCard Titulo="@livro.Titulo"
+                      Autor="@livro.Autor"  
+                      Status="@livro.StatusLeitura.ToString()"
+                      Categoria="@livro.Categoria.ToString()"
+                      LivroId="@livro.Id"
+                      OnLivroEditado="RecarregarDados"
+                      />
+        }
+    </div>
 
-    private List<LivroResponse> livro = new();
-    private IEnumerable<string> StatusOptions = new List<string>();
-    private IEnumerable<string> CategoryOptions = new List<string>();
-    string? FiltroStatus;
-    string? FiltroCategoria;
-    string? FiltroTitulo;
-    string? Status;
-    string? Category;
-    string? Title;
+    @code {
+        private List<LivroResponse> todosLivros = new();
+        private List<EnumOption<EStatusLeitura>> StatusOptions = new();
+        private List<EnumOption<ECategoriaLivro>> CategoryOptions = new();
+        private EStatusLeitura? FiltroStatus;
+        private ECategoriaLivro? FiltroCategoria;
+        private string? FiltroTitulo;
 
-
-
-    protected override async Task OnInitializedAsync()
-    {
-        try
+        protected override async Task OnInitializedAsync()
         {
             var response = await _service.ListarLivros();
-            livro = response.ToList();
+            todosLivros = response.ToList();
 
-            StatusOptions = livro.Select(l => l.StatusLeitura.ToString())
-                .Distinct().ToList();
 
-            CategoryOptions = livro.Select(l => l.Categoria.ToString()).Distinct().ToList();
+            StatusOptions = Enum.GetValues(typeof(EStatusLeitura))
+                .Cast<EStatusLeitura>()
+                .Select(s => new EnumOption<EStatusLeitura> { 
+                    Text = s.ToString().Replace("_", " "), 
+                    Value = s 
+                }).ToList();
+
+            CategoryOptions = Enum.GetValues(typeof(ECategoriaLivro))
+                .Cast<ECategoriaLivro>()
+                .Select(s => new EnumOption<ECategoriaLivro> { 
+                    Text = s.ToString().Replace("_", " "), 
+                    Value = s 
+                }).ToList();
         }
-        catch (Exception e)
+
+
+        IEnumerable<LivroResponse> LivrosFiltrados =>
+            todosLivros
+                .Where(l => FiltroStatus == null || l.StatusLeitura == FiltroStatus)
+                .Where(l => FiltroCategoria == null || l.Categoria == FiltroCategoria)
+                .Where(l => string.IsNullOrEmpty(FiltroTitulo) || l.Titulo.Contains(FiltroTitulo, StringComparison.OrdinalIgnoreCase));
+
+        private void HandleFilterChanged(Filter.FilterResult result)
         {
-            throw new Exception(e.Message);
+            FiltroStatus = result.Status;
+            FiltroCategoria = result.Category;
+            FiltroTitulo = result.Title;
+            StateHasChanged();
+        }
+
+        private async Task RecarregarDados()
+        {
+            var response = await _service.ListarLivros();
+            todosLivros = response.ToList();
+            StateHasChanged();
         }
     }
-    
-
-    IEnumerable<LivroResponse> LivrosFiltrados =>
-        livro
-            .Where(l => FiltroStatus == null || l.StatusLeitura.ToString() == FiltroStatus)
-            .Where(l => FiltroCategoria == null || l.Categoria.ToString() == FiltroCategoria)
-            .Where(l => FiltroTitulo == null || l.Titulo.ToLower() == FiltroTitulo);
-
-    private void HandleFilterChanged(Filter.FilterResult result)
-    {
-        FiltroStatus = result.Status;
-        FiltroCategoria = result.Category;
-
-        if (!string.IsNullOrEmpty(result.Title))
-        {
-            FiltroTitulo = result.Title!.ToLower();
-        }
-        else
-        {
-            FiltroTitulo = null;
-        }
-
-        StateHasChanged();
-    }
-}

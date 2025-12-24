@@ -36,13 +36,19 @@
                     return null;
                 
                 var token = GerarToken(user);
+                user.UltimoLogin =  DateTime.UtcNow;
+                
+                await _repository.Atualizar(user);   
 
                 return new LoginResponse
                 {
                     
-                    Token = token, Role = user.Role.ToString()
+                    Token = token, 
+                    Role = user.Role.ToString(),
+                    UltimoLogin = DateTime.UtcNow
                     
                 };
+
             }
             catch (Exception e)
             {

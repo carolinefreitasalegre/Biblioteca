@@ -13,6 +13,8 @@ public class Usuario
     public string Email { get; set; }
     public string Senha { get; set; }
     public EPerfilUsuario Role { get; set; }
+    
+    public DateTime? UltimoLogin { get; set; }
 
     public EStatusUsuario? Status { get; set; }
     public DateTime CriadoEm { get; set; }

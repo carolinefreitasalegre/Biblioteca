@@ -1,53 +1,72 @@
-<div class="filter-area">
-    <RadzenDropDown 
-        @bind-Value="SelectedStatus"
-        Data="StatusOptions"
-        Placeholder="Todos os status"
-        Style="width: 200px" />
+<div class="filter-area" style="display:flex; align-items:flex-end; gap:10px;">
+    <RadzenStack Gap="0.5rem">
+        <RadzenText TextStyle="TextStyle.Caption">Status</RadzenText>
+        <RadzenDropDown 
+            @bind-Value="SelectedStatus"
+            Data="StatusOptions"
+            TextProperty="Text" 
+            ValueProperty="Value"
+            Placeholder="Todos os status"
+            AllowClear="true"
+            Style="width: 200px" />
+    </RadzenStack>
 
-    <RadzenDropDown
-        @bind-Value="SelectedCategory"
-        Data="CategoryOptions"
-        Placeholder="Todas as categorias"
-        Style="width: 200px" />
+    <RadzenStack Gap="0.5rem">
+        <RadzenText TextStyle="TextStyle.Caption">Categoria</RadzenText>
+        <RadzenDropDown
+            @bind-Value="SelectedCategory"
+            Data="CategoryOptions"
+            TextProperty="Text"
+            ValueProperty="Value"
+            Placeholder="Todas as categorias"
+            AllowClear="true"
+            Style="width: 200px" />
+    </RadzenStack>
 
-    <RadzenTextBox
-        @bind-Value="Title"
-        Placeholder="Buscar por título..."
-        Style="width: 200px" />
+    <RadzenStack Gap="0.5rem">
+        <RadzenText TextStyle="TextStyle.Caption">Título</RadzenText>
+        <RadzenTextBox
+            @bind-Value="Title"
+            Placeholder="Buscar por título..."
+            Style="width: 200px" />
+    </RadzenStack>
 
-    <RadzenButton Text="Aplicar" Click="ApplyFilter" Style="margin-left: 10px" />
-    <RadzenButton Text="Limpar Filtro" Click="ApplyFilter" Style="margin-left: 10px" />
+    <RadzenButton Text="Aplicar" Click="ApplyFilter" Style="background: var(--btn)" />
+    <RadzenButton Text="Limpar" Click="CleanFilter" Style="background: var(--btn)" />
 </div>
 
-
-@code{
-    
-    [Parameter] public IEnumerable<string> StatusOptions { get; set; } = Enumerable.Empty<string>();
-    [Parameter] public IEnumerable<string> CategoryOptions { get; set; } = Enumerable.Empty<string>();
-
+@code {
+    [Parameter] public IEnumerable<EnumOption<EStatusLeitura>> StatusOptions { get; set; } = Enumerable.Empty<EnumOption<EStatusLeitura>>();
+    [Parameter] public IEnumerable<EnumOption<ECategoriaLivro>> CategoryOptions { get; set; } = Enumerable.Empty<EnumOption<ECategoriaLivro>>();
     [Parameter] public EventCallback<FilterResult> OnFilterChanged { get; set; }
 
-    public string? SelectedStatus { get; set; }
-    public string? SelectedCategory { get; set; }
+    
+    public EStatusLeitura? SelectedStatus { get; set; }
+    public ECategoriaLivro? SelectedCategory { get; set; }
     public string? Title { get; set; }
 
     private async Task ApplyFilter()
     {
-    var result = new FilterResult
-    {
-    Status = SelectedStatus,
-    Category = SelectedCategory,
-    Title = Title
-    };
+        await OnFilterChanged.InvokeAsync(new FilterResult
+        {
+            Status = SelectedStatus,
+            Category = SelectedCategory,
+            Title = Title
+        });
+    }
 
-    await OnFilterChanged.InvokeAsync(result);
+    private async Task CleanFilter()
+    {
+        SelectedStatus = null;
+        SelectedCategory = null;
+        Title = null;
+        await ApplyFilter();
     }
 
     public class FilterResult
     {
-    public string? Status { get; set; }
-    public string? Category { get; set; }
-    public string? Title { get; set; }
+        public EStatusLeitura? Status { get; set; }
+        public ECategoriaLivro? Category { get; set; }
+        public string? Title { get; set; }
     }
 }
