@@ -1,4 +1,4 @@
-# Biblioteca
+# Biblioteca - (aplicação em desenvolvimento)
 
 ## Descrição
 
