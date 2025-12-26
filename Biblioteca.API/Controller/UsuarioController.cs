@@ -3,7 +3,6 @@ using Domain.Validator;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Models.Models;
 using Services.Contracts;
 
 namespace Biblioteca.API.Controller
@@ -16,12 +15,11 @@ namespace Biblioteca.API.Controller
         private readonly IAuthService _authService;
 
         private readonly IValidator<UsuarioRequest> _validator;
-        public UsuarioController(IUSuarioservice usuarioservice, IAuthService authService, IValidator<UsuarioRequest> validator)
+        public UsuarioController(IUSuarioservice usuarioservice, IAuthService authService)
         {
             _usuarioservice =  usuarioservice;
             _authService = authService;
-            _validator = validator;
-        }
+        }       
 
        
 
@@ -46,19 +44,15 @@ namespace Biblioteca.API.Controller
         }
 
         [HttpPost("adicionar-usuario")]
-        public async Task<IActionResult> AdicionarUsuario(UsuarioRequest model)
+        public async Task<IActionResult> AdicionarUsuario([FromBody] UsuarioRequest model, 
+            [FromServices] UsuariorequestValidator validator)
         {
-            var validator = await _validator.ValidateAsync(model);
+            var validatorResult = await _validator.ValidateAsync(model);
 
-            if (!validator.IsValid)
+            if (!validatorResult.IsValid)
             {
-                /*
-                  foreach (var erro in validator.Errors)
-                   {
-                       ModelState.AddModelError(erro.PropertyName, erro.ErrorMessage);
-                   }
-                 */
-               return  BadRequest(validator.Errors);
+                 
+               return  BadRequest(validatorResult.Errors);
             }
                 
             
@@ -84,18 +78,20 @@ namespace Biblioteca.API.Controller
 
         [HttpPut("editar-usuario")]
         [Authorize(Roles = "Administrador")]
-        public async Task<IActionResult> AtualizarUsuario(UsuarioRequest model)
+        public async Task<IActionResult> AtualizarUsuario([FromBody] UsuarioRequest model, 
+            [FromServices] UsuarioUpdateValidator validator)
         {
             
-            var validator = await _validator.ValidateAsync(model);
+            var validatorResult = await validator.ValidateAsync(model);
+
+            Console.WriteLine(validatorResult);
             
-            if (!validator.IsValid)
-                return BadRequest(validator.Errors);
-            
-            
+            if (!validatorResult.IsValid)
+                return BadRequest(validatorResult.Errors);
             
             
             var usuario = await _usuarioservice.AtualizarUsuario(model);
+
             return Created("", usuario);
         }
     }

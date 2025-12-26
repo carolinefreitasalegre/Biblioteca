@@ -30,14 +30,14 @@ builder.Services.AddAuthentication(opt =>
     opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(options =>
-{
+    {
     IConfiguration configuration;
     configuration = builder.Configuration;
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
         ValidateAudience = true,
-        ValidateLifetime = true,
+        ValidateLifetime = true,    
         ValidateIssuerSigningKey = true,
 
         ValidIssuer = configuration["jwt:Issuer"],
@@ -96,7 +96,10 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-builder.Services.AddTransient<IValidator<UsuarioRequest>, UsuariorequestValidator>();
+// builder.Services.AddTransient<IValidator<UsuarioRequest>, UsuariorequestValidator>();
+// builder.Services.AddTransient<IValidator<UsuarioRequest>, UsuarioUpdateValidator>();
+builder.Services.AddScoped<UsuariorequestValidator>();
+builder.Services.AddScoped<UsuarioUpdateValidator>();
 builder.Services.AddTransient<IValidator<LivroRequest>, LivroRequestValidator>();
 
 

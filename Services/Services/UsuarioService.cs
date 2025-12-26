@@ -102,10 +102,13 @@ public class UsuarioService : IUSuarioservice
 
             usuarioAtualizado.Nome = usuario.Nome.ToLower();
             usuarioAtualizado.Email = usuario.Email.ToLower();
-            usuarioAtualizado.Senha = usuario.Senha;
             usuarioAtualizado.Role = usuario.Role;
             usuarioAtualizado.Status = usuario.Status;
-            usuarioAtualizado.CriadoEm = usuario.CriadoEm;
+
+            if (!string.IsNullOrWhiteSpace(usuario.Senha))
+            {
+                usuarioAtualizado.Senha = usuario.Senha;
+            }
 
             await _usuarioRepository.Atualizar(usuarioAtualizado);
             return _mapper.Map<UsuarioResponse>(usuarioAtualizado);
