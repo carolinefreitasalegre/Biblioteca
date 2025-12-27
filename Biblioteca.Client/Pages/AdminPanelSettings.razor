@@ -52,22 +52,7 @@ else
         
                     <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem">
             
-                        @if (usuario.Status.ToString() == "Ativo")
-                        {
-                            <RadzenButton Icon="block" 
-                                          ButtonStyle="ButtonStyle.Danger" 
-                                          Variant="Variant.Flat" 
-                                          Title="Bloquear Usuário"
-                                          Click="@(() => OpenInactivateDialog(usuario.Id, usuario.Nome))" />
-                        }
-                        else
-                        {
-                            <RadzenButton Icon="lock_open" 
-                                          ButtonStyle="ButtonStyle.Success" 
-                                          Variant="Variant.Flat" 
-                                          Title="Desbloquear Usuário"
-                                          Click="@(() => DesbloquearUsuario(usuario))" />
-                        }
+                        
             
                         <RadzenButton Icon="edit" 
                                       ButtonStyle="ButtonStyle.Success" 
@@ -130,49 +115,17 @@ else
         {
             await _usuarioService.UpdateUsuario(request);
             await OnUsuarioEditado.InvokeAsync();
+
+            await RecarregarDados();
         }
-    }
-
-
-    private void DesbloquearUsuario(UsuarioResponse usuario)
-    {
-        Console.WriteLine("clicou desbloq user");
-    }
-
-    private async Task OpenInactivateDialog(int userId, string userName)
-    {
-        
-        
-        var result = await DialogService
-            .OpenAsync<InactivateUserDialog>("Inativar Usuário", 
-                new Dictionary<string, object> { { "UserId", userId },
-                { "UserName", userName }
-            },
-            new DialogOptions { Width = "400px",
-                CloseDialogOnOverlayClick = false });
-        if (result == true) {
-            await InativarUsuario(userId);
-            await OnUsuarioEditado.InvokeAsync();
-
-        }
-    }
-
-    private async Task InativarUsuario(int userId)
-    {
-        var usuario = await _usuarioService.GetUsuarioById(userId);
-        var request = new UsuarioRequest
-        {
-            Id = usuario.Id,
-            Nome = usuario.Nome,
-            Status = usuario.Status
-
-        };
-        await _usuarioService.UpdateUsuario(request);
-
-        
-        Console.WriteLine(request.Status);
     }
     
-
+  
+    private async Task RecarregarDados()
+    {
+       usuarios = await _usuarioService.ListarUsuarios();
+        
+        StateHasChanged();
+    }
 
 }

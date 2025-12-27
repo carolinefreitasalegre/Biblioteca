@@ -3,6 +3,7 @@ using Biblioteca.Client.ServiceClient.InterfacesClient;
 using Blazored.LocalStorage;
 using Domain.DTO;
 using Domain.DTO.Response;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Biblioteca.Client.ServiceClient.ServicesClient;
@@ -12,10 +13,11 @@ public class AuthService : IAuthService
     private readonly HttpClient _httpClient;
     private readonly ILocalStorageService _localStorage;
     private readonly AuthenticationStateProvider _provider;
-
+    private readonly NavigationManager _navigationManager;
     private const string ApiUrl = "api/Usuario/login";
 
     public AuthService(
+        NavigationManager  navigationManager,
         HttpClient httpClient,
         ILocalStorageService localStorage,
         AuthenticationStateProvider provider)
@@ -23,6 +25,7 @@ public class AuthService : IAuthService
         _httpClient = httpClient;
         _localStorage = localStorage;
         _provider = provider;
+        _navigationManager = navigationManager;
     }
 
     public async Task<LoginResponse?> Login(LoginDto login)
@@ -46,5 +49,11 @@ public class AuthService : IAuthService
         }
 
         return result;
+    }
+
+    public async Task Logout()
+    {
+        await _localStorage.RemoveItemAsync("authToken");
+        _navigationManager.NavigateTo("/", forceLoad: true);
     }
 }

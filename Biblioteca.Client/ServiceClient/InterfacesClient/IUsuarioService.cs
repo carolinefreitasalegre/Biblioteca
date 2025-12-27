@@ -8,6 +8,7 @@ public interface IUsuarioService
 {
     Task<List<UsuarioResponse>> ListarUsuarios();
     Task<UsuarioResponse> GetUsuarioById(int id);
+    Task<UsuarioResponse> GetUsuarioByEmail(string email);
     Task<UsuarioRequest>AddUsuario(UsuarioRequest model);
     
     Task<UsuarioRequest> UpdateUsuario(UsuarioRequest model);

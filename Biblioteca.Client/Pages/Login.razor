@@ -1,16 +1,17 @@
 @page "/"
 @layout EmptyLayout
 @inject IAuthService AuthService 
-@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+@inject IUsuarioService usuarioService
+@inject ILocalStorageService LocalStorage
 @inject NavigationManager NavManager
-@inject Microsoft.AspNetCore.Components.Authorization.AuthenticationStateProvider AuthStateProvider 
+@inject NotificationService NotificationService
+@inject AuthenticationStateProvider AuthStateProvider 
 
 
 <RadzenRow Gap="0"
            class="rz-my-12 rz-mx-auto rz-border-radius-6 rz-shadow-10"
            Style="width: 100%; max-width: 800px; overflow: hidden;">
 
-    <!-- 🔵 LADO ESQUERDO / BRANDING -->
     <RadzenColumn Size="12" SizeMD="6">
         <RadzenCard class="rz-shadow-0 rz-border-radius-0 rz-p-12"
                     Style="height: 100%;">
@@ -102,23 +103,36 @@
             Email = args.Username, 
             Senha = args.Password
         };
-        
+
+
         var loginResponse = await AuthService.Login(loginDto);
         
+        var usuario = await usuarioService.GetUsuarioByEmail(loginDto.Email);
         
-        
-        if (loginResponse != null && !string.IsNullOrEmpty(loginResponse.Token))
+        if (usuario.Status == EStatusUsuario.Ativo)
         {
-            var customProvider = (CustomAuthenticationStateProvider)AuthStateProvider;
+            if (loginResponse != null && !string.IsNullOrEmpty(loginResponse.Token))
+            {
+                var customProvider = (CustomAuthenticationStateProvider)AuthStateProvider;
             
-            customProvider.NotifyUserLoggedIn(loginResponse.Token);
-
-            NavManager.NavigateTo("/home", forceLoad: true);
+                customProvider.NotifyUserLoggedIn(loginResponse.Token);
+                
+                
+                await LocalStorage.SetItemAsync("welcome_message", $"Bem-vindo, {usuario.Nome}!");
+                NavManager.NavigateTo("/home", forceLoad: true);
+            }
+            
         }
+
+
         else
         {
-        
-            Console.WriteLine("erro");
+            NotificationService.Notify(new NotificationMessage
+            {
+                Severity = NotificationSeverity.Error,
+                Summary = "Conta INATIVA ou BLOQUEADA no momento. Contacte o administrador e tente novamente.",
+                Duration = 5000
+            });
         }
         
         

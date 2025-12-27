@@ -17,13 +17,18 @@ public class UsuariorequestValidator : AbstractValidator<UsuarioRequest>
         RuleFor(x => x.Email)
             .NotEmpty().WithMessage("O e-mail é obrigatório.")
             .EmailAddress().WithMessage("E-mail inválido.")
-            .MustAsync(async (email, cancellation) =>
-                !await usuarioRepository.EmailJaExiste(email))
+            .MustAsync(async (model, email, cancellation) => {
+                var existe = await usuarioRepository.EmailJaExiste(email);
+                if (!existe) return true;
+
+                var usuarioNoBanco = await usuarioRepository.ObterPorEmail(email);
+                return usuarioNoBanco.Id == model.Id;
+            })
             .WithMessage("Este e-mail já está em uso.");
 
         // Senha
         RuleFor(x => x.Senha)
-            .NotEmpty().WithMessage("A senha é obrigatória.")
+            .NotEmpty().WithMessage("A senha é obrigatória.").When(x => x.Id == 0)
             .MinimumLength(6).WithMessage("A senha deve ter no mínimo 6 caracteres.")
             .MaximumLength(50).WithMessage("A senha deve ter no máximo 50 caracteres.")
             .Matches(@"^(?=.*[A-Za-z])(?=.*\d).+$")
@@ -42,7 +47,7 @@ public class UsuariorequestValidator : AbstractValidator<UsuarioRequest>
         // CriadoEm
         RuleFor(x => x.CriadoEm)
             .NotEmpty().WithMessage("A data de criação é obrigatória.")
-            .LessThanOrEqualTo(DateTime.Now)
+            .LessThanOrEqualTo(x => DateTime.UtcNow.AddMinutes(5))
             .WithMessage("A data de criação não pode ser no futuro.");
     }
 }

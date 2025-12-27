@@ -1,5 +1,8 @@
 ﻿@page "/home"
 @attribute [Authorize(Roles = "Usuario")]
+@inject NavigationManager NavManager
+@inject NotificationService NotificationService
+@inject ILocalStorageService LocalStorage
 
 
 
@@ -30,3 +33,24 @@
     </RadzenColumn>
 </RadzenRow>
 
+@code
+{
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var msg = await LocalStorage.GetItemAsync<string>("welcome_message");
+            if (!string.IsNullOrEmpty(msg))
+            {
+                NotificationService.Notify(new NotificationMessage
+                {
+                    Severity = NotificationSeverity.Success,
+                    Summary = "Olá!",
+                    Duration = 4000
+                });
+                await LocalStorage.RemoveItemAsync("welcome_message");
+            }
+        }
+    }
+
+}

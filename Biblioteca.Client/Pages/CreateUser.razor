@@ -62,6 +62,8 @@
 
     private async Task Salvar()
     {
+        await _service.AddUsuario(Usuario);
+        
         NotificationService.Notify(new NotificationMessage
         {
             Severity = NotificationSeverity.Success,
@@ -69,17 +71,9 @@
             Detail = "Usuário criado com sucesso!",
             Duration = 3000
         });
-
-        var novoUsuaio = new UsuarioRequest
-        {
-            Nome = Usuario.Nome,
-            Email = Usuario.Email,
-            Senha = Usuario.Senha,
-            Role = EPerfilUsuario.Usuario,
-        };
         
+        NavigationManager.NavigateTo("/", forceLoad: true); 
         
-        await _service.AddUsuario(novoUsuaio);
 
     }
 

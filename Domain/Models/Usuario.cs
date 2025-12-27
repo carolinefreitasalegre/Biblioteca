@@ -17,7 +17,7 @@ public class Usuario
     public DateTime? UltimoLogin { get; set; }
 
     public EStatusUsuario? Status { get; set; }
-    public DateTime CriadoEm { get; set; }
+    public DateTime CriadoEm { get; set; } =   DateTime.UtcNow;
 
     [JsonIgnore]
     public ICollection<Livro>? Livros { get; set; } = new List<Livro>();

@@ -1,5 +1,6 @@
 using System.Net.Http.Json;
 using System.Security.Claims;
+using System.Text.Json;
 using Biblioteca.Client.ServiceClient.InterfacesClient;
 using Domain.DTO;
 using Domain.DTO.Response;
@@ -28,20 +29,40 @@ public class UsuarioService : IUsuarioService
         return await _httpClient.GetFromJsonAsync<UsuarioResponse>("api/Usuario/usuario/id");
     }
 
+    public async Task<UsuarioResponse> GetUsuarioByEmail(string email)
+    {
+        return await _httpClient.GetFromJsonAsync<UsuarioResponse>($"api/Usuario/buscar-por-email?email={email}");
+        
+    }
+
     public async Task<UsuarioRequest> AddUsuario(UsuarioRequest model)
     {
         var response =  await _httpClient.PostAsJsonAsync("api/Usuario/adicionar-usuario", model);
         
-        response.EnsureSuccessStatusCode();
+        if (!response.IsSuccessStatusCode)
+        {
+            var errorContent = await response.Content.ReadAsStringAsync();
+            Console.WriteLine($"MOTIVO DO ERRO 400: {errorContent}");
+        
+            response.EnsureSuccessStatusCode();
+        }
         
         return await response.Content.ReadFromJsonAsync<UsuarioRequest>();
+
     }
 
     public async Task<UsuarioRequest> UpdateUsuario(UsuarioRequest model)
     {
-        var response = await _httpClient.PostAsJsonAsync("api/Usuario/editar-usuario", model);
+        var response = await _httpClient.PutAsJsonAsync("api/Usuario/editar-usuario", model);
 
-        response.EnsureSuccessStatusCode();
+        if (!response.IsSuccessStatusCode)
+        {
+            var errorContent = await response.Content.ReadAsStringAsync();
+            Console.WriteLine($"MOTIVO DO ERRO 400: {errorContent}");
+        
+            response.EnsureSuccessStatusCode();
+        }
+
 
         return await response.Content.ReadFromJsonAsync<UsuarioRequest>();
     }
