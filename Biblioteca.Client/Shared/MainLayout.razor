@@ -1,4 +1,6 @@
 ﻿@inherits LayoutComponentBase
+@inject IAuthService AuthService
+@inject AuthenticationStateProvider AuthStateProvider
 @inject NavigationManager NavigationManager
 
 <RadzenLayout >
@@ -21,10 +23,10 @@
                    Style="background: var(--primary); display: flex;flex-direction: column;justify-content: space-between">
 
         <RadzenPanelMenu Style="background:  var(--primary)">
-            <RadzenPanelMenuItem Text="Home" Icon="home" Path="home" class="tentativa" Style="border-bottom: 1px solid purple"/>
-            <RadzenPanelMenuItem Text="Minha Coleção" Icon="collections_bookmark" Path="minha-colecao" Style="border-bottom: 1px solid purple"/>
-            <RadzenPanelMenuItem Text="Adicionar Livros" Icon="library_add" Path="adicionar-livro" Style="border-bottom: 1px solid purple"/>
-            <RadzenPanelMenuItem Text="Área do Administrador" Icon="admin_panel_settings" Path="area-administrador" Style="border-bottom: 1px solid purple"/>
+            <RadzenPanelMenuItem Text="Home" Icon="home" Path="home" class="tentativa" Style="border-bottom: 1px solid transparent"/>
+            <RadzenPanelMenuItem Text="Minha Coleção" Icon="collections_bookmark" Path="minha-colecao" Style="border-bottom: 1px solid transparent"/>
+            <RadzenPanelMenuItem Text="Adicionar Livros" Icon="library_add" Path="adicionar-livro" Style="border-bottom: 1px solid transparent"/>
+            <RadzenPanelMenuItem Text="Área do Administrador" Icon="admin_panel_settings" Path="area-administrador" Style="border-bottom: 1px solid transparent"/>
         </RadzenPanelMenu>
 
 
@@ -53,16 +55,21 @@
 
     bool sidebarExpanded = true;
     
-    [Inject] 
-    public AuthenticationStateProvider AuthStateProvider { get; set; } = default!; 
-    
-    [Inject] 
-    public NavigationManager NavManager { get; set; } = default!; 
-
-    private void Logout()
+   
+    protected override async Task OnParametersSetAsync()
     {
+        var authService = await AuthStateProvider.GetAuthenticationStateAsync();
+        var usuario = authService.User;
+        
+        if(usuario.Identity != null && !usuario.Identity.IsAuthenticated)
+            NavigationManager.NavigateTo("/");
+    }
+
+    private async Task Logout()
+    {
+        await AuthService.Logout();
         ((CustomAuthenticationStateProvider)AuthStateProvider).NotifyUserLoggedOut();
         
-        NavManager.NavigateTo("/", forceLoad: true); 
+        NavigationManager.NavigateTo("/", forceLoad: true); 
     }
 }

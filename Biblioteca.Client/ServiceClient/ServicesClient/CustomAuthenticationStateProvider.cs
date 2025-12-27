@@ -38,6 +38,19 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
         try
         {
             var claims = ParseClaimsFromJson(token);
+
+            var expirationClaim = claims.FirstOrDefault(c => c.Type == "exp")?.Value;
+            if (expirationClaim != null)
+            {
+                var expirationTime = DateTimeOffset.FromUnixTimeSeconds(long.Parse(expirationClaim)).UtcDateTime;
+                if (expirationTime <= DateTime.UtcNow)
+                {
+                    NotifyUserLoggedOut();
+                    return new AuthenticationState(_userAnonimo);
+                }
+            }
+            
+            
             var indentity = new ClaimsIdentity(claims, "Biblioteca");
         
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -62,9 +75,9 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     }
 
 
-    public void NotifyUserLoggedOut()
+    public async Task NotifyUserLoggedOut()
     {
-        _localStorage.RemoveItemAsync("authToken");
+        await _localStorage.RemoveItemAsync("authToken");
         _httpClient.DefaultRequestHeaders.Authorization = null;
 
         NotifyAuthenticationStateChanged(Task.FromResult((new AuthenticationState(_userAnonimo))));
@@ -99,6 +112,9 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
 
         if (keyValuePairs.TryGetValue("name", out var name))
             claims.Add(new Claim(ClaimTypes.Name, name.GetString() ?? string.Empty));
+        
+        if (keyValuePairs.TryGetValue("exp", out var exp))
+            claims.Add(new Claim("exp", exp.ToString() ?? string.Empty));
 
         if (keyValuePairs.TryGetValue(JwtRegisteredClaimNames.Email, out var email))
             claims.Add(new Claim(ClaimTypes.Email, email.GetString() ?? string.Empty));

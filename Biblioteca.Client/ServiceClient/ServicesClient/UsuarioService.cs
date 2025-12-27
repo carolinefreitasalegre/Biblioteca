@@ -29,6 +29,12 @@ public class UsuarioService : IUsuarioService
         return await _httpClient.GetFromJsonAsync<UsuarioResponse>("api/Usuario/usuario/id");
     }
 
+    public async Task<UsuarioResponse> GetUsuarioByEmail(string email)
+    {
+        return await _httpClient.GetFromJsonAsync<UsuarioResponse>($"api/Usuario/buscar-por-email?email={email}");
+        
+    }
+
     public async Task<UsuarioRequest> AddUsuario(UsuarioRequest model)
     {
         var response =  await _httpClient.PostAsJsonAsync("api/Usuario/adicionar-usuario", model);

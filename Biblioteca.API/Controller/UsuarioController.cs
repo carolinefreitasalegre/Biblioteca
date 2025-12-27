@@ -76,6 +76,14 @@ namespace Biblioteca.API.Controller
             return Ok(usuario);
         }
 
+        
+        [HttpGet("buscar-por-email")]
+        public async Task<IActionResult> BuscarPorEmail([FromQuery] string email)
+        {
+            var usuario = await _usuarioservice.ObterPorEmail(email);
+            return Ok(usuario);
+        }
+        
         [HttpPut("editar-usuario")]
         [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> AtualizarUsuario([FromBody] UsuarioRequest model, 
@@ -94,5 +102,6 @@ namespace Biblioteca.API.Controller
 
             return Created("", usuario);
         }
+
     }
 }
