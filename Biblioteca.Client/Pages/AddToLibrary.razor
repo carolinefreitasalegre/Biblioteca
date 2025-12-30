@@ -1,6 +1,6 @@
 @page "/adicionar-livro"
 @inherits ComponentBase
-@attribute [Authorize(Roles = "Usuario")]
+@attribute [Authorize]
 @inject ILivroService _service
 @inject NotificationService NotificationService
 
@@ -68,31 +68,25 @@
 
         <!--  CAPA DO LIVRO (UPLOAD)                  -->
         <div class="col-12 col-md-4 mb-4">
-            <RadzenCard>
-
+            <RadzenCard Style="width: 200px;">
                 <div class="card-title">Capa do Livro</div>
-
                 <div class="d-flex flex-column align-items-center text-center mt-3">
-
-                    @if (CapaPreviewBase64 != null)
+                    @if (!string.IsNullOrEmpty(capaPreview))
                     {
-                        <img src="@CapaPreviewBase64" style="width:160px; height:auto; border-radius:6px; margin-bottom:15px;" />
+                        <img src="@capaPreview" style="width:160px; height:auto; border-radius:6px; margin-bottom:15px;" />
                     }
                     else
                     {
                         <div style="border:2px dashed #ccc; border-radius:10px; width:160px; height:200px; display:flex; align-items:center; justify-content:center;">
-                            <i class="rz-icon-file-upload" style="font-size:40px; opacity:0.4"></i>
+                            <RadzenIcon Icon="image" Style="font-size:40px; opacity:0.4" />
                         </div>
                     }
 
-                    <RadzenFileInput TValue="UploadChangeEventArgs" Change="UploadCapa" />
-
+                    <InputFile OnChange="@CapturarArquivo" class="form-control" />
                 </div>
-
             </RadzenCard>
         </div>
 
-        <!--   STATUS DE LEITURA                      -->
         <div class="col-12 mb-4">
             <RadzenCard>
 
@@ -162,8 +156,10 @@
 @code {
     private DateTime? AnoPublicacaoUi;
     private LivroRequest Livro = new();
-    private string? CapaPreviewBase64;
-
+    private IBrowserFile capaLivro;
+    private string? capaPreview;
+    
+    
     private IEnumerable<object> StatusList => Enum.GetValues(typeof(EStatusLeitura)).Cast<EStatusLeitura>()
         .Select(s => new
         {
@@ -178,19 +174,24 @@
             Value = c
         });
 
-    private async Task UploadCapa(UploadChangeEventArgs args)
+
+    void OnChange(string value, string name)
     {
-        var file = args.Files.FirstOrDefault();
-        if (file == null) return;
-
-        using var stream = file.OpenReadStream(5_000_000);
-        using var ms = new MemoryStream();
-
-        await stream.CopyToAsync(ms);
-
-        CapaPreviewBase64 = $"data:image/png;base64,{Convert.ToBase64String(ms.ToArray())}";
+        capaPreview = value; 
     }
+    
+    
+    async Task CapturarArquivo(InputFileChangeEventArgs e)
+    {
+        capaLivro = e.File;
 
+        var format = "image/png";
+        var resizedImage = await e.File.RequestImageFileAsync(format, 300, 300);
+        var buffer = new byte[resizedImage.Size];
+        await resizedImage.OpenReadStream().ReadAsync(buffer);
+        capaPreview = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
+    }
+    
     
     private async Task Salvar(LivroRequest livro)
     {
@@ -201,7 +202,7 @@
                 livro.AnoPublicacao = DateOnly.FromDateTime(AnoPublicacaoUi.Value);
             }
 
-            await _service.AdicionarLivros(livro);
+            await _service.AdicionarLivros(livro, capaLivro);
             NotificationService.Notify(new NotificationMessage
             {
                 Severity = NotificationSeverity.Success,
@@ -209,6 +210,14 @@
                 Detail = "Livro adicionado com sucesso",
                 Duration = 4000 
             });
+
+            Livro = new LivroRequest();
+            AnoPublicacaoUi = null;
+            capaLivro = null;
+            capaPreview = null;
+
+            StateHasChanged();
+
         }
         catch (Exception e)
         {
@@ -222,6 +231,9 @@
             });
         }
 
+         
     }
+
+
    
 }

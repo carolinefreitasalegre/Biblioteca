@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json.Serialization;
 using Domain.DTO;
 using Domain.Validator;
 using FluentValidation;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Models.Models;
 using Repositories.DataContext;
 using Repositories.Repositories;
 using Repositories.Repositories.Contracts;
@@ -23,6 +25,8 @@ builder.Configuration
     .AddJsonFile("appsettings.json", optional: false)
     .AddJsonFile("appsettings.Development.json", optional: true)
     .AddJsonFile("appsettings.Local.json", optional: true);
+
+builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
 
 //jwt
 builder.Services.AddAuthentication(opt =>
@@ -40,11 +44,12 @@ builder.Services.AddAuthentication(opt =>
         ValidateLifetime = true,    
         ValidateIssuerSigningKey = true,
 
-        ValidIssuer = configuration["jwt:Issuer"],
-        ValidAudience = configuration["jwt:Audience"],
+        ValidIssuer = configuration["Jwt:Issuer"],
+        ValidAudience = configuration["Jwt:Audience"],
         IssuerSigningKey =  new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Secret"])),
+        
         RoleClaimType = ClaimTypes.Role,
-        NameClaimType = ClaimTypes.NameIdentifier,
+        NameClaimType = ClaimTypes.Name
         
     };
 });
@@ -81,7 +86,19 @@ builder.Services.AddDbContext<BibliotecaContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
-builder.Services.AddControllers();
+
+
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(
+            new JsonStringEnumConverter()
+        );
+    });
+
+
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -89,17 +106,20 @@ builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<ILivroRepository, LivroRepository>();
 builder.Services.AddScoped<IItemColecaoRepository, ItemColecaoRepository>();
 
+builder.Services.AddScoped<IUploadPhotoService, UploadPhotoService>();
 builder.Services.AddScoped<IUSuarioservice, UsuarioService>();
 builder.Services.AddScoped<ILivroService, LivroService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 
+
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-// builder.Services.AddTransient<IValidator<UsuarioRequest>, UsuariorequestValidator>();
-// builder.Services.AddTransient<IValidator<UsuarioRequest>, UsuarioUpdateValidator>();
-builder.Services.AddScoped<UsuariorequestValidator>();
-builder.Services.AddScoped<UsuarioUpdateValidator>();
+// builder.Services.AddScoped<UsuariorequestValidator>();
+// builder.Services.AddScoped<UsuarioUpdateValidator>();
+
+builder.Services.AddScoped<IValidator<UsuarioRequest>, UsuariorequestValidator>();
+builder.Services.AddScoped<IValidator<UsuarioRequest>, UsuarioUpdateValidator>();
 builder.Services.AddTransient<IValidator<LivroRequest>, LivroRequestValidator>();
 
 

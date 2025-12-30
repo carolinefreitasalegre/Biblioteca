@@ -1,6 +1,7 @@
 using AutoMapper;
 using Domain.DTO;
 using Domain.DTO.Response;
+using Microsoft.AspNetCore.Http;
 using Models.Models;
 using Repositories.Repositories.Contracts;
 using Services.Contracts;
@@ -12,14 +13,16 @@ public class LivroService : ILivroService
     
     private readonly ILivroRepository _livroRepository;
     private readonly IUsuarioRepository _usuarioRepository;
+    private readonly IUploadPhotoService _uploadPhoto;
     private readonly IMapper _mapper;
 
 
-    public LivroService(ILivroRepository repository, IUsuarioRepository usuarioRepository, IMapper mapper)
+    public LivroService(ILivroRepository repository, IUsuarioRepository usuarioRepository, IMapper mapper, IUploadPhotoService uploadPhoto)
     {
         _livroRepository = repository;
         _usuarioRepository = usuarioRepository;
         _mapper = mapper;
+        _uploadPhoto =  uploadPhoto;
     }
     
     public async Task<List<LivroResponse>> Listar()
@@ -43,13 +46,26 @@ public class LivroService : ILivroService
         
     }
 
-    public async Task<LivroResponse> Adicionar(LivroRequest livro, int usuarioId)
+    public async Task<LivroResponse> Adicionar(LivroRequest livro, int usuarioId, IFormFile? arquivoCapa)
     {
         try
         {
+            
             var usuario = await _usuarioRepository.ObterPorId(usuarioId);
             if (usuario == null)
                 throw new Exception("Usuário não encontrado.");
+
+            string urlCapaFinal = livro.CapaUrl;
+
+            if (arquivoCapa != null)
+            {
+               var uploadResult = await _uploadPhoto.UploadImageAsync(arquivoCapa);
+            
+                if (uploadResult.Error != null)
+                    throw new Exception($"Erro no Cloudinary: {uploadResult.Error.Message}");
+
+                urlCapaFinal = uploadResult.SecureUrl.ToString();
+            }
             
             var novoLivro = new Livro
             {
@@ -59,7 +75,7 @@ public class LivroService : ILivroService
                 Editora = livro.Editora,
                 NumeroPaginas = livro.NumeroPaginas,
                 Categoria = livro.Categoria,
-                CapaUrl = livro.CapaUrl,
+                CapaUrl = urlCapaFinal,
                 StatusLeitura = livro.StatusLeitura,
                 AnoPublicacao = livro.AnoPublicacao,
                 NotasPessoais = livro.NotasPessoais,

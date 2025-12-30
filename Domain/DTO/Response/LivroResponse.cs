@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Models.Enum;
 
 namespace Domain.DTO.Response;
@@ -10,8 +11,12 @@ public class LivroResponse
     public string? Isbn { get; set; }
     public string? Editora { get; set; }
     public int NumeroPaginas { get; set; }
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+
     public ECategoriaLivro Categoria { get; set; }
     public string? CapaUrl { get; set; }
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+
     public EStatusLeitura StatusLeitura { get; set; }
     
     public DateTime DataAdicionado { get; set; } 

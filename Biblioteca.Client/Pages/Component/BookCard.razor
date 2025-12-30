@@ -3,17 +3,23 @@
 @inject ILivroService _service
 
 
-<RadzenCard Style="width: 300px; padding: 20px; border-radius: 12px;">
-    <RadzenButton Icon="edit"
+<RadzenCard Style="width: 300px; padding: 20px 10px; border-radius: 12px;">
+    <RadzenButton Icon="more_vert"
                   ButtonStyle="ButtonStyle.Light"
                   Variant="Variant.Flat"
                   Size="ButtonSize.Small"
                   Click="@(() => EditarLivro(LivroId))"
                   Style="background-color: transparent;position:relative; left: 17em;color: var(--primary)"
     />
-    <div style="text-align: center;">
-        <img src="./icon-192.png"
-             style="width: 100%; height: 220px; object-fit: cover; border-radius: 8px;"/>
+    <div style="text-align: center; margin-top: 2em">
+        @if (!string.IsNullOrEmpty(CapaUrl))
+        {
+            <RadzenImage Path="@CapaUrl" Style="width: 200px; height: 250px; border-radius: 5px;" />
+        }
+        else
+        {
+                <RadzenImage Path="/capaPadra.png" Style="width: 200px; height: 250px; border-radius: 5px; " />
+        }
     </div>
 
     <h3 style="margin-top: 15px; font-weight: 700; color: #0D1B4C; text-align: center;">
@@ -24,16 +30,15 @@
         @Autor
     </p>
 
-    <div style="margin-top: 10px; text-align: center;">
+    <div style="display: flex; margin-top: 10px; text-align: center; justify-content: center;gap:5px">
         <RadzenBadge Style="background:#D2FFE0; color:#1B8847; padding:6px 14px; border-radius:8px;">
             @Status
         </RadzenBadge>
-    </div>
-    <div style="margin-top: 10px; text-align: center;">
         <RadzenBadge Style="background:#D2FFE0; color:#1B8847; padding:6px 14px; border-radius:8px;">
             @Categoria
         </RadzenBadge>
     </div>
+   
 
     <div style="margin-top: 12px; text-align: center;">
         <RadzenRating Value="3" ReadOnly="true"/>
@@ -46,6 +51,7 @@
     [Parameter] public string Autor { get; set; } = string.Empty;
     [Parameter] public string Status { get; set; } = string.Empty;
     [Parameter] public string Categoria { get; set; } = string.Empty;
+    [Parameter] public string CapaUrl { get; set; } = string.Empty;
     [Parameter] public int LivroId { get; set; }
     [Parameter] public EventCallback OnLivroEditado { get; set; }
     

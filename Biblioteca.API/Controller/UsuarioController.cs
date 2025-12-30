@@ -15,13 +15,24 @@ namespace Biblioteca.API.Controller
         private readonly IAuthService _authService;
 
         private readonly IValidator<UsuarioRequest> _validator;
-        public UsuarioController(IUSuarioservice usuarioservice, IAuthService authService)
+        public UsuarioController(IUSuarioservice usuarioservice, IAuthService authService, IValidator<UsuarioRequest> validator)
         {
             _usuarioservice =  usuarioservice;
             _authService = authService;
+            _validator = validator; 
         }       
 
        
+        [HttpGet("debug-claims")]
+        [Authorize]
+        public IActionResult DebugClaims()
+        {
+            return Ok(User.Claims.Select(c => new
+            {
+                c.Type,
+                c.Value
+            }));
+        }
 
         [HttpPost("login")]
         public async Task<IActionResult> LoginAsync([FromBody] LoginDto login)
@@ -44,8 +55,7 @@ namespace Biblioteca.API.Controller
         }
 
         [HttpPost("adicionar-usuario")]
-        public async Task<IActionResult> AdicionarUsuario([FromBody] UsuarioRequest model, 
-            [FromServices] UsuariorequestValidator validator)
+        public async Task<IActionResult> AdicionarUsuario([FromBody] UsuarioRequest model)
         {
             var validatorResult = await _validator.ValidateAsync(model);
 
@@ -86,11 +96,10 @@ namespace Biblioteca.API.Controller
         
         [HttpPut("editar-usuario")]
         [Authorize(Roles = "Administrador")]
-        public async Task<IActionResult> AtualizarUsuario([FromBody] UsuarioRequest model, 
-            [FromServices] UsuarioUpdateValidator validator)
+        public async Task<IActionResult> AtualizarUsuario([FromBody] UsuarioRequest model)
         {
             
-            var validatorResult = await validator.ValidateAsync(model);
+            var validatorResult = await _validator.ValidateAsync(model);
 
             Console.WriteLine(validatorResult);
             
