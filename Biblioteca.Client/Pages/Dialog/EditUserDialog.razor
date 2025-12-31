@@ -65,6 +65,17 @@
     [Parameter] public UsuarioResponse Usuario { get; set; }
     private UsuarioRequest request;
 
+    //refatorar codigo 
+    //adicionar msgm de OK
+    /*
+      NotificationService.Notify(new NotificationMessage
+              {
+                  Severity = NotificationSeverity.Success,
+                  Summary = "Conta criada",
+                  Detail = "Usuário criado com sucesso!",
+                  Duration = 3000
+              });
+     */
 
     private List<EnumOption<EStatusUsuario>> statusOptions =
         Enum.GetValues(typeof(EStatusUsuario))

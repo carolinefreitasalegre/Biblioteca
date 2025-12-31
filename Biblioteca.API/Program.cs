@@ -118,13 +118,13 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-// builder.Services.AddScoped<UsuariorequestValidator>();
-// builder.Services.AddScoped<UsuarioUpdateValidator>();
 
 builder.Services.AddScoped<IValidator<UsuarioRequest>, UsuariorequestValidator>();
 builder.Services.AddScoped<IValidator<UsuarioRequest>, UsuarioUpdateValidator>();
-builder.Services.AddTransient<IValidator<LivroRequest>, LivroRequestValidator>();
+// builder.Services.AddTransient<IValidator<LivroRequest>, LivroRequestValidator>();
+// builder.Services.AddTransient<IValidator<LivroRequest>, EditarLivroRequestValidator>();
 
+builder.Services.AddValidatorsFromAssemblyContaining<LivroRequestValidator>();
 
 
 builder.Services.AddCors(options =>

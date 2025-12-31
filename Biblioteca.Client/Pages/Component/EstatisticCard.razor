@@ -44,12 +44,13 @@
         var livros = await service.ListarLivros();
 
         var hoje = DateTime.Today;
+        
         var inicioMesAtual = new DateTime(hoje.Year, hoje.Month, 1);
-
+        
         var livrosAdicionadosMes = livros
             .Where(l => l.DataAdicionado >= inicioMesAtual)
             .ToList();
-
+        Console.WriteLine(livrosAdicionadosMes.Count);
         var livrosLidosMes = livrosAdicionadosMes
             .Where(l => l.StatusLeitura == EStatusLeitura.Lido)
             .ToList();
