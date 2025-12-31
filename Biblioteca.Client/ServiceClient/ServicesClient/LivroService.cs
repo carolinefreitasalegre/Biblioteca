@@ -64,7 +64,7 @@ public class LivroService : ILivroService
 
     public async Task<LivroResponse> EditarLivro(LivroRequest model)
     {
-        var response = await _httpClient.PutAsJsonAsync("api/Livro/editar-model", model);
+        var response = await _httpClient.PutAsJsonAsync("api/Livro/editar-livro", model);
 
         response.EnsureSuccessStatusCode();
 

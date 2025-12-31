@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Domain.DTO;
 using Domain.Exceptions;
+using Domain.Validator;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,14 +16,16 @@ namespace Biblioteca.API.Controller
     public class LivroController : ControllerBase
     {
         private readonly ILivroService _livroService;
-        private readonly IValidator<LivroRequest> _validator;
+        // private readonly IValidator<LivroRequest> _validator;
+        // private readonly IValidator<LivroRequest> _validatorEditar;
 
         public LivroController(
-            ILivroService livroService,
-            IValidator<LivroRequest> validator)
+            ILivroService livroService)
+            // IValidator<LivroRequest> validator, IValidator<LivroRequest> validatorEditar)
         {
             _livroService = livroService;
-            _validator = validator;
+            // _validator = validator;
+            // _validatorEditar = validatorEditar;
         }
         
         [HttpGet("livros")]
@@ -47,7 +50,8 @@ namespace Biblioteca.API.Controller
         [HttpPost("adicionar-livro")]
         public async Task<IActionResult> NewBook(
             [FromForm] LivroRequest model,
-            [FromForm(Name = "arquivocapa")] IFormFile capaUrl)
+            [FromForm(Name = "arquivocapa")] IFormFile capaUrl,
+            [FromServices] LivroRequestValidator validator)
         {
             var userIdClaim = User.Claims
                 .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
@@ -55,7 +59,7 @@ namespace Biblioteca.API.Controller
             if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var usuarioId))
                 return Unauthorized("Token inválido ou ID de usuário ausente.");
 
-            var validationResult = await _validator.ValidateAsync(model);
+            var validationResult = await validator.ValidateAsync(model);
 
             if (!validationResult.IsValid)
                 return BadRequest(validationResult.Errors);
@@ -65,13 +69,16 @@ namespace Biblioteca.API.Controller
 
             var newBook = await _livroService.Adicionar(model, capaUrl);
 
-            return Created("", newBook);
+            return Created(string.Empty, newBook);
         }
 
+
         [HttpPut("editar-livro")]
-        public async Task<IActionResult> EditBook(LivroRequest model)
+        public async Task<IActionResult> EditBook(
+            [FromBody] LivroRequest model,
+            [FromServices] EditarLivroRequestValidator validator)
         {
-            var validationResult = await _validator.ValidateAsync(model);
+            var validationResult = await validator.ValidateAsync(model);
 
             if (!validationResult.IsValid)
                 return BadRequest(validationResult.Errors);
@@ -80,6 +87,7 @@ namespace Biblioteca.API.Controller
 
             return Ok(editBook);
         }
+
     }
 
     
