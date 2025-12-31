@@ -9,7 +9,7 @@
     </RadzenStack>
 
     <RadzenText TextStyle="TextStyle.Body1" class="rz-mb-3">
-        "A leitura de um bom livro é um diálogo incessante: o livro fala e a alma responde." – André Maurois
+        "@Dicas.Texto.." - @Dicas.Autor
     </RadzenText>
 
     <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Start" Gap="0.5rem">
@@ -20,3 +20,16 @@
     </RadzenStack>
     
 </RadzenCard>
+
+@code{
+
+    public DicaLivroMock Dicas { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Dicas = DicasLivrosMock.Dicas
+            .OrderBy(_ => Guid.NewGuid())
+            .First();
+    }
+
+}
