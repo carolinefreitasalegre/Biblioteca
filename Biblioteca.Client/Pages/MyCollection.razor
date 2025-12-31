@@ -1,5 +1,5 @@
 @page "/minha-colecao"
-@attribute [Authorize(Roles = "Usuario")]
+@attribute [Authorize]
 @inject ILivroService _service
 
 <Filter StatusOptions="StatusOptions"
@@ -16,6 +16,7 @@
                   Autor="@livro.Autor"  
                   Status="@livro.StatusLeitura.ToString()"
                   Categoria="@livro.Categoria.ToString()"
+                  CapaUrl="@livro.CapaUrl"
                   LivroId="@livro.Id"
                   OnLivroEditado="RecarregarDados"
                   />

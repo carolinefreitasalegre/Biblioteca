@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Models.Enum;
 
 namespace Domain.DTO;
@@ -8,7 +9,10 @@ public class UsuarioRequest
     public string Nome { get; set; }
     public string Email { get; set; }
     public string? Senha { get; set; }
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+
     public EPerfilUsuario Role { get; set; } = EPerfilUsuario.Usuario;
+    [JsonConverter(typeof(JsonStringEnumConverter))]
 
     public EStatusUsuario Status { get; set; } =  EStatusUsuario.Ativo;
     public DateTime CriadoEm { get; set; } =  DateTime.UtcNow;

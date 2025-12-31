@@ -1,11 +1,15 @@
 @page "/area-administrador"
-@using Biblioteca.Client.Pages.Dialog
 @inject IUsuarioService _usuarioService
 @attribute [Authorize(Roles = "Administrador")]
+
+
 @inject DialogService DialogService
 
 
-@if (usuarios == null)
+
+<AuthorizeView Roles="Administrador">
+    <Authorized>
+        @if (usuarios == null)
 {
     <p><em>Carregando...</em></p>
 }
@@ -31,6 +35,8 @@ else
             <RadzenDataGridColumn TItem="UsuarioResponse" Property="Nome" Title="Nome" />
             
             <RadzenDataGridColumn TItem="UsuarioResponse" Property="Email" Title="Email" />
+            
+            <RadzenDataGridColumn TItem="UsuarioResponse" Property="Role" Title="Perfil de usuário" />
             
             <RadzenDataGridColumn TItem="UsuarioResponse" Property="Status" Title="Status">
                 <Template Context="usuario">
@@ -72,22 +78,33 @@ else
 }
 
 
+    </Authorized>
+
+    <NotAuthorized>
+        <RadzenAlert Severity="Severity.Warning">
+            Esta área é restrita a administradores.
+        </RadzenAlert>
+    </NotAuthorized>
+</AuthorizeView>
+
+
 @code {
     private List<UsuarioResponse> usuarios = new();
     private int TotalUsuarios => usuarios?.Count ?? 0;
     public EventCallback OnUsuarioEditado { get; set; }
 
-    
+
     protected override async Task OnInitializedAsync()
     {
         try
         {
             usuarios = await _usuarioService.ListarUsuarios();
-            
+
         }
-        catch (HttpRequestException ex)
+        catch (UnauthorizedAccessException)
         {
             Console.WriteLine("Acesso não autorizado ou token expirado.");
+            usuarios = new();
         }
         catch (Exception e)
         {
@@ -96,7 +113,7 @@ else
         }
     }
 
-    
+
     private async Task AbrirEdicao(UsuarioResponse usuario)
     {
         var result = await DialogService.OpenAsync<EditUserDialog>(
@@ -119,12 +136,12 @@ else
             await RecarregarDados();
         }
     }
-    
-  
+
+
     private async Task RecarregarDados()
     {
-       usuarios = await _usuarioService.ListarUsuarios();
-        
+        usuarios = await _usuarioService.ListarUsuarios();
+
         StateHasChanged();
     }
 

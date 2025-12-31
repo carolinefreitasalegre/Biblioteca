@@ -1,6 +1,8 @@
 using AutoMapper;
 using Domain.DTO;
 using Domain.DTO.Response;
+using Domain.Exceptions;
+using Microsoft.AspNetCore.Http;
 using Models.Models;
 using Repositories.Repositories.Contracts;
 using Services.Contracts;
@@ -9,106 +11,80 @@ namespace Services.Services;
 
 public class LivroService : ILivroService
 {
-    
+    private readonly ILoggedinUser _loggedinUser;
     private readonly ILivroRepository _livroRepository;
-    private readonly IUsuarioRepository _usuarioRepository;
+    private readonly IUploadPhotoService _uploadPhoto;
     private readonly IMapper _mapper;
 
-
-    public LivroService(ILivroRepository repository, IUsuarioRepository usuarioRepository, IMapper mapper)
+    public LivroService(
+        ILivroRepository livroRepository,
+        IMapper mapper,
+        IUploadPhotoService uploadPhoto,
+        ILoggedinUser loggedinUser)
     {
-        _livroRepository = repository;
-        _usuarioRepository = usuarioRepository;
+        _livroRepository = livroRepository;
         _mapper = mapper;
+        _uploadPhoto = uploadPhoto;
+        _loggedinUser = loggedinUser;
     }
-    
+
     public async Task<List<LivroResponse>> Listar()
     {
-        var livros = await _livroRepository.Listar();
+        var userId = _loggedinUser.UserId;
+
+        var livros = await _livroRepository.Listar(userId);
+
         return _mapper.Map<List<LivroResponse>>(livros);
     }
 
     public async Task<LivroResponse?> GetById(int id)
     {
-        try
-        {
-            var livro = await _livroRepository.GetById(id);
-            return _mapper.Map<LivroResponse>(livro);
-        }
-        catch (Exception e)
-        {
-            throw new Exception(e.Message);
-        }
-        
-        
+        var livro = await _livroRepository.GetById(id);
+
+        if (livro == null)
+            return null;
+
+        if (livro.UsuarioId != _loggedinUser.UserId)
+            throw new UnauthorizedAccessException();
+
+        return _mapper.Map<LivroResponse>(livro);
     }
 
-    public async Task<LivroResponse> Adicionar(LivroRequest livro, int usuarioId)
+    public async Task<LivroResponse> Adicionar(LivroRequest livro, IFormFile? arquivoCapa)
     {
-        try
+        string capaUrl = livro.CapaUrl;
+
+        if (arquivoCapa != null)
         {
-            var usuario = await _usuarioRepository.ObterPorId(usuarioId);
-            if (usuario == null)
-                throw new Exception("Usuário não encontrado.");
-            
-            var novoLivro = new Livro
-            {
-                Titulo = livro.Titulo,
-                Autor = livro.Autor,
-                Isbn = livro.Isbn,
-                Editora = livro.Editora,
-                NumeroPaginas = livro.NumeroPaginas,
-                Categoria = livro.Categoria,
-                CapaUrl = livro.CapaUrl,
-                StatusLeitura = livro.StatusLeitura,
-                AnoPublicacao = livro.AnoPublicacao,
-                NotasPessoais = livro.NotasPessoais,
+            var uploadResult = await _uploadPhoto.UploadImageAsync(arquivoCapa);
 
-                UsuarioId = usuario.Id
-            };
-            
- 
+            if (uploadResult.Error != null)
+                throw new Exception(uploadResult.Error.Message);
 
-             await _livroRepository.Adicionar(novoLivro);
-
-             return _mapper.Map<LivroResponse>(novoLivro);
+            capaUrl = uploadResult.SecureUrl.ToString();
         }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.InnerException?.Message);
 
-            throw;
-        }
-        
+        var novoLivro = _mapper.Map<Livro>(livro);
+        novoLivro.UsuarioId = _loggedinUser.UserId;
+        novoLivro.CapaUrl = capaUrl;
+
+        await _livroRepository.Adicionar(novoLivro);
+
+        return _mapper.Map<LivroResponse>(novoLivro);
     }
 
     public async Task<LivroResponse> Atualizar(LivroRequest livro)
     {
-        try
-        {
-            var buscarLivro = await _livroRepository.GetById(livro.Id) ?? throw new Exception("Livro não econtrado.");
-            
-            buscarLivro.Titulo =  livro.Titulo;
-            buscarLivro.Autor = livro.Autor;
-            buscarLivro.Isbn = livro.Isbn;
-            buscarLivro.Editora = livro.Editora;
-            buscarLivro.NumeroPaginas = livro.NumeroPaginas;
-            buscarLivro.Categoria = livro.Categoria;
-            buscarLivro.CapaUrl = livro.CapaUrl;
-            buscarLivro.StatusLeitura = livro.StatusLeitura;
-            buscarLivro.AnoPublicacao = livro.AnoPublicacao;
-            buscarLivro.NotasPessoais = livro.NotasPessoais;
-            
-            await _livroRepository.Atualizar(buscarLivro);
-            
-            return _mapper.Map<LivroResponse>(buscarLivro);
+        var livroDb = await _livroRepository.GetById(livro.Id)
+            ?? throw new Exception(ErrorMessages.LivroNaoEncontrado);
 
-        }
-        catch (Exception e)
-        {
-            throw new Exception(e.Message.ToString());
-        }
-        
-        
+        if (livroDb.UsuarioId != _loggedinUser.UserId)
+            throw new UnauthorizedAccessException();
+
+        _mapper.Map(livro, livroDb);
+
+        await _livroRepository.Atualizar(livroDb);
+
+        return _mapper.Map<LivroResponse>(livroDb);
     }
 }

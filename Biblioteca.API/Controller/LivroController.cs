@@ -1,5 +1,7 @@
 using System.Security.Claims;
 using Domain.DTO;
+using Domain.Exceptions;
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.Models;
@@ -13,20 +15,14 @@ namespace Biblioteca.API.Controller
     public class LivroController : ControllerBase
     {
         private readonly ILivroService _livroService;
+        private readonly IValidator<LivroRequest> _validator;
 
-        public LivroController(ILivroService livroService)
-        {   
-            _livroService = livroService;
-        }
-
-        private int? ObterUsuarioLogado()
+        public LivroController(
+            ILivroService livroService,
+            IValidator<LivroRequest> validator)
         {
-            var claim = HttpContext.User?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-            
-            if (claim == null)
-                return null;
-            
-            return int.TryParse(claim.Value, out var id) ? id : null;
+            _livroService = livroService;
+            _validator = validator;
         }
         
         [HttpGet("livros")]
@@ -43,30 +39,31 @@ namespace Biblioteca.API.Controller
             var livro = await _livroService.GetById(id);
             
             if (livro == null)
-                return NotFound("Livro nao encontrado.");
+                throw new Exception(ErrorMessages.LivroNaoEncontrado);
             
             return Ok(livro);
         }
         
         [HttpPost("adicionar-livro")]
-        public async Task<IActionResult> NewBook(LivroRequest model)
+        public async Task<IActionResult> NewBook(
+            [FromForm] LivroRequest model,
+            [FromForm(Name = "arquivocapa")] IFormFile capaUrl)
         {
-            
-            var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-            
-            if(string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var usuarioId))
-                return Unauthorized("Token inválido ou ID de usuário ausente/malformado.");
+            var userIdClaim = User.Claims
+                .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
+            if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var usuarioId))
+                return Unauthorized("Token inválido ou ID de usuário ausente.");
 
-            Console.WriteLine(userIdClaim);
-            Console.WriteLine(User.Identity?.IsAuthenticated);
+            var validationResult = await _validator.ValidateAsync(model);
 
-            foreach (var claim in User.Claims)
-            {
-                Console.WriteLine($"{claim.Type} = {claim.Value}");
-            }
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors);
 
-            var newBook = await _livroService.Adicionar(model, usuarioId);
+            if (capaUrl == null || capaUrl.Length == 0)
+                return BadRequest("A capa do livro é obrigatória.");
+
+            var newBook = await _livroService.Adicionar(model, capaUrl);
 
             return Created("", newBook);
         }
@@ -74,8 +71,16 @@ namespace Biblioteca.API.Controller
         [HttpPut("editar-livro")]
         public async Task<IActionResult> EditBook(LivroRequest model)
         {
+            var validationResult = await _validator.ValidateAsync(model);
+
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors);
+
             var editBook = await _livroService.Atualizar(model);
-            return Created("", editBook);
+
+            return Ok(editBook);
         }
     }
+
+    
 }

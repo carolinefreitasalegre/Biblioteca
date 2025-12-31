@@ -119,18 +119,25 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
         if (keyValuePairs.TryGetValue(JwtRegisteredClaimNames.Email, out var email))
             claims.Add(new Claim(ClaimTypes.Email, email.GetString() ?? string.Empty));
 
-        if (keyValuePairs.TryGetValue("role", out var roles))
+        foreach (var kvp in keyValuePairs)
         {
-            if (roles.ValueKind == JsonValueKind.Array)
+            if (kvp.Key == ClaimTypes.Role ||
+                kvp.Key.EndsWith("/role"))
             {
-                foreach (var role in roles.EnumerateArray())
-                    claims.Add(new Claim(ClaimTypes.Role, role.GetString() ?? string.Empty));
-            }
-            else
-            {
-                claims.Add(new Claim(ClaimTypes.Role, roles.GetString() ?? string.Empty));
+                if (kvp.Value.ValueKind == JsonValueKind.Array)
+                {
+                    foreach (var role in kvp.Value.EnumerateArray())
+                    {
+                        claims.Add(new Claim(ClaimTypes.Role, role.GetString() ?? string.Empty));
+                    }
+                }
+                else
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, kvp.Value.GetString() ?? string.Empty));
+                }
             }
         }
+
 
         if (keyValuePairs.TryGetValue(JwtRegisteredClaimNames.Iss, out var iss))
             claims.Add(new Claim(ClaimTypes.System, iss.GetString() ?? string.Empty));

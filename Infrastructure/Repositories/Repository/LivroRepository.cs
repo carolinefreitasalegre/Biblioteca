@@ -14,9 +14,10 @@ public class LivroRepository : ILivroRepository
         _context = context;
     }
 
-    public async Task<List<Livro>> Listar()
+    public async Task<List<Livro>> Listar(int userId)
     {
-        return await _context.Livros.ToListAsync();
+        return await _context.Livros.Where(u => u.UsuarioId == userId)
+            .ToListAsync();
     }
 
     public async Task<Livro?> GetById(int id)

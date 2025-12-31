@@ -15,37 +15,33 @@ namespace Biblioteca.API.Controller
         private readonly IAuthService _authService;
 
         private readonly IValidator<UsuarioRequest> _validator;
-        public UsuarioController(IUSuarioservice usuarioservice, IAuthService authService)
+        public UsuarioController(IUSuarioservice usuarioservice, IAuthService authService, IValidator<UsuarioRequest> validator)
         {
             _usuarioservice =  usuarioservice;
             _authService = authService;
+            _validator = validator; 
         }       
-
-       
-
+        
         [HttpPost("login")]
         public async Task<IActionResult> LoginAsync([FromBody] LoginDto login)
         {
             try
             {
                 var result = await _authService.Login(login);
-                
-                
-                if (result == null)
-                    return Unauthorized("Credenciais inválidas!");
-
                 return Ok(result);
             }
-            catch (Exception e)
+            catch (UnauthorizedAccessException ex)
             {
-                throw new Exception(e.Message);
+                return Unauthorized(new
+                {
+                    message = ex.Message
+                });
             }
            
         }
 
         [HttpPost("adicionar-usuario")]
-        public async Task<IActionResult> AdicionarUsuario([FromBody] UsuarioRequest model, 
-            [FromServices] UsuariorequestValidator validator)
+        public async Task<IActionResult> AdicionarUsuario([FromBody] UsuarioRequest model)
         {
             var validatorResult = await _validator.ValidateAsync(model);
 
@@ -86,14 +82,10 @@ namespace Biblioteca.API.Controller
         
         [HttpPut("editar-usuario")]
         [Authorize(Roles = "Administrador")]
-        public async Task<IActionResult> AtualizarUsuario([FromBody] UsuarioRequest model, 
-            [FromServices] UsuarioUpdateValidator validator)
+        public async Task<IActionResult> AtualizarUsuario([FromBody] UsuarioRequest model)
         {
             
-            var validatorResult = await validator.ValidateAsync(model);
-
-            Console.WriteLine(validatorResult);
-            
+            var validatorResult = await _validator.ValidateAsync(model);
             if (!validatorResult.IsValid)
                 return BadRequest(validatorResult.Errors);
             

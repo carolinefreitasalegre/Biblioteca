@@ -1,5 +1,5 @@
 ﻿@page "/home"
-@attribute [Authorize(Roles = "Usuario")]
+@attribute [Authorize]
 @inject NavigationManager NavManager
 @inject NotificationService NotificationService
 @inject ILocalStorageService LocalStorage
@@ -35,6 +35,9 @@
 
 @code
 {
+    
+    
+    
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -46,6 +49,7 @@
                 {
                     Severity = NotificationSeverity.Success,
                     Summary = "Olá!",
+                    Detail = msg,
                     Duration = 4000
                 });
                 await LocalStorage.RemoveItemAsync("welcome_message");
