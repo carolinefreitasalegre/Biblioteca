@@ -21,35 +21,21 @@ namespace Biblioteca.API.Controller
             _authService = authService;
             _validator = validator; 
         }       
-
-       
-        [HttpGet("debug-claims")]
-        [Authorize]
-        public IActionResult DebugClaims()
-        {
-            return Ok(User.Claims.Select(c => new
-            {
-                c.Type,
-                c.Value
-            }));
-        }
-
+        
         [HttpPost("login")]
         public async Task<IActionResult> LoginAsync([FromBody] LoginDto login)
         {
             try
             {
                 var result = await _authService.Login(login);
-                
-                
-                if (result == null)
-                    return Unauthorized("Credenciais inválidas!");
-
                 return Ok(result);
             }
-            catch (Exception e)
+            catch (UnauthorizedAccessException ex)
             {
-                throw new Exception(e.Message);
+                return Unauthorized(new
+                {
+                    message = ex.Message
+                });
             }
            
         }
@@ -100,9 +86,6 @@ namespace Biblioteca.API.Controller
         {
             
             var validatorResult = await _validator.ValidateAsync(model);
-
-            Console.WriteLine(validatorResult);
-            
             if (!validatorResult.IsValid)
                 return BadRequest(validatorResult.Errors);
             

@@ -93,52 +93,55 @@
 
 
 @code {
-    
-    private LoginDto loginModel = new LoginDto(); 
 
-    private async Task OnLogin(LoginArgs args) 
+    private LoginDto loginModel = new LoginDto();
+
+    private async Task OnLogin(LoginArgs args)
     {
-
-        var loginDto = new LoginDto { 
-            Email = args.Username, 
-            Senha = args.Password
-        };
-
-
-        var loginResponse = await AuthService.Login(loginDto);
-        
-        var usuario = await usuarioService.GetUsuarioByEmail(loginDto.Email);
-        
-        if (usuario.Status == EStatusUsuario.Ativo)
+        try
         {
-            if (loginResponse != null && !string.IsNullOrEmpty(loginResponse.Token))
+            var loginDto = new LoginDto
             {
-                var customProvider = (CustomAuthenticationStateProvider)AuthStateProvider;
-            
-                customProvider.NotifyUserLoggedIn(loginResponse.Token);
-                
-                
-                await LocalStorage.SetItemAsync("welcome_message", $"Bem-vindo, {usuario.Nome}!");
-                NavManager.NavigateTo("/home", forceLoad: true);
+                Email = args.Username,
+                Senha = args.Password
+            };
+
+            var loginResponse = await AuthService.Login(new LoginDto
+            {
+                Email = args.Username,
+                Senha = args.Password,
+            });
+
+            var usuario = await usuarioService.GetUsuarioByEmail(loginDto.Email);
+
+            if (usuario.Status != EStatusUsuario.Ativo)
+            {
+                NotificationService.Notify(new NotificationMessage
+                {
+                    Severity = NotificationSeverity.Error,
+                    Summary = "Conta INATIVA ou BLOQUEADA no momento.",
+                    Detail = "Contacte o administrador e tente novamente.",
+                    Duration = 5000
+                });
+                return;
             }
-            
+
+            var customProvider = (CustomAuthenticationStateProvider)AuthStateProvider;
+            customProvider.NotifyUserLoggedIn(loginResponse!.Token);
+
+            await LocalStorage.SetItemAsync("welcome_message", $"Bem-vindo, {usuario.Nome}!");
+            NavManager.NavigateTo("/home", forceLoad: true);
         }
-
-
-        else
+        catch(Exception ex)
         {
             NotificationService.Notify(new NotificationMessage
             {
                 Severity = NotificationSeverity.Error,
-                Summary = "Conta INATIVA ou BLOQUEADA no momento. Contacte o administrador e tente novamente.",
+                Summary = "Erro no login.",
+                Detail = "Usuário ou senha inválidos",
                 Duration = 5000
             });
         }
-        
-        
     }
 
-  
-
-   
 }

@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using Domain.DTO;
+using Domain.Exceptions;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,8 +24,6 @@ namespace Biblioteca.API.Controller
             _livroService = livroService;
             _validator = validator;
         }
-
-      
         
         [HttpGet("livros")]
         public async Task<IActionResult> GetLivros()
@@ -40,7 +39,7 @@ namespace Biblioteca.API.Controller
             var livro = await _livroService.GetById(id);
             
             if (livro == null)
-                return NotFound("Livro nao encontrado.");
+                throw new Exception(ErrorMessages.LivroNaoEncontrado);
             
             return Ok(livro);
         }
@@ -64,7 +63,7 @@ namespace Biblioteca.API.Controller
             if (capaUrl == null || capaUrl.Length == 0)
                 return BadRequest("A capa do livro é obrigatória.");
 
-            var newBook = await _livroService.Adicionar(model, usuarioId, capaUrl);
+            var newBook = await _livroService.Adicionar(model, capaUrl);
 
             return Created("", newBook);
         }

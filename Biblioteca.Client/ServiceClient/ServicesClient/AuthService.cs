@@ -33,16 +33,19 @@ public class AuthService : IAuthService
         var response = await _httpClient.PostAsJsonAsync(ApiUrl, login);
 
         if (!response.IsSuccessStatusCode)
-            return null;
+        {
+            var error = await response.Content.ReadFromJsonAsync<ApiErrorResponse>();
+
+            throw new Exception(error?.Message ?? "Erro ao realizar login.");
+        }
 
         var result = await response.Content.ReadFromJsonAsync<LoginResponse>();
 
         if (result is null || string.IsNullOrEmpty(result.Token))
-            return null;
+            throw new Exception("Resposta inválida ao servidor.");
 
         await _localStorage.SetItemAsync("authToken", result.Token);
 
-        // 🔔 Notifica o AuthenticationStateProvider
         if (_provider is CustomAuthenticationStateProvider customProvider)
         {
             customProvider.NotifyUserLoggedIn(result.Token);

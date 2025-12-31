@@ -3,6 +3,7 @@
     using System.Text;
     using Domain.DTO;
     using Domain.DTO.Response;
+    using Domain.Exceptions;
     using Microsoft.Extensions.Configuration;
     using Microsoft.IdentityModel.Tokens;
     using Models.Models;
@@ -27,14 +28,10 @@
             try
             {
                 var user = await _repository.ObterPorEmail(login.Email);
-            
-                if(user == null)
-                    return null;
-            
                 
-                if(user.Senha != login.Senha)
-                    return null;
-                
+                if (user == null || user.Senha != login.Senha)
+                    throw new UnauthorizedAccessException("Usuário ou senha inválido.");
+
                 var token = GerarToken(user);
                 user.UltimoLogin =  DateTime.UtcNow;
                 

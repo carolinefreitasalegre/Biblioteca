@@ -9,6 +9,6 @@ public interface ILivroService
 {
     Task<List<LivroResponse>> Listar();
     Task<LivroResponse?> GetById(int id);
-    Task<LivroResponse> Adicionar(LivroRequest livro, int usuarioId, IFormFile? capaLivro);
+    Task<LivroResponse> Adicionar(LivroRequest livro, IFormFile? capaLivro);
     Task<LivroResponse> Atualizar(LivroRequest livro);
 }

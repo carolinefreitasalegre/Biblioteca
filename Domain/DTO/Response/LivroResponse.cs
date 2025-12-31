@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using Models.Enum;
+using Models.Models;
 
 namespace Domain.DTO.Response;
 
@@ -22,5 +23,7 @@ public class LivroResponse
     public DateTime DataAdicionado { get; set; } 
     public DateTime AnoPublicacao { get; set; }
     public string NotasPessoais { get; set; }
+
+    public Usuario UserId { get; set; }
 
 }

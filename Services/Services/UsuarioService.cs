@@ -1,6 +1,7 @@
 using AutoMapper;
 using Domain.DTO;
 using Domain.DTO.Response;
+using Domain.Exceptions;
 using Models.Models;
 using Repositories.Repositories.Contracts;
 using Services.Contracts;
@@ -42,7 +43,7 @@ public class UsuarioService : IUSuarioservice
         {
             var usuario = await _usuarioRepository.ObterPorEmail(email);
             if (usuario == null)
-                throw new Exception("Email não encontrado!");
+                throw new Exception(ErrorMessages.UsuarioNaoEncontrado);
 
             return _mapper.Map<UsuarioResponse>(usuario);
         }
@@ -58,7 +59,7 @@ public class UsuarioService : IUSuarioservice
         {
             var usuario = await _usuarioRepository.ObterPorId(id);
             if (usuario == null)
-                throw new Exception("Usuário não encontrado!");
+                throw new Exception(ErrorMessages.UsuarioNaoEncontrado);
 
             return _mapper.Map<UsuarioResponse>(usuario);
         }
