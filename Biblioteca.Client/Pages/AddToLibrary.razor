@@ -41,7 +41,8 @@
                         <RadzenDatePicker TValue="DateTime?"
                                           @bind-Value="AnoPublicacaoUi"
                                           DateFormat="dd/MM/yyyy"
-                                          Style="width:100%" />
+                                          Style="width:100%" 
+                                          Placeholder="Ano de publicação" />
 
 
 
@@ -49,7 +50,10 @@
 
                     <div class="col-12 col-md-6 mb-3">
                         <RadzenLabel Text="Número de Páginas" Component="Paginas" />
-                        <RadzenNumeric Name="Paginas" @bind-Value="@Livro.NumeroPaginas" Style="width:100%" TValue="int?" />
+                        <RadzenNumeric Name="Paginas" @bind-Value="@Livro.NumeroPaginas" Style="width:100%" TValue="int?" 
+                                       Placeholder="Adicione número de páginas" />
+                        <RadzenRequiredValidator Text="Campo obrigatório" Component="Paginas" />
+
                     </div>
 
                     <div class="col-12 col-md-6 mb-3">
@@ -71,7 +75,6 @@
             </RadzenCard>
         </div>
 
-        <!--  CAPA DO LIVRO (UPLOAD)                  -->
         <div class="col-12 col-md-4 mb-4">
             <RadzenCard Style="width: 200px;">
                 <div class="card-title">Capa do Livro</div>
@@ -106,6 +109,7 @@
                                         Data="@StatusList" 
                                         TextProperty="Text"
                                         ValueProperty="Value"
+                                        Placeholder="Selecione o status atual de leitura" 
                         />
                        
                         <RadzenRequiredValidator Text="Campo obrigatório" Component="Status" />
@@ -189,7 +193,7 @@
     }
     
     
-    async Task CapturarArquivo(InputFileChangeEventArgs e)
+    private async Task CapturarArquivo(InputFileChangeEventArgs e)
     {
         capaLivro = e.File;
 
@@ -235,6 +239,11 @@
             return;
         }
 
+        if (livro.NumeroPaginas <= 0)
+        {
+            NotificarCampoObrigatorio("Número de páginas obrigatório.");
+            return;
+        }
         try
         {
             if (AnoPublicacaoUi.HasValue)

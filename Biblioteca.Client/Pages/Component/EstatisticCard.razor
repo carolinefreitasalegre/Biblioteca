@@ -1,4 +1,3 @@
-@using System.Runtime.InteropServices.JavaScript
 @inject ILivroService service
 
 <RadzenCard class="rz-p-4 rz-shadow-2" Style="min-height: 16em">
@@ -11,68 +10,57 @@
 
     <div class="d-flex justify-content-between rz-mb-3">
         <RadzenText TextStyle="TextStyle.Body1">Livros lidos este mês</RadzenText>
-        <RadzenText TextStyle="TextStyle.H5" Style="color: green; font-weight: bold;">@LivrosLidosMes</RadzenText>
+        <RadzenText TextStyle="TextStyle.H5" Style="color: green; font-weight: bold;">
+            @LivrosConcluidosMes
+        </RadzenText>
     </div>
 
     <div class="d-flex justify-content-between rz-mb-4">
         <RadzenText TextStyle="TextStyle.Body1">Páginas lidas</RadzenText>
-        <RadzenText TextStyle="TextStyle.H5" Style="color: #0000a0; font-weight: bold;">@PaginasLidas</RadzenText>
+        <RadzenText TextStyle="TextStyle.H5" Style="color: #0000a0; font-weight: bold;">
+            @PaginasLidas
+        </RadzenText>
     </div>
 
-    <div class="d-flex justify-content-between align-items-center rz-mb-2">
-        <RadzenText TextStyle="TextStyle.Body1">Meta mensal</RadzenText>
-        <RadzenText TextStyle="TextStyle.Body1" Style="color: #cc5200; font-weight: bold;">@MetaConcluida% concluída</RadzenText>
+    <div class="rz-mt-2">
+        <RadzenText TextStyle="TextStyle.Body1" Style="font-weight: bold;">
+            📊 Resumo do mês
+        </RadzenText>
+        <RadzenText TextStyle="TextStyle.Body2" Class="rz-text-secondary">
+            @ResumoDoMes
+        </RadzenText>
     </div>
-
-    <RadzenProgressBar Value="@MetaConcluida" 
-                       ShowValue="false" 
-                       Style="height: 10px;" 
-                       Variant="Variant.Filled" 
-                       ProgressBarAriaLabel="Progresso da Meta Mensal"
-    />
-                       
 </RadzenCard>
 
 @code {
-    private int LivrosLidosMes { get; set; }
-    private int PaginasLidas { get; set; }
-    private double MetaConcluida { get; set; }
+    private int LivrosIniciadosMes;
+    private int LivrosConcluidosMes;
+    private int PaginasLidas;
 
-        
     protected override async Task OnInitializedAsync()
     {
         var livros = await service.ListarLivros();
 
         var hoje = DateTime.Today;
-        
         var inicioMesAtual = new DateTime(hoje.Year, hoje.Month, 1);
-        
-        var livrosAdicionadosMes = livros
+
+        var livrosDoMes = livros
             .Where(l => l.DataAdicionado >= inicioMesAtual)
             .ToList();
-        Console.WriteLine(livrosAdicionadosMes.Count);
-        var livrosLidosMes = livrosAdicionadosMes
-            .Where(l => l.StatusLeitura == EStatusLeitura.Lido)
-            .ToList();
 
-        LivrosLidosMes = livrosLidosMes.Count;
+        LivrosIniciadosMes = livrosDoMes
+            .Count(l => l.StatusLeitura == EStatusLeitura.Lendo);
 
-        PaginasLidas = livros
+        LivrosConcluidosMes = livrosDoMes
+            .Count(l => l.StatusLeitura == EStatusLeitura.Lido);
+
+        PaginasLidas = livrosDoMes
             .Where(l => l.StatusLeitura == EStatusLeitura.Lido)
             .Sum(l => l.NumeroPaginas);
-
-
-        if (livrosAdicionadosMes.Any())
-        {
-            MetaConcluida =
-                Math.Round(
-                    (double)livrosLidosMes.Count / livrosAdicionadosMes.Count * 100,
-                    1
-                );
-        }
-        else
-        {
-            MetaConcluida = 0;
-        }
     }
+
+    private string ResumoDoMes =>
+        LivrosIniciadosMes == 0 && LivrosConcluidosMes == 0
+            ? "Ainda não houve atividades de leitura neste mês."
+            : $"Você iniciou {LivrosIniciadosMes} livro(s) e concluiu {LivrosConcluidosMes} neste mês.";
 }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Repositories.DataContext;
@@ -11,9 +12,11 @@ using Repositories.DataContext;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(BibliotecaContext))]
-    partial class BibliotecaContextModelSnapshot : ModelSnapshot
+    [Migration("20260101205827_tipoalterado")]
+    partial class tipoalterado
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -92,7 +95,7 @@ namespace Infrastructure.Migrations
                     b.Property<string>("NotasPessoais")
                         .HasColumnType("text");
 
-                    b.Property<int>("NumeroPaginas")
+                    b.Property<int?>("NumeroPaginas")
                         .HasColumnType("integer");
 
                     b.Property<int>("StatusLeitura")
