@@ -15,7 +15,7 @@ public class LivroRequestValidator : AbstractValidator<LivroRequest>
             .NotEmpty().WithMessage("Autor é obrigatório");
 
         RuleFor(x => x.NumeroPaginas)
-            .GreaterThan(0);
+            .GreaterThan(0).WithMessage("O número de páginas deve ser maior que zero.");;
 
         RuleFor(x => x.AnoPublicacao)
             .Must(data =>
