@@ -15,7 +15,10 @@
 
             <RadzenLabel Text="Biblioteca Dashboard"
                          Class="rz-text-uppercase rz-font-weight-bold rz-color-white" />
+            
             <RadzenSpacer />
+            <RadzenLabel Text="@NomeUsuario"
+                         Class="rz-text-uppercase rz-font-weight-bold rz-color-white" Style="position: fixed; right: 2em" />
         </RadzenStack>
     </RadzenHeader>
 
@@ -52,22 +55,28 @@
 <RadzenNotification />
 
 @code {
-   
-
     bool sidebarExpanded = true;
-    
+    string? NomeUsuario;
    
     protected override async Task OnParametersSetAsync()
     {
         var authService = await AuthStateProvider.GetAuthenticationStateAsync();
         var usuario = authService.User;
-        
-        
 
-        if(usuario.Identity != null && !usuario.Identity.IsAuthenticated)
+        if (usuario.Identity != null && !usuario.Identity.IsAuthenticated)
+        {
             NavigationManager.NavigateTo("/");
+            return;
+        }
+
+        NomeUsuario =
+            usuario.Identity?.Name ??
+            usuario.FindFirst("name")?.Value ??
+            usuario.FindFirst("given_name")?.Value ??
+            usuario.FindFirst("email")?.Value;
     }
 
+  
     private async Task Logout()
     {
         await AuthService.Logout();

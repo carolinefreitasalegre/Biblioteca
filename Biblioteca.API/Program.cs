@@ -121,8 +121,7 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 builder.Services.AddScoped<IValidator<UsuarioRequest>, UsuariorequestValidator>();
 builder.Services.AddScoped<IValidator<UsuarioRequest>, UsuarioUpdateValidator>();
-// builder.Services.AddTransient<IValidator<LivroRequest>, LivroRequestValidator>();
-// builder.Services.AddTransient<IValidator<LivroRequest>, EditarLivroRequestValidator>();
+
 
 builder.Services.AddValidatorsFromAssemblyContaining<LivroRequestValidator>();
 
