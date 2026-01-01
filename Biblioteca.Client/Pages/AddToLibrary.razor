@@ -5,165 +5,110 @@
 @inject NotificationService NotificationService
 
 <RadzenTemplateForm Data="@Livro" TItem="LivroRequest" Submit="Salvar" Style="width: 100%;">
-
-    <div class="row">
-
-        <div class="col-12 col-md-8 mb-4">
-            <RadzenCard>
-                <div class="card-title">Informações Básicas</div>
-
-                <div class="row mt-3">
-
-                    <div class="col-12 col-md-6 mb-3">
-                        <RadzenLabel Text="Título" Component="Titulo" />
-                        <RadzenTextBox Name="Titulo" @bind-Value="@Livro.Titulo" Placeholder="Digite o título do livro" Style="width:100%" />
-                        <RadzenRequiredValidator Text="Campo obrigatório" Component="Titulo" />
-                    </div>
-
-                    <div class="col-12 col-md-6 mb-3">
-                        <RadzenLabel Text="Autor" Component="Autor" />
-                        <RadzenTextBox Name="Autor" @bind-Value="@Livro.Autor" Placeholder="Nome do autor" Style="width:100%" />
-                        <RadzenRequiredValidator Text="Campo obrigatório" Component="Autor" />
-                    </div>
-
-                    <div class="col-12 col-md-6 mb-3">
-                        <RadzenLabel Text="Editora" Component="Editora" />
-                        <RadzenTextBox Name="Editora" @bind-Value="@Livro.Editora" Placeholder="Nome da editora" Style="width:100%" />
-                    </div>
+    
+    <div class="rz-p-0 rz-p-md-4">
+        <RadzenRow Gap="2rem">
+            
+            <RadzenColumn Size="12" SizeMD="8">
+                <RadzenStack Gap="1.5rem">
                     
-                    <div class="col-12 col-md-6 mb-3">
-                        <RadzenLabel Text="Isbn" Component="Isbn" />
-                        <RadzenTextBox Name="Isbn" @bind-Value="@Livro.Isbn" Placeholder="Isbn" Style="width:100%" />
-                    </div>
+                    <RadzenCard>
+                        <RadzenText TextStyle="TextStyle.H6" class="rz-mb-4">Informações Básicas</RadzenText>
+                        <RadzenRow Gap="1rem">
+                            <RadzenColumn Size="12" SizeMD="6">
+                                <RadzenLabel Text="Título" Component="Titulo" class="rz-display-block" />
+                                <RadzenTextBox Name="Titulo" @bind-Value="Livro.Titulo" Placeholder="Digite o título" Style="width:100%" />
+                                <RadzenRequiredValidator Text="Obrigatório" Component="Titulo" />
+                            </RadzenColumn>
 
-                    <div class="col-12 col-md-6 mb-3">
-                        <RadzenLabel Text="Ano de Publicação" Component="Ano" />
-                        <RadzenDatePicker TValue="DateTime?"
-                                          @bind-Value="AnoPublicacaoUi"
-                                          DateFormat="dd/MM/yyyy"
-                                          Style="width:100%" 
-                                          Placeholder="Ano de publicação" />
+                            <RadzenColumn Size="12" SizeMD="6">
+                                <RadzenLabel Text="Autor" Component="Autor" class="rz-display-block" />
+                                <RadzenTextBox Name="Autor" @bind-Value="Livro.Autor" Placeholder="Nome do autor" Style="width:100%" />
+                                <RadzenRequiredValidator Text="Obrigatório" Component="Autor" />
+                            </RadzenColumn>
 
+                            <RadzenColumn Size="12" SizeMD="6">
+                                <RadzenLabel Text="Editora" Style="display:block" />
+                                <RadzenTextBox @bind-Value="Livro.Editora" Placeholder="Nome da editora" Style="width:100%" />
+                            </RadzenColumn>
 
+                            <RadzenColumn Size="12" SizeMD="6">
+                                <RadzenLabel Text="ISBN" Style="display:block" />
+                                <RadzenTextBox @bind-Value="Livro.Isbn" Placeholder="ISBN" Style="width:100%" />
+                            </RadzenColumn>
 
-                    </div>
+                            <RadzenColumn Size="12" SizeMD="6">
+                                <RadzenLabel Text="Ano de Publicação" Style="display:block" />
+                                <RadzenDatePicker TValue="DateTime?" @bind-Value="AnoPublicacaoUi" DateFormat="dd/MM/yyyy" Style="width:100%"
+                                                  Placeholder="00/00/00"/>
+                            </RadzenColumn>
 
-                    <div class="col-12 col-md-6 mb-3">
-                        <RadzenLabel Text="Número de Páginas" Component="Paginas" />
-                        <RadzenNumeric Name="Paginas" @bind-Value="@Livro.NumeroPaginas" Style="width:100%" TValue="int?" 
-                                       Placeholder="Adicione número de páginas" />
-                        <RadzenRequiredValidator Text="Campo obrigatório" Component="Paginas" />
+                            <RadzenColumn Size="12" SizeMD="6">
+                                <RadzenLabel Text="Páginas" Component="Paginas" Style="display:block" />
+                                <RadzenNumeric Name="Paginas" TValue="int?" @bind-Value="Livro.NumeroPaginas" Style="width:100%"
+                                               Placeholder="Digite o número de páginas"/>
+                                <RadzenRequiredValidator Text="Obrigatório" Component="Paginas" />
+                            </RadzenColumn>
 
-                    </div>
+                            <RadzenColumn Size="12">
+                                <RadzenLabel Text="Categoria" Component="Categoria" Style="display:block" />
+                                <RadzenDropDown @bind-Value="Livro.Categoria" Data="@Categorias" TextProperty="Text" ValueProperty="Value" Style="width:100%" 
+                                                Placeholder="Selecione a categoria"/>
+                            </RadzenColumn>
+                        </RadzenRow>
+                    </RadzenCard>
 
-                    <div class="col-12 col-md-6 mb-3">
-                        <RadzenLabel Text="Categoria" Component="Categoria" />
-                        <RadzenDropDown Name="Categoria" Style="width:100%"
-                                        @bind-Value="@Livro.Categoria"
-                                        Data="@Categorias"
-                                        TextProperty="Text"
-                                        ValueProperty="Value"
-                                        Placeholder="Selecione uma categoria" 
+                    <RadzenCard>
+                        <RadzenText TextStyle="TextStyle.H6" class="rz-mb-4">Status de Leitura</RadzenText>
+                        <RadzenRow Gap="1rem">
+                            <RadzenColumn Size="12" SizeMD="5">
+                                <RadzenLabel Text="Status Atual" Style="display:block" />
+                                <RadzenDropDown @bind-Value="Livro.StatusLeitura" Data="@StatusList" TextProperty="Text" ValueProperty="Value" Style="width:100%" 
+                                                Placeholder="Selecione o status de leitura"/>
+                            </RadzenColumn>
 
-                        />
-                      
+                            <RadzenColumn Size="12">
+                                <RadzenLabel Text="Notas Pessoais" Style="display:block" />
+                                <RadzenTextArea @bind-Value="Livro.NotasPessoais" Placeholder="Suas impressões..." Style="width:100%; min-height:100px;" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                    </RadzenCard>
 
-                        <RadzenRequiredValidator Text="Campo obrigatório" Component="Categoria" />
-                    </div>
+                </RadzenStack>
+            </RadzenColumn>
 
-                </div>
-            </RadzenCard>
-        </div>
+            <RadzenColumn Size="12" SizeMD="4">
+                <RadzenCard Style="height: 100%;">
+                    <RadzenText TextStyle="TextStyle.H6" class="rz-mb-4">Capa do Livro</RadzenText>
+                    
+                    <RadzenStack AlignItems="AlignItems.Center" JustifyContent="JustifyContent.Center" class="rz-mt-2">
+                        @if (!string.IsNullOrEmpty(capaPreview))
+                        {
+                            <RadzenImage Path="@capaPreview" Style="width: 100%; max-width: 200px; border-radius: 8px; " />
+                        }
+                        else
+                        {
+                            <div style="border: 2px dashed ; width: 100%; max-width: 200px; aspect-ratio: 2/3; display: flex; align-items: center; justify-content: center;">
+                                <RadzenIcon Icon="image" Style="font-size: 48px; " />
+                            </div>
+                        }
 
-        <div class="col-12 col-md-4 mb-4">
-            <RadzenCard Style="width: 200px;">
-                <div class="card-title">Capa do Livro</div>
-                <div class="d-flex flex-column align-items-center text-center mt-3">
-                    @if (!string.IsNullOrEmpty(capaPreview))
-                    {
-                        <img src="@capaPreview" style="width:160px; height:auto; border-radius:6px; margin-bottom:15px;" />
-                    }
-                    else
-                    {
-                        <div style="border:2px dashed #ccc; border-radius:10px; width:160px; height:200px; display:flex; align-items:center; justify-content:center;">
-                            <RadzenIcon Icon="image" Style="font-size:40px; opacity:0.4" />
+                        <div class="rz-mt-4" style="width: 100%;">
+                            <RadzenLabel Text="Alterar Capa" class="rz-mb-2" />
+                            <InputFile OnChange="CapturarArquivo" class="form-control" style="width: 100%;" />
                         </div>
-                    }
+                    </RadzenStack>
+                </RadzenCard>
+            </RadzenColumn>
 
-                    <InputFile OnChange="@CapturarArquivo" class="form-control" />
-                </div>
-            </RadzenCard>
+        </RadzenRow>
+
+        <div class="rz-text-align-right rz-mt-4">
+            <RadzenButton Text="Salvar Livro" Icon="save" ButtonType="ButtonType.Submit" Style="background-color: var(--btn)" />
         </div>
-
-        <div class="col-12 mb-4">
-            <RadzenCard>
-
-                <div class="card-title">Status de Leitura</div>
-
-                <div class="row mt-3">
-
-                    <div class="col-12 col-md-4 mb-3">
-                        <RadzenLabel Text="Status Atual" Component="Status" />
-                        <RadzenDropDown Name="Status" Style="width:100%"
-                                        @bind-Value="@Livro.StatusLeitura"
-                                        Data="@StatusList" 
-                                        TextProperty="Text"
-                                        ValueProperty="Value"
-                                        Placeholder="Selecione o status atual de leitura" 
-                        />
-                       
-                        <RadzenRequiredValidator Text="Campo obrigatório" Component="Status" />
-
-                    </div>
-
-                    <div class="col-12 mb-3">
-                        <RadzenLabel Text="Notas Pessoais" Component="Notas" />
-                        <RadzenTextArea Name="Notas" @bind-Value="Livro.NotasPessoais" 
-                                        Placeholder="Suas impressões, citações favoritas, etc..." 
-                                        Style="width:100%; min-height:120px;" />
-                    </div>
-
-                </div>
-
-            </RadzenCard>
-        </div>
-
-        
-        @* <div class="col-12 mb-4"> *@
-        @*     <RadzenCard> *@
-        @* *@
-        @*         <div class="card-title">Tags</div> *@
-        @* *@
-        @*         <RadzenLabel Text="Adicione tags para organizar seus livros" /> *@
-        @* *@
-        @*         <div class="d-flex gap-2 mt-2"> *@
-        @* *@
-        @*             <RadzenTextBox Style="flex:1" @bind-Value="@NovaTag" Placeholder="Digite uma tag..." /> *@
-        @*              *@
-        @*             <RadzenButton Text="+" Click="@AdicionarTag" ButtonStyle="ButtonStyle.Primary" /> *@
-        @*         </div> *@
-        @* *@
-        @*          <div class="mt-3">  *@
-        @*         @foreach (var tag in Livro.Tags) *@
-        @*         { *@
-        @*             <span class="badge bg-secondary me-2"> *@
-        @*                 @tag *@
-        @*             </span> *@
-        @*         } *@
-        @*         </div>  *@
-        @* *@
-        @*     </RadzenCard> *@
-        @* </div> *@
-
-
-        <div class="col-12 text-end mt-4">
-            <RadzenButton Text="Salvar Livro" Icon="check" Style="background: var(--primary)" ButtonType="ButtonType.Submit" />
-        </div>
-
     </div>
 
 </RadzenTemplateForm>
-
 
 @code {
     private DateTime? AnoPublicacaoUi;
@@ -239,7 +184,7 @@
             return;
         }
 
-        if (livro.NumeroPaginas <= 0)
+        if (livro.NumeroPaginas == null)
         {
             NotificarCampoObrigatorio("Número de páginas obrigatório.");
             return;
