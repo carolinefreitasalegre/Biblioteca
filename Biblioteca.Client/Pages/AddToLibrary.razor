@@ -59,7 +59,12 @@
                                         Data="@Categorias"
                                         TextProperty="Text"
                                         ValueProperty="Value"
-                                        Placeholder="Selecione uma categoria" />
+                                        Placeholder="Selecione uma categoria" 
+
+                        />
+                      
+
+                        <RadzenRequiredValidator Text="Campo obrigatório" Component="Categoria" />
                     </div>
 
                 </div>
@@ -102,6 +107,9 @@
                                         TextProperty="Text"
                                         ValueProperty="Value"
                         />
+                       
+                        <RadzenRequiredValidator Text="Campo obrigatório" Component="Status" />
+
                     </div>
 
                     <div class="col-12 mb-3">
@@ -190,11 +198,43 @@
         var buffer = new byte[resizedImage.Size];
         await resizedImage.OpenReadStream().ReadAsync(buffer);
         capaPreview = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
+        
+        Livro.CapaUrl = capaPreview;
     }
     
     
     private async Task Salvar(LivroRequest livro)
     {
+        if (string.IsNullOrWhiteSpace(livro.Titulo))
+        {
+            NotificarCampoObrigatorio("Título");
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(livro.Autor))
+        {
+            NotificarCampoObrigatorio("Autor");
+            return;
+        }
+
+        if (string.IsNullOrEmpty(livro.CapaUrl))
+        {
+            NotificarCampoObrigatorio("Capa do Livro");
+            return;
+        }
+
+        if (livro.StatusLeitura == 0)
+        {
+            NotificarCampoObrigatorio("Status de Leitura obrigatório.");
+            return;
+        }
+
+        if (livro.Categoria == 0)
+        {
+            NotificarCampoObrigatorio("Categoria obrigatória.");
+            return;
+        }
+
         try
         {
             if (AnoPublicacaoUi.HasValue)
@@ -232,6 +272,16 @@
         }
 
          
+    }
+    private void NotificarCampoObrigatorio(string campo)
+    {
+        NotificationService.Notify(new NotificationMessage
+        {
+            Severity = NotificationSeverity.Warning,
+            Summary = "Campo obrigatório",
+            Detail = $"O campo '{campo}' é obrigatório.",
+            Duration = 3000
+        });
     }
 
 
