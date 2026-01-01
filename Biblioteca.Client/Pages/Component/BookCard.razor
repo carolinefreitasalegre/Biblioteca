@@ -1,25 +1,17 @@
 @namespace Biblioteca.Client.Pages.Component
 @inject DialogService DialogService
-@inject ILivroService _service
-
 
 <RadzenCard Style="width: 300px; padding: 20px 10px; border-radius: 12px;">
     <RadzenButton Icon="more_vert"
                   ButtonStyle="ButtonStyle.Light"
                   Variant="Variant.Flat"
                   Size="ButtonSize.Small"
-                  Click="@(() => EditarLivro(LivroId))"
-                  Style="background-color: transparent;position:relative; left: 17em;color: var(--primary)"
-    />
+                  Click="@(() => AbrirEdicao())"
+                  Style="background-color: transparent; position:relative; left: 17em; color: var(--primary)" />
+
     <div style="text-align: center; margin-top: 2em">
-        @if (!string.IsNullOrEmpty(CapaUrl))
-        {
-            <RadzenImage Path="@CapaUrl" Style="width: 200px; height: 250px; border-radius: 5px;" />
-        }
-        else
-        {
-                <RadzenImage Path="/capaPadra.png" Style="width: 200px; height: 250px; border-radius: 5px; " />
-        }
+        <RadzenImage Path="@(!string.IsNullOrEmpty(CapaUrl) ? CapaUrl : "/capaPadra.png")"
+                     Style="width: 200px; height: 250px; border-radius: 5px;" />
     </div>
 
     <h3 style="margin-top: 15px; font-weight: 700; color: #0D1B4C; text-align: center;">
@@ -30,21 +22,15 @@
         @Autor
     </p>
 
-    <div style="display: flex; margin-top: 10px; text-align: center; justify-content: center;gap:5px">
-        <RadzenBadge Style="background:#D2FFE0; color:#1B8847; padding:6px 14px; border-radius:8px;">
-            @Status
-        </RadzenBadge>
-        <RadzenBadge Style="background:#D2FFE0; color:#1B8847; padding:6px 14px; border-radius:8px;">
-            @Categoria
-        </RadzenBadge>
+    <div style="display: flex; margin-top: 10px; justify-content: center; gap: 5px">
+        <RadzenBadge Style="background:#D2FFE0; color:#1B8847;">@Status</RadzenBadge>
+        <RadzenBadge Style="background:#D2FFE0; color:#1B8847;">@Categoria</RadzenBadge>
     </div>
-   
 
     <div style="margin-top: 12px; text-align: center;">
-        <RadzenRating Value="3" ReadOnly="true"/>
+        <RadzenRating Value="3" ReadOnly="true" />
     </div>
 </RadzenCard>
-
 
 @code {
     [Parameter] public string Titulo { get; set; } = string.Empty;
@@ -53,34 +39,21 @@
     [Parameter] public string Categoria { get; set; } = string.Empty;
     [Parameter] public string CapaUrl { get; set; } = string.Empty;
     [Parameter] public int LivroId { get; set; }
+
     [Parameter] public EventCallback OnLivroEditado { get; set; }
-    
-    
-    
-    
-    private List<LivroResponse> livros = new();
-    
-    
-    
-    private async Task EditarLivro(int LivroId)
+
+    private async Task AbrirEdicao()
     {
         var result = await DialogService.OpenAsync<EditBookDialog>(
             "Editar Livro",
             new Dictionary<string, object>
             {
                 { "LivroId", LivroId }
-            },
-            new DialogOptions
-            {
-                Width = "750px",
-                CloseDialogOnOverlayClick = false
             });
-        
-        if (result is LivroRequest request)
+
+        if (result == true)
         {
-            await _service.EditarLivro(request);
             await OnLivroEditado.InvokeAsync();
         }
     }
-
 }
