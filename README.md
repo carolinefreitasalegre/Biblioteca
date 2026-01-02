@@ -22,6 +22,8 @@ Entity Framework Core
 
 PostgreSQL
 
+Cloudinary
+
 Swagger (documentação da API)
 
 Git e GitHub
