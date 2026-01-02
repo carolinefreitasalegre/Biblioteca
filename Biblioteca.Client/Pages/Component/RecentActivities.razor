@@ -1,4 +1,5 @@
 @inject ILivroService Service
+@using Models.Enum
 
 <RadzenCard class="rz-p-4 rz-shadow-2" Style="min-height: 16em">
     <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0.5rem" class="rz-mb-4">
@@ -9,54 +10,117 @@
     </RadzenStack>
     
     <RadzenStack Gap="1rem">
-        
-        @foreach (var atividade in Atividades)
+        @if (Atividades != null && Atividades.Any())
         {
-            <div class="d-flex align-items-start">
-                <RadzenIcon Icon="fiber_manual_record" 
-                            Style="@($"font-size: 10px; color: {atividade.CorStatus}; margin-top: 6px; margin-right: 8px;")" />
-                
-                <RadzenStack Gap="0.1rem">
-                    <RadzenText TextStyle="TextStyle.Body1">
-                        <span style="font-weight: bold;">@atividade.Status</span>: "@atividade.Livro"
-                    </RadzenText>
-                    <RadzenText TextStyle="TextStyle.Caption" class="rz-color-secondary">
-                        @atividade.TempoAtras
-                    </RadzenText>
-                </RadzenStack>
-            </div>
+            @for (int i = 0; i < Atividades.Count; i++)
+            {
+                var atividade = Atividades[i];
+                <div class="d-flex align-items-start">
+                    <RadzenIcon Icon="fiber_manual_record" 
+                                Style="@($"font-size: 10px; color: {atividade.CorStatus}; margin-top: 6px; margin-right: 8px;")" />
+                    
+                    <RadzenStack Gap="0.1rem">
+                        <RadzenText TextStyle="TextStyle.Body1">
+                            <span style="font-weight: bold;">@atividade.StatusLabel</span>: "@atividade.Livro"
+                        </RadzenText>
+                        <RadzenText TextStyle="TextStyle.Caption" class="rz-color-secondary">
+                            @atividade.Subtexto
+                        </RadzenText>
+                    </RadzenStack>
+                </div>
+            }
         }
-        
     </RadzenStack>
 </RadzenCard>
-
 @code {
     private class Atividade
     {
-        public string Status { get; set; }
+        public string StatusLabel { get; set; }
         public string Livro { get; set; }
-        public string TempoAtras { get; set; }
+        public string Subtexto { get; set; }
         public string CorStatus { get; set; }
     }
 
-    private List<Atividade> Atividades = new List<Atividade>
-    {
-        new Atividade { Status = "Concluído", Livro = "1984", TempoAtras = "Há 2 dias", CorStatus = "green" },
-        new Atividade { Status = "Adicionado", Livro = "Sapiens", TempoAtras = "Há 5 dias", CorStatus = "blue" },
-        new Atividade { Status = "Iniciado", Livro = "O Hobbit", TempoAtras = "Há 1 semana", CorStatus = "orange" }
-    };
+    private List<Atividade> Atividades = new List<Atividade>();
 
     protected override async Task OnInitializedAsync()
     {
         var dados = await Service.ListarLivros();
-        foreach (var l in dados)
+
+        if (dados == null || !dados.Any())
+            return;
+
+        Atividades.Clear();
+
+        var ultimoAdicionado = dados
+            .OrderByDescending(l => l.DataAdicionado)
+            .FirstOrDefault();
+
+        if (ultimoAdicionado != null)
         {
-            var hoje = DateTime.Today;
-            var mes = new DateTime(hoje.Year, hoje.Month, 1);
-            
-            var lidoMes = dados
-                .Where(l => l.DataAdicionado >= mes)
-                .ToList();
+            Atividades.Add(new Atividade
+            {
+                Livro = ultimoAdicionado.Titulo,
+                StatusLabel = "Para Ler",
+                CorStatus = DefinirCor(EStatusLeitura.Para_Ler),
+                Subtexto = $"Adicionado em {ultimoAdicionado.DataAdicionado:dd/MM/yyyy HH:mm}"
+            });
+        }
+
+        var lendoAtual = dados
+            .Where(l => l.StatusLeitura == EStatusLeitura.Lendo)
+            .OrderByDescending(l => l.DataAdicionado)
+            .FirstOrDefault();
+
+        if (lendoAtual != null)
+        {
+            Atividades.Add(new Atividade
+            {
+                Livro = lendoAtual.Titulo,
+                StatusLabel = "Lendo",
+                CorStatus = DefinirCor(EStatusLeitura.Lendo),
+                Subtexto = "Leitura em andamento"
+            });
+        }
+
+        var paraLerAtual = dados
+            .Where(l => l.StatusLeitura == EStatusLeitura.Para_Ler)
+            .OrderByDescending(l => l.DataAdicionado)
+            .FirstOrDefault();
+
+        if (paraLerAtual != null)
+        {
+            Atividades.Add(new Atividade
+            {
+                Livro = paraLerAtual.Titulo,
+                StatusLabel = "Para Ler",
+                CorStatus = DefinirCor(EStatusLeitura.Para_Ler),
+                Subtexto = "Aguardando início"
+            });
         }
     }
-}   
+
+    private string GerarSubtextoStatus(Domain.DTO.Response.LivroResponse l) => l.StatusLeitura switch
+    {
+        EStatusLeitura.Lendo => "Leitura em andamento",
+        EStatusLeitura.Para_Ler => "Aguardando início",
+        EStatusLeitura.Lido => $"Categoria: {l.Categoria}",
+        _ => "Sem informações de progresso"
+    };
+
+    private string TraduzirStatus(EStatusLeitura status) => status switch
+    {
+        EStatusLeitura.Lendo => "Lendo",
+        EStatusLeitura.Lido => "Concluído",
+        EStatusLeitura.Para_Ler => "Para Ler",
+        _ => "Status"
+    };
+
+    private string DefinirCor(EStatusLeitura status) => status switch
+    {
+        EStatusLeitura.Lido => "green",
+        EStatusLeitura.Lendo => "orange",
+        EStatusLeitura.Para_Ler => "#3a9ced", 
+        _ => "gray"
+    };
+}
