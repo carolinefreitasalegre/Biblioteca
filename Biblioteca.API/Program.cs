@@ -54,8 +54,6 @@ builder.Services.AddAuthentication(opt =>
     };
 });
 
-
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -80,13 +78,9 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-
-
 builder.Services.AddDbContext<BibliotecaContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
-
-
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -95,9 +89,6 @@ builder.Services.AddControllers()
             new JsonStringEnumConverter()
         );
     });
-
-
-
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -139,10 +130,6 @@ builder.Services.AddCors(options =>
         // .AllowCredentials();
     });
 });
-
-
-
-
 
 var app = builder.Build();
 
