@@ -134,17 +134,27 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // --- PIPELINE ---
-if (app.Environment.IsDevelopment())
+
+// Se quiser ver o Swagger mesmo no Render para testar, 
+// você pode comentar o "if" ou mudar para:
+if (app.Environment.IsDevelopment() || builder.Configuration["EnableSwagger"] == "true")
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
+app.UseBlazorFrameworkFiles(); 
+app.UseStaticFiles();          
+
 app.UseHttpsRedirection();
 app.UseCors("AllowBlazorClient");
+
 app.UseAuthentication(); 
 app.UseAuthorization();
 
 app.MapControllers();  
+
+// 2. A MÁGICA: Redireciona qualquer rota desconhecida para o Blazor
+app.MapFallbackToFile("index.html"); 
 
 app.Run();

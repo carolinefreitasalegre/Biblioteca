@@ -1,5 +1,6 @@
-using CloudinaryDotNet.Actions;
+using CloudinaryDotNet.Actions; // O ImageUploadResult precisa disso!
 using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 
 namespace Services.Contracts;
 
