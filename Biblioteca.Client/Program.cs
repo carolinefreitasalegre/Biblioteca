@@ -36,7 +36,7 @@ builder.Services.AddScoped(sp =>
     var handler = sp.GetRequiredService<JwtAuthenticationHeaderHandler>();
     return new HttpClient(handler)
     {
-        BaseAddress = new Uri("http://localhost:5008/")
+        BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
     };
 });
 
