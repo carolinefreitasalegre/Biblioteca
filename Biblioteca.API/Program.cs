@@ -79,7 +79,8 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddDbContext<BibliotecaContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("ConnectionStrings__DefaultConnection"))
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
+    
 );
 
 builder.Services.AddControllers()
@@ -150,7 +151,7 @@ if (app.Environment.IsDevelopment() || builder.Configuration["EnableSwagger"] ==
 app.UseBlazorFrameworkFiles(); 
 app.UseStaticFiles();          
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 app.UseCors("AllowBlazorClient");
 
 app.UseAuthentication(); 
