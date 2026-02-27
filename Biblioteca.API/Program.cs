@@ -23,7 +23,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration
     .AddJsonFile("appsettings.json", optional: false)
-    .AddJsonFile("appsettings.Development.json", optional: true)
+    .AddJsonFile("appsettings.Development.json", optional: false)
     .AddJsonFile("appsettings.Local.json", optional: true);
 
 builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
@@ -79,7 +79,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddDbContext<BibliotecaContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
+    options.UseNpgsql(builder.Configuration.GetConnectionString("ConnectionStrings__DefaultConnection"))
 );
 
 builder.Services.AddControllers()
@@ -140,10 +140,7 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<BibliotecaContext>();
     db.Database.Migrate();
 }
-// --- PIPELINE ---
 
-// Se quiser ver o Swagger mesmo no Render para testar, 
-// você pode comentar o "if" ou mudar para:
 if (app.Environment.IsDevelopment() || builder.Configuration["EnableSwagger"] == "true")
 {
     app.UseSwagger();
@@ -161,7 +158,6 @@ app.UseAuthorization();
 
 app.MapControllers();  
 
-// 2. A MÁGICA: Redireciona qualquer rota desconhecida para o Blazor
 app.MapFallbackToFile("index.html"); 
 
 app.Run();
