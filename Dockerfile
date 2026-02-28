@@ -1,26 +1,33 @@
 # Estágio de Build
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /app
+WORKDIR /src
 
-# Copia os arquivos de projeto e restaura as dependências
-COPY *.sln .
-COPY API/*.csproj ./API/
-COPY Domain/*.csproj ./Domain/
-COPY Models/*.csproj ./Models/
-COPY Repositories/*.csproj ./Repositories/
-COPY Services/*.csproj ./Services/
+# Copia a Solution e os Projetos usando os nomes REAIS das suas pastas
+COPY ["Biblioteca.sln", "./"]
+COPY ["Biblioteca.API/Biblioteca.API.csproj", "Biblioteca.API/"]
+COPY ["Biblioteca.Client/Biblioteca.Client.csproj", "Biblioteca.Client/"]
+COPY ["Domain/Domain.csproj", "Domain/"]
+COPY ["Infrastructure/Infrastructure.csproj", "Infrastructure/"]
+COPY ["Services/Services.csproj", "Services/"]
+
+# Restaura as dependências
 RUN dotnet restore
 
-# Copia o restante e compila
+# Copia o restante dos arquivos
 COPY . .
-WORKDIR /app/API
-RUN dotnet publish -c Release -o /out
+
+# Compila a API
+WORKDIR "/src/Biblioteca.API"
+RUN dotnet publish "Biblioteca.API.csproj" -c Release -o /app/publish
 
 # Estágio de Runtime
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
-COPY --from=build /out .
+COPY --from=build /app/publish .
 
-# O Render injeta a porta automaticamente, o ASP.NET Core 8 já escuta na 8080 por padrão
+# Define a porta (Render usa 8080 por padrão no Docker)
+ENV ASPNETCORE_URLS=http://+:8080
 EXPOSE 8080
-ENTRYPOINT ["dotnet", "API.dll"]
+
+# O nome da DLL deve ser o nome do projeto da API
+ENTRYPOINT ["dotnet", "Biblioteca.API.dll"]
