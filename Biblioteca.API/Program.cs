@@ -150,13 +150,15 @@ app.UseStaticFiles();
 app.UseCors("AllowBlazorClient");
 app.UseHttpsRedirection();
 
-app.UseAuthentication(); 
+app.UseRouting();
+
+app.UseCors("AllowBlazorClient");
+
+app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers();  
-
-app.MapFallbackToFile("index.html"); 
+app.MapControllers();
 
 app.MapGet("/ping", () => "Pong");
-app.Run();
 
+app.Run();
