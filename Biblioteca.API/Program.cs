@@ -157,6 +157,6 @@ app.MapControllers();
 
 app.MapFallbackToFile("index.html"); 
 
+app.MapGet("/ping", () => "Pong");
 app.Run();
 
-app.MapGet("/ping", () => "Pong");
