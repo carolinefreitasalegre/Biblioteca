@@ -1,0 +1,19 @@
+# Estágio de Build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+COPY ["Biblioteca.sln", "./"]
+COPY ["Biblioteca.Client/Biblioteca.Client.csproj", "Biblioteca.Client/"]
+COPY ["Domain/Domain.csproj", "Domain/"]
+# Adicione outras dependências se o Client as usar (Services, etc)
+RUN dotnet restore "Biblioteca.Client/Biblioteca.Client.csproj"
+COPY . .
+RUN dotnet publish "Biblioteca.Client/Biblioteca.Client.csproj" -c Release -o /app/publish
+
+# Estágio de Runtime (Servidor Web leve)
+FROM nginx:alpine
+WORKDIR /usr/share/nginx/html
+COPY --from=build /app/publish/wwwroot .
+# Copia uma configuração para evitar erro 404 em Refresh
+RUN echo 'server { listen 80; location / { root /usr/share/nginx/html; try_files $uri $uri/ /index.html; } }' > /etc/nginx/conf.d/default.conf
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
