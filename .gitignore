@@ -38,3 +38,11 @@ appsettings.*.json
 !appsettings.json
 
 !appsettings.Example.json
+
+
+[Aa]pp[Ss]ettings.[Dd]evelopment.json
+bin/
+obj/
+out/
+publish/
+*.user
