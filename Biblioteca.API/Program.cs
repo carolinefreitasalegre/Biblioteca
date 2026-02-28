@@ -117,6 +117,9 @@ builder.Services.AddCors(options =>
     {
         cors.WithOrigins(
                 "https://minhabiblioteca-app.onrender.com",
+               " https://biblioteca-client.onrender.com",
+
+
                 "http://localhost:5164", // Blazor WebAssembly
                 "https://localhost:5164" // (se abrir em HTTPS),
             )
