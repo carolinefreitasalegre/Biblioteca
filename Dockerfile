@@ -1,31 +1,26 @@
 # Estágio de Build
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /src
+WORKDIR /app
 
-# Copiar arquivos
-COPY ["Biblioteca.sln", "./"]
-COPY ["Biblioteca.API/Biblioteca.API.csproj", "Biblioteca.API/"]
-COPY ["Biblioteca.Client/Biblioteca.Client.csproj", "Biblioteca.Client/"]
-COPY ["Domain/Domain.csproj", "Domain/"]
-COPY ["Infrastructure/Infrastructure.csproj", "Infrastructure/"]
-COPY ["Services/Services.csproj", "Services/"]
+# Copia os arquivos de projeto e restaura as dependências
+COPY *.sln .
+COPY API/*.csproj ./API/
+COPY Domain/*.csproj ./Domain/
+COPY Models/*.csproj ./Models/
+COPY Repositories/*.csproj ./Repositories/
+COPY Services/*.csproj ./Services/
+RUN dotnet restore
 
-# --- A MÁGICA AQUI ---
-# Esse comando substitui a versão 8.0.22 pela 8.0.24 no arquivo csproj antes do restore
-RUN sed -i 's/8.0.22/8.0.24/g' Biblioteca.API/Biblioteca.API.csproj
-
-# Agora o restore deve passar sem erros de downgrade
-RUN dotnet restore "Biblioteca.API/Biblioteca.API.csproj"
-
-# Copiar o restante do código
+# Copia o restante e compila
 COPY . .
-
-WORKDIR "/src/Biblioteca.API"
-RUN dotnet publish "Biblioteca.API.csproj" -c Release -o /app/publish
+WORKDIR /app/API
+RUN dotnet publish -c Release -o /out
 
 # Estágio de Runtime
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
-COPY --from=build /app/publish .
+COPY --from=build /out .
 
-ENTRYPOINT ["dotnet", "Biblioteca.API.dll"]
+# O Render injeta a porta automaticamente, o ASP.NET Core 8 já escuta na 8080 por padrão
+EXPOSE 8080
+ENTRYPOINT ["dotnet", "API.dll"]
