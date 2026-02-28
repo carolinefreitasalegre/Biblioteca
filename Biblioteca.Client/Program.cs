@@ -31,12 +31,15 @@ builder.Services.Configure<JsonSerializerOptions>(options =>
 });
 
 
+var apiUrl = builder.Configuration["ApiBaseUrl"];
+
 builder.Services.AddScoped(sp =>
 {
     var handler = sp.GetRequiredService<JwtAuthenticationHeaderHandler>();
+
     return new HttpClient(handler)
     {
-        BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
+        BaseAddress = new Uri(apiUrl)
     };
 });
 

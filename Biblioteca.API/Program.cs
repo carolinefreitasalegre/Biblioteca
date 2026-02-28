@@ -146,7 +146,7 @@ if (app.Environment.IsDevelopment() || builder.Configuration["EnableSwagger"] ==
 app.UseBlazorFrameworkFiles(); 
 app.UseStaticFiles();          
 
-// app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 app.UseCors("AllowBlazorClient");
 
 app.UseAuthentication(); 
