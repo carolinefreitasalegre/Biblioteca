@@ -86,8 +86,6 @@ builder.Services.AddControllers()
         );
     });
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 builder.Services.AddHttpContextAccessor();
 
@@ -144,10 +142,8 @@ if (app.Environment.IsDevelopment() || builder.Configuration["EnableSwagger"] ==
     app.UseSwaggerUI();
 }
 
-app.UseBlazorFrameworkFiles(); 
-app.UseStaticFiles();          
-
-app.UseCors("AllowBlazorClient");
+// app.UseBlazorFrameworkFiles(); 
+// app.UseStaticFiles();          
 app.UseHttpsRedirection();
 
 app.UseRouting();
