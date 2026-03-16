@@ -4,7 +4,7 @@ using Repositories.Repositories.Contracts;
 
 namespace Domain.Validator;
 
-public class UsuarioUpdateValidator : AbstractValidator<UsuarioRequest>
+public class UsuarioUpdateValidator : AbstractValidator<UsuarioUpdateRequest>
 {
     public UsuarioUpdateValidator(IUsuarioRepository usuarioRepository)
     {

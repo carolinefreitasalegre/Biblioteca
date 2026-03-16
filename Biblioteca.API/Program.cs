@@ -78,6 +78,11 @@ builder.Services.AddDbContext<BibliotecaContext>(options =>
     
 );
 
+builder.Services.ConfigureHttpJsonOptions(options =>
+{
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
+
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
@@ -92,7 +97,6 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ILoggedinUser, LoggedinUser>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<ILivroRepository, LivroRepository>();
-builder.Services.AddScoped<IItemColecaoRepository, ItemColecaoRepository>();
 
 builder.Services.AddScoped<IUploadPhotoService, UploadPhotoService>();
 builder.Services.AddScoped<IUSuarioservice, UsuarioService>();
@@ -105,7 +109,7 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 
 builder.Services.AddScoped<IValidator<UsuarioRequest>, UsuariorequestValidator>();
-builder.Services.AddScoped<IValidator<UsuarioRequest>, UsuarioUpdateValidator>();
+builder.Services.AddScoped<IValidator<UsuarioUpdateRequest>, UsuarioUpdateValidator>();
 
 
 builder.Services.AddValidatorsFromAssemblyContaining<LivroRequestValidator>();

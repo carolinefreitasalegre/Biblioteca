@@ -10,5 +10,5 @@ public interface IUSuarioservice
     Task<UsuarioResponse?> ObterPorEmail(string email);
     Task<UsuarioResponse?> ObterPorId(int id);
     Task<UsuarioResponse> AdicionarUsuario(UsuarioRequest usuario);
-    Task<UsuarioResponse> AtualizarUsuario(UsuarioRequest usuario);
+    Task<UsuarioResponse> AtualizarUsuario(UsuarioUpdateRequest usuario);
 }

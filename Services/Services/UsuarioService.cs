@@ -93,7 +93,7 @@ public class UsuarioService : IUSuarioservice
         }
     }
 
-    public async Task<UsuarioResponse> AtualizarUsuario(UsuarioRequest usuario)
+    public async Task<UsuarioResponse> AtualizarUsuario(UsuarioUpdateRequest usuario)
     {
         try
         {

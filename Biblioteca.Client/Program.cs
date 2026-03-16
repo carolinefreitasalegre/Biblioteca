@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Biblioteca.Client;
@@ -21,15 +22,19 @@ builder.Services.AddScoped<DialogService>();
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<TooltipService>();
 builder.Services.AddScoped<ContextMenuService>();
-builder.Services.AddScoped<NotificationService>();
 
 builder.Services.AddScoped<JwtAuthenticationHeaderHandler>();
 
-builder.Services.Configure<JsonSerializerOptions>(options =>
+// ✅ JsonSerializerOptions global com todos os converters
+builder.Services.AddSingleton(new JsonSerializerOptions
 {
-    options.Converters.Add(new DateOnlyJsonConverter());
+    PropertyNameCaseInsensitive = true,
+    Converters =
+    {
+        new DateOnlyJsonConverter(),
+        new JsonStringEnumConverter()
+    }
 });
-
 
 var apiUrl = builder.Configuration["ApiBaseUrl"];
 
@@ -42,7 +47,6 @@ builder.Services.AddScoped(sp =>
         BaseAddress = new Uri(apiUrl)
     };
 });
-
 
 builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();

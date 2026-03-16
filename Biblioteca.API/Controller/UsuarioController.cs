@@ -15,11 +15,14 @@ namespace Biblioteca.API.Controller
         private readonly IAuthService _authService;
 
         private readonly IValidator<UsuarioRequest> _validator;
-        public UsuarioController(IUSuarioservice usuarioservice, IAuthService authService, IValidator<UsuarioRequest> validator)
+        private readonly IValidator<UsuarioUpdateRequest> _validatorUpdate;
+        public UsuarioController(IUSuarioservice usuarioservice, IAuthService authService, 
+            IValidator<UsuarioRequest> validator, IValidator<UsuarioUpdateRequest> validatorUpdate)
         {
             _usuarioservice =  usuarioservice;
             _authService = authService;
             _validator = validator; 
+            _validatorUpdate = validatorUpdate; 
         }       
         
         [HttpPost("login")]
@@ -82,10 +85,10 @@ namespace Biblioteca.API.Controller
         
         [HttpPut("editar-usuario")]
         [Authorize(Roles = "Administrador")]
-        public async Task<IActionResult> AtualizarUsuario([FromBody] UsuarioRequest model)
+        public async Task<IActionResult> AtualizarUsuario([FromBody] UsuarioUpdateRequest model)
         {
             
-            var validatorResult = await _validator.ValidateAsync(model);
+            var validatorResult = await _validatorUpdate.ValidateAsync(model);
             if (!validatorResult.IsValid)
                 return BadRequest(validatorResult.Errors);
             
