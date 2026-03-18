@@ -147,7 +147,9 @@ if (app.Environment.IsDevelopment() || builder.Configuration["EnableSwagger"] ==
     app.UseSwaggerUI();
 }
 
+
 app.UseRouting();
+
 
 
 app.UseAuthentication();
