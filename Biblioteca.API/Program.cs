@@ -133,7 +133,6 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-app.UseCors("AllowBlazorClient");
 
 using (var scope = app.Services.CreateScope())
 {
@@ -150,7 +149,7 @@ if (app.Environment.IsDevelopment() || builder.Configuration["EnableSwagger"] ==
 
 app.UseRouting();
 
-
+app.UseCors("AllowBlazorClient");
 
 app.UseAuthentication();
 app.UseAuthorization();
