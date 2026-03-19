@@ -10,73 +10,145 @@ Projeto ainda em desenvolvimento!
 
 
 
-## Descrição
+# 📚 Sistema de Biblioteca Online
 
-O Biblioteca é um projeto em desenvolvimento cujo objetivo é disponibilizar uma API REST para gerenciamento de usuários e seus livros, permitindo o controle de coleção, status de leitura e informações detalhadas de cada obra.
+Aplicação fullstack para gerenciamento de livros, usuários e empréstimos, com foco em organização, controle e escalabilidade de dados.
 
-O sistema está sendo construído com foco em organização de domínio, boas práticas de arquitetura e facilidade de evolução futura, servindo como base para aplicações web ou mobile.
+ **Acesse a aplicação:**
+https://bibliotecaapp-ak62.onrender.com/
 
-Status do Projeto
+---
 
-Em desenvolvimento.
+##  Problema
 
-Funcionalidades, estrutura de banco de dados e regras de negócio estão em constante evolução.
+Bibliotecas (mesmo pequenas) enfrentam dificuldades para controlar:
 
-## Tecnologias Utilizadas
+* Cadastro e organização de livros
+* Disponibilidade de exemplares
+* Histórico de empréstimos
+* Controle de usuários
 
-.NET 8
+Muitos desses processos ainda são feitos manualmente ou com sistemas pouco eficientes.
 
-ASP.NET Core Web API
+---
 
-Entity Framework Core
+##  Solução
 
-PostgreSQL
+Este projeto propõe um sistema web para gerenciamento de biblioteca, permitindo:
 
-Cloudinary
+* Cadastro e consulta de livros
+* Controle de usuários
+* Registro de empréstimos
+* Organização centralizada das informações
 
-Swagger (documentação da API)
+Com uma API backend estruturada e um frontend integrado, a aplicação simula um cenário real de uso.
 
-Git e GitHub
+---
 
-## Estrutura do Projeto
+##  Arquitetura
 
-O projeto segue uma separação em camadas para facilitar manutenção e escalabilidade:
+O sistema foi dividido em duas camadas principais:
 
-API
-Responsável por expor os endpoints HTTP.
+### 🔹 Backend (.NET / C#)
 
-Services
-Contém as regras de negócio e validações.
+* API REST
+* Estrutura em camadas (Controller, Service, Repository)
+* Uso de DTOs para transporte de dados
+* Integração com banco de dados PostgreSQL
 
-Repositories
-Responsável pelo acesso a dados e comunicação com o banco.
+### 🔹 Frontend
 
-Models
-Entidades do domínio e enums.
+* Interface web para interação com o sistema
+* Consumo da API backend
 
-Infrastructure
-Contexto do Entity Framework, migrations e configurações de persistência.
+---
 
-## Funcionalidades Planejadas
+##  Tecnologias utilizadas
 
-Cadastro e autenticação de usuários
+### Backend
 
-Gerenciamento de livros por usuário
+* C# / .NET
+* Entity Framework
+* PostgreSQL
 
-Controle de status de leitura
+### Frontend
 
-Organização por categorias
+* (adicione aqui: Vue.js, Blazor, etc — importante você especificar)
 
-Histórico e anotações pessoais
+### Outros
 
-Autorização baseada em perfis de usuário
+* Git & GitHub
+* Render (deploy)
 
-## Banco de Dados
+---
 
-O banco de dados utiliza PostgreSQL, com mapeamento feito via Entity Framework Core e controle de versionamento através de migrations.
+##  Funcionalidades
 
-Relacionamento principal:
+*  Cadastro de livros
+*  Cadastro de usuários
+*  Operações CRUD completas
+*  Integração entre frontend e backend
+*  Deploy em ambiente real
 
-Um usuário pode possuir vários livros
+---
 
-Cada livro pertence a um único usuário
+##  Possíveis melhorias (roadmap)
+
+Este projeto pode evoluir com:
+
+* Autenticação com JWT
+* Controle de permissões (admin/usuário)
+* Paginação e filtros avançados
+* Logs de operações
+* Tratamento de erros mais robusto
+* Testes automatizados
+
+---
+
+##  Como rodar o projeto localmente
+
+### Backend
+
+```bash
+git clone https://github.com/carolinefreitasalegre/Biblioteca
+cd Biblioteca
+
+# configurar connection string no appsettings
+dotnet restore
+dotnet run
+```
+
+### Frontend
+
+```bash
+# ajustar conforme tecnologia usada
+npm install
+npm run dev
+```
+
+---
+
+##  Demonstração
+
+*(adicione prints da aplicação aqui — isso aumenta MUITO sua chance de entrevista)*
+
+---
+
+##  Sobre o projeto
+
+Este projeto foi desenvolvido com foco em prática de desenvolvimento backend com .NET, integração com banco de dados relacional e construção de APIs REST.
+
+Também demonstra experiência com:
+
+* Estruturação de aplicações reais
+* Separação de responsabilidades
+* Consumo de API no frontend
+* Deploy de aplicação
+
+---
+
+##  Autora
+
+Caroline Freitas
+https://github.com/carolinefreitasalegre
+
