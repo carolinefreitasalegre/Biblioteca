@@ -12,7 +12,6 @@
       public JwtAuthenticationHeaderHandler(ILocalStorageService localStorage)
       {
          _localStorage = localStorage;
-         InnerHandler = new HttpClientHandler();
          
       }
 

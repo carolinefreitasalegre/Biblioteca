@@ -4,8 +4,7 @@ using System.Text.Json.Serialization;
 using Biblioteca.Client.ServiceClient.InterfacesClient;
 using Domain.DTO;
 using Domain.DTO.Response;
-using Microsoft.AspNetCore.Components.Forms;
-using Models.Enum;
+
 
 namespace Biblioteca.Client.ServiceClient.ServicesClient;
 
@@ -33,36 +32,17 @@ public class LivroService : ILivroService
         return await _httpClient.GetFromJsonAsync<List<LivroResponse>>("api/Livro/livros", _jsonOptions);
     }
 
-    public async Task<LivroResponse> AdicionarLivros(LivroRequest model, IBrowserFile capaLivro)
+  
+    public async Task<LivroResponse> AdicionarLivros(LivroRequest model)
     {
-        using var content = new MultipartFormDataContent();
-
-        foreach (var prop in model.GetType().GetProperties())
-        {
-            var value = prop.GetValue(model);
-            if (value != null)
-            {
-                string stringValue = value is DateOnly date 
-                    ? date.ToString("yyyy-MM-dd") 
-                    : value.ToString()!;
-
-                content.Add(new StringContent(stringValue), prop.Name);
-            }
-        }
-
-        var fileStream = capaLivro.OpenReadStream(maxAllowedSize: 1024 * 1024 * 5);
-        var fileContent = new StreamContent(fileStream);
-        fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(capaLivro.ContentType);
-    
-        content.Add(fileContent, "arquivocapa", capaLivro.Name);
-
-        var response = await _httpClient.PostAsync("api/Livro/adicionar-livro", content);
+        var response = await _httpClient.PostAsJsonAsync("api/Livro/adicionar-livro", model, _jsonOptions);
         response.EnsureSuccessStatusCode();
 
         return await response.Content.ReadFromJsonAsync<LivroResponse>(_jsonOptions);
     }
-
-    public async Task<LivroResponse> EditarLivro(LivroRequest model)
+    
+    
+    public async Task<LivroResponse> AtualizarLivros(LivroRequest model)
     {
         var response = await _httpClient.PutAsJsonAsync("api/Livro/editar-livro", model);
 

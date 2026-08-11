@@ -24,17 +24,33 @@ public class UploadPhotoService : IUploadPhotoService
     }
     
     
-    public async Task<ImageUploadResult> UploadImageAsync(IFormFile file)
+    public async Task<ImageUploadResult> UploadImageAsync(string bas64Image)
     {
-        if (file == null || file.Length == 0)
-            return null;
+       if(string.IsNullOrWhiteSpace(bas64Image))
+           return null;
+        
+        var base64Data = bas64Image.Contains(',')
+            ? bas64Image.Split(',')[1]
+            : bas64Image;
 
-        await using var stream = file.OpenReadStream();
+        byte[] imageBytes;
+        try
+        {
+            imageBytes = Convert.FromBase64String(base64Data);
+        }
+        catch(FormatException ex)
+        {
+            throw new ArgumentException($"String base64 inválida. Tamanho recebido: {base64Data.Length} caracteres. " +
+            $"Verifique se o conteúdo enviado é realmente a imagem codificada em Base64, e não o nome do arquivo.",
+            ex);
+        }
 
+        using var stream = new MemoryStream(imageBytes);
+        
         var uploadParams = new ImageUploadParams
         {
-            File = new FileDescription(file.FileName, stream),
-            Folder = "",
+            File = new FileDescription("capa.jpg", stream),
+            Folder = "biblioteca/capas",
             Transformation = new Transformation()
                 .Width(500)
                 .Height(750)
@@ -44,7 +60,8 @@ public class UploadPhotoService : IUploadPhotoService
 
         var uploadResult = await _cloudinary.UploadAsync(uploadParams);
 
-
         return uploadResult;
     }
+
+
 }

@@ -16,10 +16,13 @@
 
         public ECategoriaLivro Categoria { get; set; }
         public string? CapaUrl { get; set; }
+        
         [JsonConverter(typeof(JsonStringEnumConverter))]
 
         public EStatusLeitura StatusLeitura { get; set; }
         public DateOnly? AnoPublicacao { get; set; }
         public string? NotasPessoais { get; set; }
+
+        public string? CapaBase64 { get; set; }
         
     }

@@ -49,7 +49,6 @@
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
                 throw new Exception(e.Message);
             }
             
@@ -61,32 +60,30 @@
             return null;
         }
 
-        public string GerarToken(Usuario user)
+        private string GerarToken(Usuario user)
         {
+            var key = Encoding.UTF8.GetBytes(_config["Jwt:Key"]);
+            var claims = new[] 
+            { 
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Name, user.Nome), 
+                new Claim(ClaimTypes.Role, user.Role.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            };
             
-                var key = Encoding.UTF8.GetBytes(_config["Jwt:Secret"]);
-
-                var claims = new[]
-                {
-                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()), 
-                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                    new Claim(JwtRegisteredClaimNames.Name, user.Nome),
-                    new Claim(ClaimTypes.Role, user.Role.ToString()),
-                };
-
-                var credentials = new SigningCredentials(
-                    new SymmetricSecurityKey(key),
-                    SecurityAlgorithms.HmacSha256
+            var credentials = new SigningCredentials(
+                new SymmetricSecurityKey(key), 
+                SecurityAlgorithms.HmacSha256
                 );
 
-                var tokenDescriptor = new JwtSecurityToken(
-                    issuer: _config["Jwt:Issuer"],
-                    audience: _config["Jwt:Audience"],
-                    claims: claims,
-                    expires: DateTime.Now.AddHours(6),
-                    signingCredentials: credentials
+            var tokenDescriptor = new JwtSecurityToken(
+                issuer: _config["Jwt:Issuer"], 
+                audience: _config["Jwt:Audience"], 
+                claims: claims,
+                expires: DateTime.Now.AddHours(6), 
+                signingCredentials: credentials
                 );
-
-                return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
+            
+            return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
         }
     }

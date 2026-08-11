@@ -6,5 +6,5 @@ namespace Services.Contracts;
 
 public interface IUploadPhotoService
 {
-    Task<ImageUploadResult> UploadImageAsync(IFormFile file);
+    Task<ImageUploadResult?> UploadImageAsync(string base64Image);
 }

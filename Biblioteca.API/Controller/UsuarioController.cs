@@ -40,7 +40,6 @@ namespace Biblioteca.API.Controller
                     message = ex.Message
                 });
             }
-           
         }
 
         [HttpPost("adicionar-usuario")]

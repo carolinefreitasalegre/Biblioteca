@@ -2,7 +2,6 @@ using AutoMapper;
 using Domain.DTO;
 using Domain.DTO.Response;
 using Domain.Exceptions;
-using Microsoft.AspNetCore.Http;
 using Models.Models;
 using Repositories.Repositories.Contracts;
 using Services.Contracts;
@@ -13,18 +12,18 @@ public class LivroService : ILivroService
 {
     private readonly ILoggedinUser _loggedinUser;
     private readonly ILivroRepository _livroRepository;
-    private readonly IUploadPhotoService _uploadPhoto;
+    private readonly IUploadPhotoService _uploadImageCapa;
     private readonly IMapper _mapper;
 
     public LivroService(
         ILivroRepository livroRepository,
         IMapper mapper,
-        IUploadPhotoService uploadPhoto,
+        IUploadPhotoService uploadImageCapa,
         ILoggedinUser loggedinUser)
     {
         _livroRepository = livroRepository;
         _mapper = mapper;
-        _uploadPhoto = uploadPhoto;
+        _uploadImageCapa = uploadImageCapa;
         _loggedinUser = loggedinUser;
     }
 
@@ -50,41 +49,59 @@ public class LivroService : ILivroService
         return _mapper.Map<LivroResponse>(livro);
     }
 
-    public async Task<LivroResponse> Adicionar(LivroRequest livro, IFormFile? arquivoCapa)
-    {
-        string capaUrl = livro.CapaUrl;
 
-        if (arquivoCapa != null)
+
+    public async Task<LivroResponse> Adicionar(LivroRequest request)
+    {
+        var novoLivro = _mapper.Map<Livro>(request);
+        novoLivro.UsuarioId = _loggedinUser.UserId;
+
+        if (!string.IsNullOrWhiteSpace(request.CapaBase64))
         {
-            var uploadResult = await _uploadPhoto.UploadImageAsync(arquivoCapa);
+            var uploadResult = await _uploadImageCapa.UploadImageAsync(request.CapaBase64);
+
+            if (uploadResult == null)
+                throw new Exception("Falha ao enviar a imagem da capa: resultado nulo.");
 
             if (uploadResult.Error != null)
-                throw new Exception(uploadResult.Error.Message);
+                throw new Exception($"Falha ao enviar a imagem da capa: {uploadResult.Error.Message}");
 
-            capaUrl = uploadResult.SecureUrl.ToString();
+            novoLivro.CapaUrl = uploadResult.SecureUrl.ToString();
         }
-
-        var novoLivro = _mapper.Map<Livro>(livro);
-        novoLivro.UsuarioId = _loggedinUser.UserId;
-        novoLivro.CapaUrl = capaUrl;
-
+        
         await _livroRepository.Adicionar(novoLivro);
 
         return _mapper.Map<LivroResponse>(novoLivro);
     }
-
-    public async Task<LivroResponse> Atualizar(LivroRequest livro)
+    
+    public async Task<LivroResponse> Atualizar(LivroRequest request)
     {
-        var livroDb = await _livroRepository.GetById(livro.Id)
-            ?? throw new Exception(ErrorMessages.LivroNaoEncontrado);
+        var livroExistente = await _livroRepository.GetById(request.Id);
 
-        if (livroDb.UsuarioId != _loggedinUser.UserId)
-            throw new UnauthorizedAccessException();
+        if (livroExistente == null)
+            throw new Exception(ErrorMessages.LivroNaoEncontrado);
 
-        _mapper.Map(livro, livroDb);
+        if (livroExistente.UsuarioId != _loggedinUser.UserId)
+            throw new UnauthorizedAccessException("Você não tem permissão para editar este livro.");
 
-        await _livroRepository.Atualizar(livroDb);
+        _mapper.Map(request, livroExistente);
 
-        return _mapper.Map<LivroResponse>(livroDb);
+        if (!string.IsNullOrWhiteSpace(request.CapaBase64))
+        {
+            var uploadResult = await _uploadImageCapa.UploadImageAsync(request.CapaBase64);
+
+            if (uploadResult == null)
+                throw new Exception("Falha ao enviar a imagem da capa: resultado nulo.");
+
+            if (uploadResult.Error != null)
+                throw new Exception($"Falha ao enviar a imagem da capa: {uploadResult.Error.Message}");
+
+            livroExistente.CapaUrl = uploadResult.SecureUrl.ToString();
+        }
+
+        await _livroRepository.Atualizar(livroExistente);
+
+        return _mapper.Map<LivroResponse>(livroExistente);
     }
+    
 }

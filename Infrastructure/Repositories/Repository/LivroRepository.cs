@@ -25,14 +25,6 @@ public class LivroRepository : ILivroRepository
         return await _context.Livros.FirstOrDefaultAsync(livro => livro.Id == id);
     }
 
-    public async Task<Livro> Atualizar(Livro livro)
-    {
-        _context.Livros.Update(livro);
-         await _context.SaveChangesAsync();
-         return livro;
-
-    }
-
     public async Task<Livro> Adicionar(Livro livro)
     {
         _context.Livros.Add(livro);
@@ -40,5 +32,11 @@ public class LivroRepository : ILivroRepository
         return livro;
     }
 
+    public async Task<Livro> Atualizar(Livro livro)
+    {
+        _context.Livros.Update(livro);
+        await _context.SaveChangesAsync();
+        return livro;
+    }
 
 }

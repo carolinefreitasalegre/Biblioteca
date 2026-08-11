@@ -9,5 +9,4 @@ public interface IAuthService
 {
     Task<LoginResponse?> Login(LoginDto login);
     Task RegisterAsync(Usuario usuario);
-    string GerarToken(Usuario user);
 }

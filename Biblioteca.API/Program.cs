@@ -2,13 +2,13 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json.Serialization;
+using AutoMapper;
 using Domain.DTO;
 using Domain.Validator;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using Models.Models;
 using Repositories.DataContext;
 using Repositories.Repositories;
@@ -23,16 +23,18 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
 
-//jwt
 builder.Services.AddAuthentication(opt =>
 {
     opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options =>
-    {
-    IConfiguration configuration;
-    configuration = builder.Configuration;
-    options.TokenValidationParameters = new TokenValidationParameters
+    
+    
+}).AddJwtBearer(options => 
+{
+    options.IncludeErrorDetails = true; 
+    
+    var configuration = builder.Configuration;
+    var op = options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
         ValidateAudience = true,
@@ -41,58 +43,33 @@ builder.Services.AddAuthentication(opt =>
 
         ValidIssuer = configuration["Jwt:Issuer"],
         ValidAudience = configuration["Jwt:Audience"],
-        IssuerSigningKey =  new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Secret"])),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"])),
         
         RoleClaimType = ClaimTypes.Role,
-        NameClaimType = ClaimTypes.Name
+        NameClaimType = ClaimTypes.Name,
         
     };
-});
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        Description = "",
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = "Bearer"
-    });
-
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
-            },
-            Array.Empty<string>()
-        }
-    });
 });
 
 builder.Services.AddDbContext<BibliotecaContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
-    
-);
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 
 builder.Services.ConfigureHttpJsonOptions(options =>
 {
     options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 
-builder.Services.AddControllers()
-    .AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.Converters.Add(
-            new JsonStringEnumConverter()
-        );
-    });
-
-
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 builder.Services.AddScoped<ILoggedinUser, LoggedinUser>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
@@ -103,16 +80,10 @@ builder.Services.AddScoped<IUSuarioservice, UsuarioService>();
 builder.Services.AddScoped<ILivroService, LivroService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
-
-
-builder.Services.AddAutoMapper(typeof(MappingProfile));
-
-
 builder.Services.AddScoped<IValidator<UsuarioRequest>, UsuariorequestValidator>();
 builder.Services.AddScoped<IValidator<UsuarioUpdateRequest>, UsuarioUpdateValidator>();
-
-
 builder.Services.AddValidatorsFromAssemblyContaining<LivroRequestValidator>();
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 
 builder.Services.AddCors(options =>
@@ -120,24 +91,20 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowBlazorClient", cors =>
     {
         cors.WithOrigins(
-               "https://bibliotecaapp-ak62.onrender.com",
-                "http://localhost:5164", // Blazor WebAssembly
+                "http://localhost:5164", 
                 "https://localhost:5164" 
             )
             .AllowAnyHeader()
             .AllowAnyMethod();
-        // .AllowCredentials();
     });
 });
 
-
 var app = builder.Build();
-
 
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<BibliotecaContext>();
-    db.Database.Migrate();
+    db.Database.Migrate(); 
 }
 
 if (app.Environment.IsDevelopment() || builder.Configuration["EnableSwagger"] == "true")
@@ -145,7 +112,6 @@ if (app.Environment.IsDevelopment() || builder.Configuration["EnableSwagger"] ==
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 
 app.UseRouting();
 

@@ -146,9 +146,10 @@
         var resizedImage = await e.File.RequestImageFileAsync(format, 300, 300);
         var buffer = new byte[resizedImage.Size];
         await resizedImage.OpenReadStream().ReadAsync(buffer);
+
         capaPreview = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
-        
-        Livro.CapaUrl = capaPreview;
+
+        Livro.CapaBase64 = capaPreview; 
     }
     
     
@@ -165,12 +166,7 @@
             NotificarCampoObrigatorio("Autor");
             return;
         }
-
-        if (string.IsNullOrEmpty(livro.CapaUrl))
-        {
-            NotificarCampoObrigatorio("Capa do Livro");
-            return;
-        }
+        
 
         if (livro.StatusLeitura == 0)
         {
@@ -196,7 +192,8 @@
                 livro.AnoPublicacao = DateOnly.FromDateTime(AnoPublicacaoUi.Value);
             }
 
-            await _service.AdicionarLivros(livro, capaLivro);
+            Console.WriteLine(livro);
+            await _service.AdicionarLivros(livro);
             NotificationService.Notify(new NotificationMessage
             {
                 Severity = NotificationSeverity.Success,
@@ -215,7 +212,6 @@
         }
         catch (Exception e)
         {
-            Console.WriteLine($"Erro ao salvar: {e.Message}");
             NotificationService.Notify(new NotificationMessage
             {
                 Severity = NotificationSeverity.Error,

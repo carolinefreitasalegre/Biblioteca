@@ -23,9 +23,6 @@ builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<TooltipService>();
 builder.Services.AddScoped<ContextMenuService>();
 
-builder.Services.AddScoped<JwtAuthenticationHeaderHandler>();
-
-// ✅ JsonSerializerOptions global com todos os converters
 builder.Services.AddSingleton(new JsonSerializerOptions
 {
     PropertyNameCaseInsensitive = true,
@@ -36,17 +33,17 @@ builder.Services.AddSingleton(new JsonSerializerOptions
     }
 });
 
-var apiUrl = builder.Configuration["ApiBaseUrl"];
+var apiUrl = builder.Configuration["ApiBaseUrl"] ?? "https://localhost:5008/"; 
 
-builder.Services.AddScoped(sp =>
+builder.Services.AddTransient<JwtAuthenticationHeaderHandler>();
+
+builder.Services.AddHttpClient("BibliotecaAPI", client =>
 {
-    var handler = sp.GetRequiredService<JwtAuthenticationHeaderHandler>();
+    client.BaseAddress = new Uri(apiUrl);
+})
+.AddHttpMessageHandler<JwtAuthenticationHeaderHandler>(); 
 
-    return new HttpClient(handler)
-    {
-        BaseAddress = new Uri(apiUrl)
-    };
-});
+builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("BibliotecaAPI"));
 
 builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();

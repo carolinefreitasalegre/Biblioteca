@@ -1,11 +1,8 @@
-using System.Security.Claims;
 using Domain.DTO;
 using Domain.Exceptions;
-using Domain.Validator;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Models.Models;
 using Services.Contracts;
 
 namespace Biblioteca.API.Controller
@@ -15,19 +12,16 @@ namespace Biblioteca.API.Controller
     [ApiController]
     public class LivroController : ControllerBase
     {
-        private readonly ILivroService _livroService;
-        // private readonly IValidator<LivroRequest> _validator;
-        // private readonly IValidator<LivroRequest> _validatorEditar;
+        private readonly ILivroService _livroService; 
+        private readonly IValidator<LivroRequest> _adicionarValidator;
 
-        public LivroController(
-            ILivroService livroService)
-            // IValidator<LivroRequest> validator, IValidator<LivroRequest> validatorEditar)
+        public LivroController(ILivroService livroService, IValidator<LivroRequest> adicionarValidator)
         {
             _livroService = livroService;
-            // _validator = validator;
-            // _validatorEditar = validatorEditar;
+            _adicionarValidator = adicionarValidator;
         }
-        
+
+
         [HttpGet("livros")]
         public async Task<IActionResult> GetLivros()
         {
@@ -46,47 +40,36 @@ namespace Biblioteca.API.Controller
             
             return Ok(livro);
         }
+      
         
         [HttpPost("adicionar-livro")]
-        public async Task<IActionResult> NewBook(
-            [FromForm] LivroRequest model,
-            [FromForm(Name = "arquivocapa")] IFormFile capaUrl,
-            [FromServices] LivroRequestValidator validator)
+        public async Task<IActionResult> NewBook([FromBody] LivroRequest request)
         {
-            var userIdClaim = User.Claims
-                .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-
-            if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var usuarioId))
-                return Unauthorized("Token inválido ou ID de usuário ausente.");
-
-            var validationResult = await validator.ValidateAsync(model);
-
-            if (!validationResult.IsValid)
-                return BadRequest(validationResult.Errors);
-
-            if (capaUrl == null || capaUrl.Length == 0)
-                return BadRequest("A capa do livro é obrigatória.");
-
-            var newBook = await _livroService.Adicionar(model, capaUrl);
+  
+            var valiarResult = await _adicionarValidator.ValidateAsync(request);
+            if(!valiarResult.IsValid)
+                return BadRequest(valiarResult.Errors);
+            
+            var newBook = await _livroService.Adicionar(request);
 
             return Created(string.Empty, newBook);
         }
 
 
         [HttpPut("editar-livro")]
-        public async Task<IActionResult> EditBook(
-            [FromBody] LivroRequest model,
-            [FromServices] EditarLivroRequestValidator validator)
+        public async Task<IActionResult> EditBook([FromBody] LivroRequest request)
         {
-            var validationResult = await validator.ValidateAsync(model);
-
+            var validationResult = await _adicionarValidator.ValidateAsync(request);
+            
             if (!validationResult.IsValid)
                 return BadRequest(validationResult.Errors);
-
-            var editBook = await _livroService.Atualizar(model);
-
+            
+            var editBook = await _livroService.Atualizar(request);
+            
             return Ok(editBook);
+
         }
+        
 
     }
 

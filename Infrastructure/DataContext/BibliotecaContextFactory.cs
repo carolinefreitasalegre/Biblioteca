@@ -3,15 +3,16 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace Repositories.DataContext;
 
-public class BibliotecaContextFactory : IDesignTimeDbContextFactory<BibliotecaContext>
+public class BibliotecaContextFactory
+    : IDesignTimeDbContextFactory<BibliotecaContext>
 {
     public BibliotecaContext CreateDbContext(string[] args)
     {
-        const string connectionString = "Host=localhost;Port=5432;Database=Biblioteca;Username=postgres;Password=233251";
+        var options = new DbContextOptionsBuilder<BibliotecaContext>();
 
-        var optionsBuilder = new DbContextOptionsBuilder<BibliotecaContext>();
-        optionsBuilder.UseNpgsql(connectionString); 
-        
-        return new BibliotecaContext(optionsBuilder.Options);
+        options.UseSqlServer(
+            "Server=localhost,1433;Database=Biblioteca;User Id=sa;Password=282328#Abc123!;TrustServerCertificate=True;");
+
+        return new BibliotecaContext(options.Options);
     }
 }
