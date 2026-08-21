@@ -70,18 +70,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
+builder.Services.AddApplication();
 
-builder.Services.AddScoped<ILoggedinUser, LoggedinUser>();
-builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-builder.Services.AddScoped<ILivroRepository, LivroRepository>();
-
-builder.Services.AddScoped<IUploadPhotoService, UploadPhotoService>();
-builder.Services.AddScoped<IUSuarioservice, UsuarioService>();
-builder.Services.AddScoped<ILivroService, LivroService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
-
-builder.Services.AddScoped<IValidator<UsuarioRequest>, UsuariorequestValidator>();
-builder.Services.AddScoped<IValidator<UsuarioUpdateRequest>, UsuarioUpdateValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<LivroRequestValidator>();
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 

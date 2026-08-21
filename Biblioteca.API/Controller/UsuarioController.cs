@@ -11,37 +11,19 @@ namespace Biblioteca.API.Controller
     [ApiController]
     public class UsuarioController : ControllerBase
     {
-        private readonly IUSuarioservice _usuarioservice;
-        private readonly IAuthService _authService;
-
+        private readonly IUSuarioservice _usuarioservice;      
         private readonly IValidator<UsuarioRequest> _validator;
         private readonly IValidator<UsuarioUpdateRequest> _validatorUpdate;
-        public UsuarioController(IUSuarioservice usuarioservice, IAuthService authService, 
+
+        public UsuarioController(IUSuarioservice usuarioservice, 
             IValidator<UsuarioRequest> validator, IValidator<UsuarioUpdateRequest> validatorUpdate)
         {
             _usuarioservice =  usuarioservice;
-            _authService = authService;
             _validator = validator; 
             _validatorUpdate = validatorUpdate; 
         }       
         
-        [HttpPost("login")]
-        public async Task<IActionResult> LoginAsync([FromBody] LoginDto login)
-        {
-            try
-            {
-                var result = await _authService.Login(login);
-                return Ok(result);
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                return Unauthorized(new
-                {
-                    message = ex.Message
-                });
-            }
-        }
-
+       
         [HttpPost("adicionar-usuario")]
         public async Task<IActionResult> AdicionarUsuario([FromBody] UsuarioRequest model)
         {
@@ -52,8 +34,7 @@ namespace Biblioteca.API.Controller
                  
                return  BadRequest(validatorResult.Errors);
             }
-                
-            
+                     
             var usuario = await _usuarioservice.AdicionarUsuario(model);
             return Created("", usuario);
         }
