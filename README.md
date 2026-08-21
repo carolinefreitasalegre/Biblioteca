@@ -1,4 +1,4 @@
-Projeto ainda em desenvolvimento!
+Projeto ainda em processo de refatoração!
 
 # 📚 Sistema de Biblioteca Online
 
